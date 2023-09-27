@@ -1,3 +1,4 @@
+using PiFramework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ namespace PiExtension.SimpleSound
     [AddComponentMenu("Simple Sound Player/Playlist Controller")]
     public class PlaylistController : MonoBehaviour
     {
+        
         public string playListName = "Default";
         [Tooltip("Behaviour to trigger when the object this is attached to is created")]
         [SerializeField]
@@ -25,12 +27,12 @@ namespace PiExtension.SimpleSound
         PlaybackAction onDestroy = PlaybackAction.None;
         public void Play()
         {
-            Pi.audio.PlayMusicPlaylist(playListName);
+            PiServiceLocator.instance.GetService<SimpleSoundPlayer>().PlayMusicPlaylist(playListName);
         }
 
         public void Stop()
         {
-            Pi.audio.StopPlaylist();
+            PiServiceLocator.instance.GetService<SimpleSoundPlayer>().StopPlaylist();
         }
 
         private void Start()

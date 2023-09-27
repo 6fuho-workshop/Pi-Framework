@@ -63,7 +63,7 @@ namespace PiExtension.SimpleSound
         }
         void LoadSettings()
         {
-            var pref = Pi.playerPref.CreateInstance().SetPrefix(PrefPrefix);
+            var pref = PiServiceLocator.instance.GetService<PiPlayerPref>().CreateInstance().SetPrefix(PrefPrefix);
             _audioDisabled = pref.GetBool("audioDisabled", false);
             foreach (var mixer in _mixers) mixer.ReadPref(pref);
             OnSettingsChanged();
@@ -73,7 +73,7 @@ namespace PiExtension.SimpleSound
         /// </summary>
         public void SaveSettings()
         {
-            var pref = Pi.playerPref.CreateInstance().SetPrefix(PrefPrefix);
+            var pref = PiServiceLocator.instance.GetService<PiPlayerPref>().CreateInstance().SetPrefix(PrefPrefix);
             pref.SetBool("audioDisabled", _audioDisabled);
             foreach (var mixer in _mixers) mixer.WritePref(pref);
             pref.Save();

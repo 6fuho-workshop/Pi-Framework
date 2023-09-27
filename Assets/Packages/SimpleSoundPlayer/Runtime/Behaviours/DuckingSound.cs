@@ -1,3 +1,4 @@
+using PiFramework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,8 +17,11 @@ namespace PiExtension.SimpleSound
         public float fadeOutLength;
         public float fadeInLength;
         string _audioID;
+        SimpleSoundPlayer _audio;
+        
         private void Awake()
         {
+            _audio = PiServiceLocator.instance.GetService<SimpleSoundPlayer>();
             var ssp = GetComponent<SingleSoundPlayer>();
             _audioID = ssp.audioID;
             ssp.onPlaySound += OnStartPlay;
@@ -26,19 +30,19 @@ namespace PiExtension.SimpleSound
 
         void OnStartPlay()
         {
-            Pi.audio.SetFinishCallback(_audioID, OnFinishPlay);
-            if(duckType == DuckChannel.Music || duckType == DuckChannel.Both)   
-                Pi.audio.FadeMusicToVolume(duckVolume, fadeOutLength);
+            _audio.SetFinishCallback(_audioID, OnFinishPlay);
+            if(duckType == DuckChannel.Music || duckType == DuckChannel.Both)
+                _audio.FadeMusicToVolume(duckVolume, fadeOutLength);
             if (duckType == DuckChannel.Ambience || duckType == DuckChannel.Both)
-                Pi.audio.FadeAmbienceToVolume(duckVolume, fadeOutLength);
+                _audio.FadeAmbienceToVolume(duckVolume, fadeOutLength);
         }
 
         void OnFinishPlay()
         {
             if (duckType == DuckChannel.Music || duckType == DuckChannel.Both)
-                Pi.audio.FadeMusicToVolume(1, fadeInLength);
+                _audio.FadeMusicToVolume(1, fadeInLength);
             if (duckType == DuckChannel.Ambience || duckType == DuckChannel.Both)
-                Pi.audio.FadeAmbienceToVolume(1, fadeInLength);
+                _audio.FadeAmbienceToVolume(1, fadeInLength);
         }
 
         // Start is called before the first frame update

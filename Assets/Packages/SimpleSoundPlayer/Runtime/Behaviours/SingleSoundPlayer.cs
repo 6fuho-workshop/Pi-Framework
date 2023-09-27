@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using PiFramework;
 
 namespace PiExtension.SimpleSound
 {
@@ -25,6 +26,7 @@ namespace PiExtension.SimpleSound
             FollowObject,
             CurrentPosition,
         }
+        SimpleSoundPlayer _audio;
         public string audioID;
         public SoundChannel channel = SoundChannel.SFX;
         public PlayPosition position = PlayPosition.Global; // has no meaning for Music
@@ -79,11 +81,11 @@ namespace PiExtension.SimpleSound
 
             if (channel == SoundChannel.SFX)
             {
-                Pi.audio.PlaySFX(audioID, playback);
+                _audio.PlaySFX(audioID, playback);
             }
             else if (channel == SoundChannel.Music)
             {
-                Pi.audio.PlayMusic(audioID, playback);
+                _audio.PlayMusic(audioID, playback);
             }
             else if(channel == SoundChannel.Ambience)
             {
@@ -94,6 +96,10 @@ namespace PiExtension.SimpleSound
                 onPlaySound.Invoke();
         }
 
+        private void Awake()
+        {
+            _audio = PiServiceLocator.instance.GetService<SimpleSoundPlayer>();
+        }
         // Start is called before the first frame update
         protected void Start()
         {
@@ -132,7 +138,7 @@ namespace PiExtension.SimpleSound
         /// </summary>
         public void Stop()
         {
-            Pi.audio.Stop(audioID);
+            _audio.Stop(audioID);
         }
 
         private void OnEnable()
