@@ -1,6 +1,6 @@
 {
-    "moduleName": "Pi Core",
-    "moduleCode": "core",
+    "displayName": "Pi Core",
+    "name": "core",
     "pinServices": [
         {
             "name": "root",

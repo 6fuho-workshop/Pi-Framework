@@ -127,7 +127,7 @@ namespace PiEditor
 
                     string fieldName = "_" + pin.name;
                     CodeSnippetTypeMember field = new CodeSnippetTypeMember($"    private static {pin.fullType} {fieldName};");
-                    field.Comments.Add(new CodeCommentStatement("Pin Service for quick reference. Package: " + module.moduleName));
+                    field.Comments.Add(new CodeCommentStatement("Pin Service for quick reference. Package: " + module.displayName));
                     piClass.Members.Add(field);
 
                     CodeMemberProperty serviceProperty = new CodeMemberProperty();

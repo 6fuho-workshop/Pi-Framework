@@ -1,6 +1,6 @@
 {
-    "moduleName": "Simple Sound Player",
-    "moduleCode": "ssplayer",
+    "displayName": "Simple Sound Player",
+    "name": "ssplayer",
     "pinServices": [
         {
             "name": "audio",
