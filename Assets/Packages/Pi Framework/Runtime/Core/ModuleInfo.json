@@ -7,10 +7,6 @@
             "fullType": "PiFramework.PiRoot"
         },
         {
-            "name": "app",
-            "fullType": "PiFramework.PiApp"
-        },
-        {
             "name": "console",
             "fullType": "PiFramework.PiConsole"
         },
@@ -21,10 +17,6 @@
         {
             "name": "playerPref",
             "fullType": "PiFramework.PiPlayerPref"
-        },
-        {
-            "name": "profiler",
-            "fullType": "PiFramework.PiProfiler"
         }
     ]
 }

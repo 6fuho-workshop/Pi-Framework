@@ -36,16 +36,14 @@ namespace PiEditor
 
         static void ValidateFiles()
         {
-            //create folder Resources
-            var path = FileHelper.GetPiDataPath() + Path.DirectorySeparatorChar;
+            var ds = Path.DirectorySeparatorChar;
+            var path = FileHelper.GetPiDataPath() + ds;
+
             Directory.CreateDirectory(path + "Resources");
+            Directory.CreateDirectory(path + "Settings");
+            Directory.CreateDirectory(path + "PiClass");
 
-            //create folder Code
-            path += "Code" + Path.DirectorySeparatorChar;
-            Directory.CreateDirectory(path);
-
-            //Check Pi.cs file
-            var piclass = path + "Pi.cs";
+            var piclass = path + "PiClass" + ds + "Pi.cs";
             if (!File.Exists(piclass))
                 CopyPiClassFile(piclass);
         }

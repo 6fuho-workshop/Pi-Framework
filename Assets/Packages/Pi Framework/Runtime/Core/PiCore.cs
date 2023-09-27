@@ -12,7 +12,6 @@ namespace PiFramework
         //internal PiServiceLocator serviceLocator => PiServiceLocator.instance;
         internal PiServiceLocator serviceLocator;
         internal PiSystemEvents systemEvents;
-        internal PiApp app;
         internal PiConsole console;
         internal PiModule[] modules;
 
@@ -112,11 +111,8 @@ namespace PiFramework
             serviceLocator = PiServiceLocator.instance;
             serviceLocator.Reset();
             systemEvents = new GameObject("Pi.systemEvents").AddComponent<PiSystemEvents>();
-            serviceLocator.AddService<PiProfiler>(new PiProfiler());
             serviceLocator.AddService<PiSystemEvents>(systemEvents, true);
 
-            app = new PiApp();
-            serviceLocator.AddService<PiApp>(app);
 
             serviceLocator.AddService<PiPlayerPref>(new PiPlayerPref());
 
@@ -133,7 +129,7 @@ namespace PiFramework
         /// Bootstrap phase 2: Configuration
         /// </summary>
         /// <param name="root">PiRoot</param>
-        internal void  SystemAwake(PiRoot root)
+        internal void SystemAwake(PiRoot root)
         {
             serviceLocator.AddService<PiRoot>(root);
             SystemStartup();

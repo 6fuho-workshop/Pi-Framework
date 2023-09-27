@@ -10,11 +10,12 @@ namespace PiFramework.Math
         public static void Shuffle<T>(this IList<T> list)
         {
             int n = list.Count;
+            T value;
             while (n > 1)
             {
                 int k = Random.Range(0, n);
                 n--;
-                T value = list[k];
+                value = list[k];
                 list[k] = list[n];
                 list[n] = value;
             }

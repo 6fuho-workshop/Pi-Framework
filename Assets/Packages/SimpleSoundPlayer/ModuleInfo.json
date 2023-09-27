@@ -1,0 +1,10 @@
+{
+    "moduleName": "Simple Sound Player",
+    "moduleCode": "ssplayer",
+    "pinServices": [
+        {
+            "name": "audio",
+            "fullType": "PiExtension.SimpleSound.SimpleSoundPlayer"
+        }
+    ]
+}

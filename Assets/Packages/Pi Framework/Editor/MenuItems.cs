@@ -14,7 +14,7 @@ namespace PiEditor
         /// <summary>
         /// tạo framework game object nếu chưa có trong scene hiện tại
         /// </summary>
-        [MenuItem("Pi/Attach Framework")]
+        [MenuItem("Pi/GameObject/Framework GameObject")]
         static void AttachFramework()
         {
             if (GameObject.FindObjectOfType<PiRoot>() == null)
@@ -51,6 +51,7 @@ namespace PiEditor
         }
         */
 
+        /*
         [MenuItem("Pi/Toggle PiProfiler %#o")]
         static void TogglePiProfiler()
         {
@@ -63,5 +64,6 @@ namespace PiEditor
         {
             return Application.isPlaying;
         }
+        */
     }
 }

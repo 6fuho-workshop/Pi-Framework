@@ -12,7 +12,6 @@ namespace PiEditor
         public string moduleCode;
         public string[] dependencies;
         public PinServiceInfo[] pinServices;
-        public SettingItemInfo[] settings;
 
 
         [Serializable]
@@ -28,21 +27,6 @@ namespace PiEditor
             /// </summary>
             public string fullType;
         }
-
-        [Serializable]
-        public class SettingItemInfo
-        {
-            public string path;
-            public string type;
-            public string usingNameSpace;
-            public string defaultValue;
-            public bool persistent;
-            public string persistentKey;
-            public float rangeFrom;
-            public float rangeTo;
-            public string tooltip;
-        }
-
 
     }
 }

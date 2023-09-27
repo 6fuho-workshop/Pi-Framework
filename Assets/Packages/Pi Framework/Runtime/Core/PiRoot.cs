@@ -9,11 +9,11 @@ namespace PiFramework
     [RequireComponent(typeof(HighestExecOrder))]
     public sealed class PiRoot : MonoBehaviour
     {
-        public bool EnableProfilerOnStart;
+        //public bool EnableProfilerOnStart;
         internal static PiRoot instance;
 
         #region run in background
-
+        /*
         [SerializeField]
         [Tooltip("Should the Player be running when the application is in the background?" +
             "\nThis property is ignored on Android and iOS.")]
@@ -32,7 +32,7 @@ namespace PiFramework
                 Application.runInBackground = _runInBackground;
             }
         }
-
+        */
         #endregion run in background
 
         #region behaviours
@@ -52,14 +52,14 @@ namespace PiFramework
 
             PiCore.instance.SystemAwake(this);
 
-            if (EnableProfilerOnStart)
-                PiCore.instance.serviceLocator.GetService<PiProfiler>().Enabled = true;
+            //if (EnableProfilerOnStart)
+                //PiCore.instance.serviceLocator.GetService<PiProfiler>().Enabled = true;
             DisplayServices(); //đang không hiểu vì sao phần display service này chạy trên android bị lỗi 
 
             PiCore.instance.systemEvents.BeginAwake.Invoke();
             //Debug.Log(InternalUtil.PiMessage("PiRoot Awake Done"));
 
-            runInBackground = _runInBackground;
+            //runInBackground = _runInBackground;
             Application.quitting += OnQuitting;
         }
 
