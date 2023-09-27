@@ -11,7 +11,6 @@ namespace PiExtension.SimpleSound
 {
     public enum SoundChannel { SFX = 0, Music = 1, Ambience = 2, Voice = 3 }
 
-    [ModuleObjectName("Simple Sound Player")]
     public class SimpleSoundPlayer : PiModule
     {
         const string PrefPrefix = "ssplayer.";
