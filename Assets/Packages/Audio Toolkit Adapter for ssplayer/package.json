@@ -1,8 +1,8 @@
 {
     "name": "com.piframework.audiotookit4ssplayer",
-    "displayName": "Simple Sound Player",
+    "displayName": "Audio Toolkit Adapter for ssplayer",
     "version": "1.0.0",
-    "description": "Simple Sound Player for Pi Framework",
+    "description": "Audio Toolkit Adapter for SimpleSoundPlayer module (Pi Framework)",
     "unity": "2022.3.10f1",
     "documentationUrl": "https://example.com/",
     "changelogUrl": "https://example.com/changelog.html",
