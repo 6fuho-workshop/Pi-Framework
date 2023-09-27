@@ -1,9 +1,7 @@
 {
-    "name": "pi.ssplayer",
+    "name": "Pi.Framework.Runtime",
     "rootNamespace": "",
-    "references": [
-        "GUID:db1474eb60481b44e87aab14a9cbb175"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

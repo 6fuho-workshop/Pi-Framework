@@ -1,11 +1,10 @@
 {
-    "name": "PiEditor",
+    "name": "Pi.SimpleSoundPlayer.Runtime",
+    "rootNamespace": "",
     "references": [
-        "PiFramework"
+        "GUID:db1474eb60481b44e87aab14a9cbb175"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

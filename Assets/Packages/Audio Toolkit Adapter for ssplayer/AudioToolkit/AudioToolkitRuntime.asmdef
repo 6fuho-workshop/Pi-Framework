@@ -1,5 +1,6 @@
 {
-    "name": "PiFramework",
+    "name": "AudioToolkitRuntime",
+    "rootNamespace": "",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
