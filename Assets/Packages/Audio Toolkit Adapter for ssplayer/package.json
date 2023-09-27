@@ -8,7 +8,7 @@
     "changelogUrl": "https://example.com/changelog.html",
     "licensesUrl": "https://example.com/licensing.html",
     "dependencies": {
-        "com.piframework.ssplayer": "https://github.com/6fuho-workshop/Pi-Framework.git?path=/Assets/Packages/Pi Framework"
+        "com.piframework.ssplayer": "https://github.com/6fuho-workshop/Pi-Framework.git?path=/Assets/Packages/SimpleSoundPlayer"
     },
     "author": {
         "name": "6fuho",
