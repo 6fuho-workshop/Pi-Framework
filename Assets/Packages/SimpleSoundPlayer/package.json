@@ -8,7 +8,7 @@
     "changelogUrl": "https://example.com/changelog.html",
     "licensesUrl": "https://example.com/licensing.html",
     "dependencies": {
-        "com.piframework.core": "1.1.0"
+        "com.piframework.core": "1.0.0"
     },
     "author": {
         "name": "6fuho",
