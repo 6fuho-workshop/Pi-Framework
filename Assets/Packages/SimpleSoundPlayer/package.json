@@ -8,7 +8,7 @@
     "changelogUrl": "https://example.com/changelog.html",
     "licensesUrl": "https://example.com/licensing.html",
     "dependencies": {
-        "com.piframework.core": "https://github.com/6fuho-workshop/Pi-Framework.git?path=/Assets/Packages/Pi Framework"
+        "com.piframework.core": "1.1.0"
     },
     "author": {
         "name": "6fuho",
