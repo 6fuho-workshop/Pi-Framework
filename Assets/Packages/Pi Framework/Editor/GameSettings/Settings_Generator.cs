@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using static UnityEditor.Progress;
 using UnityEditor.Experimental.GraphView;
 using PiFramework.Settings;
+using NUnit.Framework.Interfaces;
 
 namespace PiEditor.Settings
 {
@@ -53,7 +54,7 @@ namespace PiEditor.Settings
             {
                 "System;",
                 "UnityEngine;"
-            }; 
+            };
 
             BuildSettingsTree(root, usingDirectives);
 
@@ -85,17 +86,17 @@ namespace PiEditor.Settings
                 fields.Add(changeEvent);
             }
 
-            foreach (var item in node.items)
+            foreach (var item in node.entities)
             {
                 var field = new Field(item.type, "_" + item.name);
                 field.AddAttribute(new AttributeModel("SerializeField"));
                 if (!string.IsNullOrEmpty(item.tooltip))
                     field.AddAttribute(new AttributeModel("Tooltip") { SingleParameter = new Parameter($"\"{item.tooltip}\"") });
-                if (!item.rangeFrom.Equals(item.rangeTo))
+                if (!item.min.Equals(item.max))
                 {
                     var rangeAttribute = new AttributeModel("Range");
-                    rangeAttribute.Parameters.Add(new Parameter(item.rangeFrom.ToString()));
-                    rangeAttribute.Parameters.Add(new Parameter(item.rangeTo.ToString()));
+                    rangeAttribute.Parameters.Add(new Parameter(item.min.ToString()));
+                    rangeAttribute.Parameters.Add(new Parameter(item.max.ToString()));
                     field.AddAttribute(rangeAttribute);
                 }
                 field.AccessModifier = AccessModifier.Private;
@@ -143,7 +144,7 @@ namespace PiEditor.Settings
                 property.IsAutoImplemented = false;
                 properties.Add(property);
 
-                
+
             }
 
             nodeClass.Fields = fields;
@@ -153,7 +154,7 @@ namespace PiEditor.Settings
 
         bool CanHaveChangedEvent(SettingNode node)
         {
-            foreach(var item in node.items)
+            foreach (var item in node.entities)
             {
                 if (!item.readOnly)
                     return true;
@@ -171,10 +172,10 @@ namespace PiEditor.Settings
                 var manifest = AssetDatabase.LoadAssetAtPath<SettingsManifest>(ap);
                 usingDirectives.AddRange(manifest.usingDirectives);
                 var basePath = manifest.basePath.Replace(" ", "");
-                if (manifest.settingItems == null)
+                if (manifest.settingEntities == null)
                     continue;
 
-                foreach (var item in manifest.settingItems)
+                foreach (var item in manifest.settingEntities)
                 {
                     if (!item.Validate())
                         continue;
@@ -185,7 +186,7 @@ namespace PiEditor.Settings
                     nodePath += item.nodePath;
 
                     var node = GetSettingNodeByPath(nodePath, root);
-                    node.items.Add(item);
+                    node.AddEntity(item);
                 }
             }
         }
@@ -208,14 +209,14 @@ namespace PiEditor.Settings
             public bool isRoot;
             public SettingNode parent;
             public Dictionary<string, SettingNode> childNodes;
-            public List<SettingItem> items;
+            public List<SettingEntity> entities;
 
             public SettingNode(string name)
             {
                 fullPath = string.Empty;
                 this.name = name;
                 childNodes = new Dictionary<string, SettingNode>();
-                items = new List<SettingItem>();
+                entities = new List<SettingEntity>();
             }
 
             public SettingNode GetOrCreateChild(string name)
@@ -231,9 +232,17 @@ namespace PiEditor.Settings
                 return childNodes[name];
             }
 
-            public void AddItem(SettingItem item)
+            public void AddEntity(SettingEntity item)
             {
-                items.Add(item);
+                foreach (var child in entities)
+                {
+                    if (child.name.Equals(item.name))
+                    {
+                        EditorUtility.DisplayDialog("Invalid Setting definition", $"Setting entity duplicated: {fullPath}.{item.name}", "OK");
+                        return;
+                    }
+                }
+                entities.Add(item);
             }
         }
     }

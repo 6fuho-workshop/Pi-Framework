@@ -2,40 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace PiEditor.Settings
 {
     public class SettingsManifest : ScriptableObject
     {
-        [Tooltip("path prefix")]
-        public string basePath = "sound";
+        [Tooltip("path prefix áp dụng cho toàn bộ khai báo setting, e.g. options.graphics")]
+        public string basePath = "options";
+        [Tooltip("some types need imports namespaces for code generating")]
         public List<string> usingDirectives = new() { "System;"};
         //public List<Branch> branches;
-        public List<SettingItem> settingItems;
-
-        /*
-        [Serializable]
-        public class SettingItem
-        {
-            public string path;
-            public string name;
-            public string type;
-            public string defaultValue;
-            public bool readOnly;
-            public string tooltip;
-            public float rangeFrom;
-            public float rangeTo;
-        }
-        */
-        
-        /*
-        [Serializable]
-        public class Branch
-        {
-            public string name;
-            public List<Branch> branches = null;
-            public List<SettingItem> settingItems;
-        }
-        */
+        public List<SettingEntity> settingEntities;
     }
 }

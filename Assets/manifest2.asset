@@ -15,11 +15,14 @@ MonoBehaviour:
   basePath: dev
   usingDirectives:
   - System;
-  settingItems:
-  - path: logger.framework
+  settingEntities:
+  - fullPath: 
+    path: logPiMessages
     type: bool
-    defaultValue: 
-    readOnly: 0
+    defaultValue: false
+    readOnly: 1
     tooltip: 
-    rangeFrom: 0
-    rangeTo: 0
+    addRange: 0
+    min: 0
+    max: 0
+    persistent: 0

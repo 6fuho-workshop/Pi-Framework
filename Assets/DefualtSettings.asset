@@ -12,11 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6cff8a5052bfd34a82b166949dc95d4, type: 3}
   m_Name: DefualtSettings
   m_EditorClassIdentifier: 
-  _runInBackground: 0
   _dev:
-    _logger:
-      _framework: 0
+    _logPiMessages: 0
   _options:
-    _cheatingEnable: 0
     _audio:
-      _sfxVomue: 0.5
+      _sfxVolume: 0.481

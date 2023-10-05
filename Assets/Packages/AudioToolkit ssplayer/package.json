@@ -1,5 +1,5 @@
 {
-    "name": "com.piframework.audiotookit4ssplayer",
+    "name": "com.piext.audiotookit4ssplayer",
     "displayName": "Audio Toolkit Adapter for ssplayer",
     "version": "1.0.0",
     "description": "Audio Toolkit Adapter for SimpleSoundPlayer module (Pi Framework)",
@@ -8,10 +8,10 @@
     "changelogUrl": "https://example.com/changelog.html",
     "licensesUrl": "https://example.com/licensing.html",
     "dependencies": {
-        "com.piframework.ssplayer": "1.0.0"
+        "com.piext.ssplayer": "1.0.0"
     },
     "author": {
-        "name": "6fuho",
+        "name": "teamfuho",
         "email": "unity@example.com",
         "url": "https://www.unity3d.com"
     }

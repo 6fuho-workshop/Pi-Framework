@@ -3,17 +3,9 @@ using UnityEngine;
 public partial class Settings : ScriptableObject
 {
     [SerializeField]
-    private bool _runInBackground;
-    [SerializeField]
     private devSettings _dev;
     [SerializeField]
     private optionsSettings _options;
-
-    public static bool runInBackground
-    {
-        get { return _instance._runInBackground; }
-        set { if(_instance._runInBackground == value) return; _instance._runInBackground = value; changed?.Invoke(); }
-    }
 
     public static devSettings dev
     {
@@ -30,44 +22,20 @@ public partial class Settings : ScriptableObject
     public class devSettings
     {
         [SerializeField]
-        private loggerSettings _logger;
+        private bool _logPiMessages = false;
 
-        public loggerSettings logger
+        public bool logPiMessages
         {
-            get { return _logger; }
+            get { return _logPiMessages; }
         }
 
-
-        [Serializable]
-        public class loggerSettings
-        {
-            public event Action changed;
-            [SerializeField]
-            private bool _framework;
-
-            public bool framework
-            {
-                get { return _framework; }
-                set { if(_framework == value) return; _framework = value; changed?.Invoke(); }
-            }
-
-        }
     }
 
     [Serializable]
     public class optionsSettings
     {
-        public event Action changed;
-        [SerializeField]
-        private bool _cheatingEnable;
         [SerializeField]
         private audioSettings _audio;
-
-        public bool cheatingEnable
-        {
-            get { return _cheatingEnable; }
-            set { if(_cheatingEnable == value) return; _cheatingEnable = value; changed?.Invoke(); }
-        }
 
         public audioSettings audio
         {
@@ -78,12 +46,15 @@ public partial class Settings : ScriptableObject
         [Serializable]
         public class audioSettings
         {
+            public event Action changed;
             [SerializeField]
-            private float _sfxVomue = 0.5f;
+            [Range(0, 1)]
+            private float _sfxVolume;
 
-            public float sfxVomue
+            public float sfxVolume
             {
-                get { return _sfxVomue; }
+                get { return _sfxVolume; }
+                set { if(_sfxVolume == value) return; _sfxVolume = value; changed?.Invoke(); }
             }
 
         }

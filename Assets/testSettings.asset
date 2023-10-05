@@ -12,28 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4a0caa1c7583546b87e5a5bf5aba60, type: 3}
   m_Name: testSettings
   m_EditorClassIdentifier: 
-  basePath: 
+  basePath: options.audio
   usingDirectives:
   - System;
-  settingItems:
-  - path: options.audio.sfxVomue
+  settingEntities:
+  - fullPath: 
+    path: sfxVolume
     type: float
-    defaultValue: 0.5f
-    readOnly: 1
-    tooltip: 
-    rangeFrom: 0
-    rangeTo: 0
-  - path: options.cheatingEnable
-    type: bool
     defaultValue: 
     readOnly: 0
     tooltip: 
-    rangeFrom: 0
-    rangeTo: 0
-  - path: runInBackground
-    type: bool
+    addRange: 1
+    min: 0
+    max: 1
+    persistent: 1
+  - fullPath: 
+    path: 
+    type: 
     defaultValue: 
     readOnly: 0
     tooltip: 
-    rangeFrom: 0
-    rangeTo: 0
+    addRange: 0
+    min: 0
+    max: 0
+    persistent: 0
