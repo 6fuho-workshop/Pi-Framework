@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using PiFramework;
 using PiFramework.Math;
 using System;
+using PiFramework.Settings;
 
 namespace PiExtension.SimpleSound
 {
@@ -13,22 +14,11 @@ namespace PiExtension.SimpleSound
 
     public class SimpleSoundPlayer : PiModule
     {
-        const string PrefPrefix = "ssplayer.";
         ISoundAdapter _adapter;
-        public event Action settingsChanged;
 
-        [SerializeField]
         AudioMixer _audioMixer;
-
-        [SerializeField]
         float _unmuteFadeLength = 1;
-
-        [SerializeField]
-        [Tooltip("Apply for global and channels")]
         float _pauseFadeLength = 1;
-
-        [SerializeField]
-        [Tooltip("Apply for global and channels")]
         float _stopFadeLength = 1;
 
         MixerGroup _masterMixer;
@@ -37,56 +27,32 @@ namespace PiExtension.SimpleSound
         MixerGroup _ambienceMixer;
         MixerGroup _voiceMixer;
         MixerGroup[] _mixers;
-
-        [Tooltip("save settings to playerPref when mute/unmute")]
-        [SerializeField]
-        bool autoSaveOnToggles = true;
+        VolumeSettings _volSettings;
 
         #region settings
 
         protected override void Initialize()
         {
+            var sspSettings = SettingsManager.GetNode("simpleSoundPlayer");
+            _audioMixer = sspSettings.GetValue<AudioMixer>("audioMixer");
+            _unmuteFadeLength = sspSettings.GetValue<float>("unmuteFadeLength");
+            _pauseFadeLength = sspSettings.GetValue<float>("pauseFadeLength");
+            _stopFadeLength = sspSettings.GetValue<float>("stopFadeLength");
 
+            _volSettings = SettingsManager.GetNode("options.sound").GetValue<VolumeSettings>("volume");
+            _volSettings.changed += SettingsChangedHandler;
+            _enableSound = _volSettings.enableSound;
         }
 
         private void Awake()
         {
             _adapter = GetComponent<ISoundAdapter>();
-            //Pi.serviceLocator.AddService(this, typeof(SimpleSoundPlayer));
-            _masterMixer = new MixerGroup(this, "Master", "vol", "mute");
-            _sfxMixer = new MixerGroup(this, "SFX", "sVol", "sMute");
-            _musicMixer = new MixerGroup(this, "Music", "mVol", "mMute");
-            _ambienceMixer = new MixerGroup(this, "Ambience", "aVol", "aMute");
-            _voiceMixer = new MixerGroup(this, "Voice", "vVol", "vMute");
+            _masterMixer = new MixerGroup(this, "Master");
+            _sfxMixer = new MixerGroup(this, "SFX");
+            _musicMixer = new MixerGroup(this, "Music");
+            _ambienceMixer = new MixerGroup(this, "Ambience");
+            _voiceMixer = new MixerGroup(this, "Voice");
             _mixers = new MixerGroup[] { _masterMixer, _sfxMixer, _musicMixer, _ambienceMixer, _voiceMixer };
-            LoadSettings();
-        }
-        void LoadSettings()
-        {
-            var pref = PiServiceLocator.instance.GetService<PiPlayerPref>().CreateInstance().SetPrefix(PrefPrefix);
-            _audioDisabled = pref.GetBool("audioDisabled", false);
-            foreach (var mixer in _mixers) mixer.ReadPref(pref);
-            OnSettingsChanged();
-        }
-        /// <summary>
-        /// Write settings vào playerPref rồi save
-        /// </summary>
-        public void SaveSettings()
-        {
-            var pref = PiServiceLocator.instance.GetService<PiPlayerPref>().CreateInstance().SetPrefix(PrefPrefix);
-            pref.SetBool("audioDisabled", _audioDisabled);
-            foreach (var mixer in _mixers) mixer.WritePref(pref);
-            pref.Save();
-        }
-
-        void OnSettingsChanged()
-        {
-            if (settingsChanged != null)
-                settingsChanged.Invoke();
-        }
-        void OnApplicationQuit()
-        {
-            SaveSettings();
         }
 
         private void Start()
@@ -114,7 +80,7 @@ namespace PiExtension.SimpleSound
 
         public void PlayMusic(string audioID, bool? overrideLoop = null)
         {
-            _adapter.PlaySound(audioID, SoundChannel.Music, 1,0,0, overrideLoop);
+            _adapter.PlaySound(audioID, SoundChannel.Music, 1, 0, 0, overrideLoop);
         }
         public void PlayMusic(string audioID, PlaybackParams playback)
         {
@@ -234,95 +200,173 @@ namespace PiExtension.SimpleSound
 
         #region mute & volume
 
-        bool _audioDisabled;
-        /// <summary>
-        /// Dùng cho một số tình huống có disbale Sound trong UI
-        /// </summary>
-        public bool audioDisabled
+        void SettingsChangedHandler(string property)
         {
-            get => _audioDisabled;
-            set
+            switch (property)
             {
-                if (_audioDisabled == value)
-                    return;
-                _audioDisabled = value;
-                if (autoSaveOnToggles)
-                    SaveSettings();
-                _masterMixer.fadingVolume = _audioDisabled ? 0 : 1;
-                _masterMixer.ApplyVolume();
-                OnSettingsChanged();
+                case "enableSound":
+                    enableSound = _volSettings.enableSound;
+                    break;
+                case "mute":
+                    mute = _volSettings.mute;
+                    break;
+                case "sfxMute":
+                    sfxMute = _volSettings.sfxMute;
+                    break;
+                case "musicMute":
+                    musicMute = _volSettings.musicMute;
+                    break;
+                case "ambienceMute":
+                    ambienceMute = _volSettings.ambienceMute;
+                    break;
+                case "voiceMute":
+                    voiceMute = _volSettings.voiceMute;
+                    break;
+                case "masterVolume":
+                    masterVolume = _volSettings.masterVolume;
+                    break;
+                case "sfxVolume":
+                    sfxVolume = _volSettings.sfxVolume;
+                    break;
+                case "musicVolume":
+                    musicVolume = _volSettings.musicVolume;
+                    break;
+                case "ambienceVolume":
+                    ambienceVolume = _volSettings.ambienceVolume;
+                    break;
+                case "voiceVolume":
+                    voiceVolume = _volSettings.voiceVolume;
+                    break;
             }
         }
 
-        public void ToggleSFX() { sfxMuted = !sfxMuted; }
+        bool _enableSound;
+        /// <summary>
+        /// Dùng cho một số tình huống có disbale Sound trong UI
+        /// </summary>
+        public bool enableSound
+        {
+            get => _enableSound;
+            set
+            {
+                if (_enableSound == value)
+                    return;
+                _enableSound = value;
+                _masterMixer.fadingVolume = _enableSound ? 1 : 0;
+                _masterMixer.ApplyVolume();
+                _volSettings.enableSound = value;
+            }
+        }
 
-        public void ToggleMusic() { musicMuted = !musicMuted; }
+        public void ToggleSFX() { sfxMute = !sfxMute; }
+
+        public void ToggleMusic() { musicMute = !musicMute; }
 
         public void ToggleMute() { mute = !mute; }
 
-        public void ToggleAmbience() { ambienceMuted = !ambienceMuted; }
+        public void ToggleAmbience() { ambienceMute = !ambienceMute; }
 
-        public void ToggleVoice() { voiceMuted = !voiceMuted; }
+        public void ToggleVoice() { voiceMute = !voiceMute; }
 
         public bool mute
         {
             get => _masterMixer.mute;
-            set => _masterMixer.mute = value;
+            set
+            {
+                _masterMixer.mute = value;
+                _volSettings.mute = value;
+            }
         }
-        public bool sfxMuted
+        public bool sfxMute
         {
             get => _sfxMixer.mute;
-            set => _sfxMixer.mute = value;
+            set
+            {
+                _sfxMixer.mute = value;
+                _volSettings.sfxMute = value;
+            }
         }
-        public bool musicMuted
+        public bool musicMute
         {
             get => _musicMixer.mute;
-            set => _musicMixer.mute = value;
+            set
+            {
+                _musicMixer.mute = value;
+                _volSettings.musicMute = value;
+            }
         }
-        public bool ambienceMuted
+        public bool ambienceMute
         {
             get => _ambienceMixer.mute;
-            set => _ambienceMixer.mute = value;
+            set
+            {
+                _ambienceMixer.mute = value;
+                _volSettings.ambienceMute = value;
+            }
         }
 
-        public bool voiceMuted
+        public bool voiceMute
         {
             get => _voiceMixer.mute;
-            set => _voiceMixer.mute = value;
+            set
+            {
+                _voiceMixer.mute = value;
+                _volSettings.voiceMute = value;
+            }
         }
 
         public float masterVolume
         {
             get => _masterMixer.volume;
-            set => _masterMixer.volume = value;
+            set
+            {
+                _masterMixer.volume = value;
+                _volSettings.masterVolume = value;
+            }
         }
         public float sfxVolume
         {
             get => _sfxMixer.volume;
-            set => _sfxMixer.volume = value;
+            set
+            {
+                _sfxMixer.volume = value;
+                _volSettings.sfxVolume = value;
+            }
         }
         public float musicVolume
         {
             get => _musicMixer.volume;
-            set => _musicMixer.volume = value;
+            set
+            {
+                _musicMixer.volume = value;
+                _volSettings.musicVolume = value;
+            }
         }
         public float ambienceVolume
         {
             get => _ambienceMixer.volume;
-            set => _ambienceMixer.volume = value;
+            set
+            {
+                _ambienceMixer.volume = value;
+                _volSettings.ambienceVolume = value;
+            }
 
         }
         public float voiceVolume
         {
             get => _voiceMixer.volume;
-            set => _voiceMixer.volume = value;
+            set
+            {
+                _voiceMixer.volume = value;
+                _volSettings.voiceVolume = value;
+            }
         }
 
         #endregion mute & volume
 
         #region fading
 
-        public void FadeMusicToVolume(float volume,float fadeLength)
+        public void FadeMusicToVolume(float volume, float fadeLength)
         {
             _musicMixer.Fade(volume, fadeLength);
         }
@@ -338,9 +382,6 @@ namespace PiExtension.SimpleSound
         {
             SimpleSoundPlayer _player;
             string _groupName;
-            string _volKey;
-            string _muteKey;
-
             public float unmuteFadingVol = 1;
             public float fadingVolume = 1;
 
@@ -355,9 +396,7 @@ namespace PiExtension.SimpleSound
                 {
                     if (_mute == value) return;
                     _mute = value;
-                    if (_player.autoSaveOnToggles)
-                        _player.SaveSettings();
-                    
+
                     if (_mute)
                     {
                         if (_muteRoutine != null)
@@ -372,7 +411,6 @@ namespace PiExtension.SimpleSound
                         _muteRoutine = _player.StartCoroutine(Unmute(_player._unmuteFadeLength));
                     }
                     ApplyVolume();
-                    _player.OnSettingsChanged();
                 }
             }
             float _volume = 1;
@@ -385,28 +423,14 @@ namespace PiExtension.SimpleSound
                     if (_volume == vol) return;
                     _volume = vol;
                     ApplyVolume();
-                    _player.OnSettingsChanged();
                 }
             }
-            public MixerGroup(SimpleSoundPlayer player, string groupName, string prefVolumeKey, string prefMuteKey)
+            public MixerGroup(SimpleSoundPlayer player, string groupName)
             {
                 _player = player;
-                this._groupName = groupName;
-                this._muteKey = prefMuteKey;
-                this._volKey = prefVolumeKey;
+                _groupName = groupName;
             }
 
-            public void ReadPref(PiPlayerPref pref)
-            {
-                _volume = pref.GetFloat(_volKey, 1);
-                _mute = pref.GetBool(_muteKey, false);
-            }
-
-            public void WritePref(PiPlayerPref pref)
-            {
-                pref.SetFloat(_volKey, _volume);
-                pref.SetBool(_muteKey, _mute);
-            }
             public void ApplyVolume()
             {
                 float vol = _mute ? 0 : _volume * unmuteFadingVol * fadingVolume;

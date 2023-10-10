@@ -9,36 +9,36 @@ namespace PiFramework.Internal
     {
         private void Awake()
         {
-            PiCore.instance.systemEvents.FinalAwake.Invoke();
+            PiBootstrap.instance.systemEvents.FinalAwake.Invoke();
         }
 
         //Dispatch System Event
         void Start()
         {
-            PiCore.instance.systemEvents.FinalStart.Invoke();
+            PiBootstrap.instance.systemEvents.FinalStart.Invoke();
         }
 
         //Dispatch System Event
         void Update()
         {
-            PiCore.instance.systemEvents.FinalUpdate.Invoke();
+            PiBootstrap.instance.systemEvents.FinalUpdate.Invoke();
         }
 
         //Dispatch System Event
         void LateUpdate()
         {
-            PiCore.instance.systemEvents.FinalLateUpdate.Invoke();
+            PiBootstrap.instance.systemEvents.FinalLateUpdate.Invoke();
         }
 
         //Dispatch System Event
         void OnGUI()
         {
-            PiCore.instance.systemEvents.FinalOnGUI.Invoke();
+            PiBootstrap.instance.systemEvents.FinalOnGUI.Invoke();
         }
 
         private void OnApplicationQuit()
         {
-            PiCore.instance.systemEvents.FinalApplicationQuit.Invoke();
+            PiBootstrap.instance.systemEvents.FinalApplicationQuit.Invoke();
         }
     }
 }

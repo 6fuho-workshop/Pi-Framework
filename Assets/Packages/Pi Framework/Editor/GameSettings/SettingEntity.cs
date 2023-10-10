@@ -17,12 +17,15 @@ namespace PiEditor.Settings
         [Tooltip("Điền code, ví dụ: <b>new Vector3(1,1.5f,2)</b>\nnếu để trống thì sẽ dùng Default value của Type")]
         public string defaultValue;
         [Tooltip("Readonly property sẽ ko có setter, tuy nhiên setting vẫn có thể override bằng deserialize process")]
-        public bool readOnly;
+        public bool readOnly = true;
         public string tooltip;
+        [Tooltip("Only support int and float.")]
         public bool addRange;
         public float min;
         public float max;
         public bool persistent;
+        [Tooltip("Settings using pattern \"node.entity\" as key by default.")]
+        public string customKey;
         public string name
         {
             get

@@ -26,10 +26,15 @@ namespace CsCodeGenerator
 
         protected override string Ending => DefaultValue != null ? ";" : "";
 
+        public string ExpressionBody { get; set; }
+
         public override string Body
         {
             get
             {
+                if (ExpressionBody != null) 
+                    return " => " + ExpressionBody + ";";
+
                 if (IsAutoImplemented)
                 {
                     return IsGetOnly? " { get; }" : " { get; set; }";
@@ -37,7 +42,7 @@ namespace CsCodeGenerator
                 else
                 {
                     string result = Util.NewLine + Indent + "{";
-                    string curentIndent = Util.NewLine + Indent + CsGenerator.IndentSingle;
+                    string curentIndent = Util.NewLine + Indent + Util.Tab;
 
                     result += curentIndent + "get { return " + GetterBody + "; }";
                     if (!IsGetOnly && SetterBody != null)

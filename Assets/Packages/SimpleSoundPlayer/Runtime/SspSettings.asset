@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e4a0caa1c7583546b87e5a5bf5aba60, type: 3}
+  m_Name: SspSettings
+  m_EditorClassIdentifier: 
+  basePath: simpleSoundPlayer
+  usingDirectives:
+  - UnityEngine.Audio;
+  settingEntities:
+  - fullPath: 
+    path: audioMixer
+    type: AudioMixer
+    defaultValue: 
+    readOnly: 1
+    tooltip: 
+    addRange: 0
+    min: 0
+    max: 0
+    persistent: 0
+  - fullPath: 
+    path: unmuteFadeLength
+    type: float
+    defaultValue: 1
+    readOnly: 1
+    tooltip: 
+    addRange: 0
+    min: 0
+    max: 0
+    persistent: 0
+  - fullPath: 
+    path: pauseFadeLength
+    type: float
+    defaultValue: 1
+    readOnly: 1
+    tooltip: Apply for global and channels
+    addRange: 0
+    min: 0
+    max: 0
+    persistent: 0
+  - fullPath: 
+    path: stopFadeLength
+    type: float
+    defaultValue: 1
+    readOnly: 1
+    tooltip: Apply for global and channels
+    addRange: 0
+    min: 0
+    max: 0
+    persistent: 0

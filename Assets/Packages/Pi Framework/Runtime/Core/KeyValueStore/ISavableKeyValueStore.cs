@@ -1,4 +1,4 @@
-namespace Gilzoide.KeyValueStore
+namespace PiFramework.KeyValueStore
 {
     public interface ISavable
     {

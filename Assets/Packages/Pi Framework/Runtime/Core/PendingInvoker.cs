@@ -31,7 +31,7 @@ namespace PiFramework
 
         public PendingInvoker(float interval = 0)
         {
-            PiCore.instance.systemEvents.BeginUpdate.AddListener(Update);
+            PiBootstrap.instance.systemEvents.BeginUpdate.AddListener(Update);
             _interval = interval;
             _timer = interval;
             _loop = 1;
@@ -110,7 +110,7 @@ namespace PiFramework
                 if (!locked)
                 {
                     _callbacks.Invoke();
-                    PiCore.instance.systemEvents.BeginUpdate.RemoveListener(Update);
+                    PiBootstrap.instance.systemEvents.BeginUpdate.RemoveListener(Update);
                     Dispose();
                 }
             }

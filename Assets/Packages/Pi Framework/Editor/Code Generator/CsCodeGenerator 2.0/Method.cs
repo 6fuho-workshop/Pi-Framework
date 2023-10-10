@@ -37,7 +37,7 @@ namespace CsCodeGenerator
                 return "";
             string result = base.ToString() + BaseParametersFormated;
             string bracesPrefix = BracesInNewLine ? (Util.NewLine + Indent) : " ";
-            string curentIndent = Util.NewLine + Indent + CsGenerator.IndentSingle;
+            string curentIndent = Util.NewLine + Indent + Util.Tab;
             result += bracesPrefix + "{";
             result += BodyLines.Count == 0 ? "" : (BracesInNewLine ? curentIndent : " ") + String.Join(curentIndent, BodyLines);
             result += bracesPrefix + "}";

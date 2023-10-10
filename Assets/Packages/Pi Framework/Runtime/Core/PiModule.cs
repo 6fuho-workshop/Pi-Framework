@@ -5,7 +5,7 @@ namespace PiFramework
     public abstract class PiModule : MonoBehaviour
     {
         /// <summary>
-        /// Được gọi sau PiRoot.Awake và trước các method Awake khác
+        /// Được gọi tự động sau PiRoot.Awake và trước các method Awake khác
         /// </summary>
         protected virtual void Initialize()
         {

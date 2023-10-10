@@ -17,5 +17,9 @@ namespace CsCodeGenerator
         public static string TxtExtension = "txt";
         public static string NewLine = System.Environment.NewLine;
         public static string NewLineDouble = NewLine + NewLine;
+        /// <summary>
+        /// Single Indent string
+        /// </summary>
+        public static string Tab = new String(' ', CsGenerator.DefaultTabSize);
     }
 }

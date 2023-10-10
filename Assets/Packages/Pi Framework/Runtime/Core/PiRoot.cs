@@ -10,7 +10,7 @@ namespace PiFramework
     public sealed class PiRoot : MonoBehaviour
     {
         //public bool EnableProfilerOnStart;
-        internal static PiRoot instance;
+        internal static PiRoot instance;        
 
         #region run in background
         /*
@@ -50,58 +50,36 @@ namespace PiFramework
             instance = this;
             GameObject.DontDestroyOnLoad(gameObject);
 
-            PiCore.instance.SystemAwake(this);
+            PiBootstrap.instance.SystemAwake(this);
 
-            //if (EnableProfilerOnStart)
-                //PiCore.instance.serviceLocator.GetService<PiProfiler>().Enabled = true;
-            DisplayServices(); //đang không hiểu vì sao phần display service này chạy trên android bị lỗi 
-
-            PiCore.instance.systemEvents.BeginAwake.Invoke();
-            //Debug.Log(InternalUtil.PiMessage("PiRoot Awake Done"));
-
-            //runInBackground = _runInBackground;
-            Application.quitting += OnQuitting;
+            DisplayServices();
+            PiBootstrap.instance.systemEvents.BeginAwake.Invoke();
+            Application.quitting += () => PiBootstrap.SystemDestroy();
         }
 
         //Dispatch System Event
         void Start()
         {
             Debug.Log(InternalUtil.PiMessage("PiRoot Start"));
-            PiCore.instance.systemEvents.BeginStart.Invoke();
-        }
-
-        void OnQuitting()
-        {
-            instance = null;
-            PiCore.instance.Destroy();
-        }
-
-        void OnUnloading()
-        {
-            Debug.Log("OnUnloading");
-        }
-        bool OnWantsToQuit()
-        {
-            Debug.Log("OnWantsToQuit");
-            return false;
+            PiBootstrap.instance.systemEvents.BeginStart.Invoke();
         }
 
         //Dispatch System Event
         void Update()
         {
-            PiCore.instance.systemEvents.BeginUpdate.Invoke();
+            PiBootstrap.instance.systemEvents.BeginUpdate.Invoke();
         }
 
         //Dispatch System Event
         void LateUpdate()
         {
-            PiCore.instance.systemEvents.BeginLateUpdate.Invoke();
+            PiBootstrap.instance.systemEvents.BeginLateUpdate.Invoke();
         }
 
         //Dispatch System Event
         void OnGUI()
         {
-            PiCore.instance.systemEvents.BeginOnGUI.Invoke();
+            PiBootstrap.instance.systemEvents.BeginOnGUI.Invoke();
         }
 
         bool _isQuitting;
@@ -115,7 +93,7 @@ namespace PiFramework
         private void OnApplicationQuit()
         {
             _isQuitting = true;
-            PiCore.instance.systemEvents.BeginApplicationQuit.Invoke();
+            PiBootstrap.instance.systemEvents.BeginApplicationQuit.Invoke();
         }
 
         #endregion behaviours

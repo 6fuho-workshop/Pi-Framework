@@ -26,16 +26,16 @@ namespace PiEditor.Settings
 
         void ApplyBtnClickedHandler()
         {
-            Settings_Generator.Generate();
+            SettingsGenerator.Generate();
         }
     }
 
     [CustomPropertyDrawer(typeof(SettingEntity))]
-    public class SettingItem_PropertyDrawer : PropertyDrawer
+    public class SettingEntity_PropertyDrawer : PropertyDrawer
     {
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            
+
             // Create a new VisualElement to be the root the property UI
             var container = new VisualElement();
             var foldout = new Foldout();
@@ -61,7 +61,16 @@ namespace PiEditor.Settings
             var readOnly = new PropertyField(property.FindPropertyRelative("readOnly"), "Is Read Only");
             container.Add(readOnly);
 
-            var addRange = new PropertyField(property.FindPropertyRelative("addRange"), "Add Range");
+            var persistentProp = property.FindPropertyRelative("persistent");
+            var persistent = new PropertyField(persistentProp, "Persistent");
+            persistent.BindProperty(persistentProp);
+            container.Add(persistent);
+
+            var customKey = new PropertyField(property.FindPropertyRelative("customKey"), "Custom Key");
+            customKey.style.paddingLeft = 25;
+            container.Add(customKey);
+
+            var addRange = new PropertyField(property.FindPropertyRelative("addRange"), "Use Range");
             container.Add(addRange);
 
             var min = new PropertyField(property.FindPropertyRelative("min"), "Min");
@@ -72,14 +81,22 @@ namespace PiEditor.Settings
             max.style.paddingLeft = 25;
             container.Add(max);
 
-            var persistent = new PropertyField(property.FindPropertyRelative("persistent"), "Persistent");
-            container.Add(persistent);
+            readOnly.RegisterValueChangeCallback(evt =>
+            {
+                var readOnly = evt.changedProperty.boolValue;
+                persistent.SetEnabled(!readOnly);
+            });
 
-            addRange.RegisterValueChangeCallback(evt => {
+            addRange.RegisterValueChangeCallback(evt =>
+            {
                 min.style.display = evt.changedProperty.boolValue ? DisplayStyle.Flex : DisplayStyle.None;
                 max.style.display = evt.changedProperty.boolValue ? DisplayStyle.Flex : DisplayStyle.None;
             });
-
+            
+            persistent.RegisterValueChangeCallback(evt =>
+            {
+                customKey.style.display = evt.changedProperty.boolValue ? DisplayStyle.Flex : DisplayStyle.None;
+            });
 
             return foldout;
         }

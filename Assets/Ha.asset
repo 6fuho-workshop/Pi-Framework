@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6cff8a5052bfd34a82b166949dc95d4, type: 3}
+  m_Name: Ha
+  m_EditorClassIdentifier: 
+  _global1: 0
+  _global2: {x: 0, y: 0, z: 0}
+  _dev:
+    _logPiMessages: 0
+    _testV3: {x: 0, y: 0, z: 0}
+  _simpleSoundPlayer:
+    _audioMixer: {fileID: 0}
+    _unmuteFadeLength: 1
+    _pauseFadeLength: 1
+    _stopFadeLength: 1
+  _options:
+    _sound:
+      _volume:
+        _enableSound: 1
+        _masterVolume: 1
+        _musicVolume: 1
+        _sfxVolume: 1
+        _ambienceVolume: 1
+        _voiceVolume: 1
+        _mute: 0
+        _musicMute: 0
+        _sfxMute: 0
+        _voiceMute: 0
+        _ambienceMute: 0

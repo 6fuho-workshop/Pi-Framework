@@ -1,4 +1,4 @@
-namespace Gilzoide.KeyValueStore
+namespace PiFramework.KeyValueStore
 {
     public interface IKeyValueStore
     {
@@ -22,7 +22,12 @@ namespace Gilzoide.KeyValueStore
         void SetString(string key, string value);
         void SetBytes(string key, byte[] value);
     }
+}
 
+namespace PiFramework
+{
+    using PiFramework.KeyValueStore;
+	
     public static partial class IKeyValueStoreExtensions
     {
         public static bool GetBool(this IKeyValueStore kvs, string key, bool defaultValue = default)
