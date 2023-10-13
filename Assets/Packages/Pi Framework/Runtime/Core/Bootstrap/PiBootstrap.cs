@@ -114,7 +114,6 @@ namespace PiFramework
             systemEvents = new GameObject("Pi.systemEvents").AddComponent<PiSystemEvents>();
             serviceLocator.AddService<PiSystemEvents>(systemEvents, true);
 
-
             serviceLocator.AddService<PiPlayerPref>(new PiPlayerPref());
 
             console = new PiConsole();
@@ -126,9 +125,9 @@ namespace PiFramework
         /// Bootstrap phase 2: Configuration
         /// </summary>
         /// <param name="root">PiRoot</param>
-        internal void SystemAwake(PiRoot root)
+        internal void SystemAwake(PiGameBase root)
         {
-            serviceLocator.AddService<PiRoot>(root);
+            serviceLocator.AddService<PiGameBase>(root);
             SystemStartup();
             LoadSettings(root);
             ModuleStartup();
@@ -143,15 +142,10 @@ namespace PiFramework
             PreloadCommands();
         }
 
-        void LoadSettings(PiRoot root)
+        void LoadSettings(PiGameBase root)
         {
             var sm = root.GetComponentInChildren<SettingsManager>();
-            SettingsManager.dataStore = new KeyValueStore.PiPlayerPref() as ISavableKeyValueStore;
             sm.LoadSettings();
-
-            // todo: settings Patch go here
-
-            SettingsManager.settings.LoadAllPersistents();
         }
 
         void ModuleStartup()
@@ -193,7 +187,7 @@ namespace PiFramework
         internal static void SystemDestroy()
         {
             SettingsManager.Destroy();
-            PiRoot.instance = null;
+            PiGameBase.instance = null;
             _instance = null;
         }
     }

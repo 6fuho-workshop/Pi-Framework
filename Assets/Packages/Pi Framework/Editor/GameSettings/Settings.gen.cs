@@ -40,6 +40,7 @@ namespace PiEditor.Settings
             //File.WriteAllText(sourceFile, newCode);
             //Debug.Log(sourceFile + " file generated!");
             //}
+            EditorUtility.RequestScriptReload();
         }
 
         void GenerateClass()
@@ -52,8 +53,8 @@ namespace PiEditor.Settings
             ClassModel settingsClass = CreateNodeClass(root);
             var baseClass = settingsClass.BaseClass;
             settingsClass.BaseClass = "GameSettings";
-            if (baseClass.Contains("ILoadable"))
-                settingsClass.BaseClass += ", ILoadable";
+            if (baseClass.Contains("IPersistentSetting"))
+                settingsClass.BaseClass += ", IPersistentSetting";
             settingsClass.IndentSize = 0;
             settingsClass.Attributes.Clear();
             settingsClass.KeyWords.Add(KeyWord.Partial);
@@ -98,9 +99,17 @@ namespace PiEditor.Settings
             };
         }
 
+        string GetNodeClassName(Node node)
+        {
+            string name = string.IsNullOrEmpty(node.name) ? "" : char.ToUpper(node.name[0]).ToString();
+            if (node.name.Length > 1)
+                name += node.name[1..];
+            return name += classSuffix;
+        }
+
         ClassModel CreateNodeClass(Node node)
         {
-            ClassModel nodeClass = new(node.name + classSuffix);
+            ClassModel nodeClass = new(GetNodeClassName(node));
             nodeClass.AddAttribute(new AttributeModel("Serializable"));
             nodeClass.BaseClass = "SettingNode";
             List<Field> fields = new();
@@ -110,7 +119,7 @@ namespace PiEditor.Settings
             if (loadableMethod != null)
             {
                 nodeClass.Methods.Add(loadableMethod);
-                nodeClass.BaseClass += ", ILoadable";
+                nodeClass.BaseClass += ", IPersistentSetting";
             }
 
             foreach (var item in node.entities)
@@ -145,7 +154,8 @@ namespace PiEditor.Settings
                         {
                             var name = item.name;
                             string key = String.IsNullOrWhiteSpace(item.customKey) ? $"{node.name}.{name}" : item.customKey;
-                            setterBody += $"; storage.Set{TypeName}(\"{key}\", value)";
+                            string dataStore = node.isRoot ? "_instance.dataStore" : "dataStore";
+                            setterBody += $"; {dataStore}.Set{TypeName}(\"{key}\", value)";
                         }
                         //storage.SetFloat(".global2", value);
                     }
@@ -157,7 +167,7 @@ namespace PiEditor.Settings
 
             foreach (var childNode in node.childNodes.Values)
             {
-                var typeName = childNode.name + classSuffix;
+                var typeName = GetNodeClassName(childNode);
                 var childClass = CreateNodeClass(childNode);
                 nodeClass.NestedClasses.Add(childClass);
 
@@ -178,7 +188,7 @@ namespace PiEditor.Settings
         }
 
         /// <summary>
-        /// Generate method 'LoadPersistent' implements ILoadable
+        /// Generate method 'OnLoadCallback' implements IPersistentSetting
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
@@ -197,11 +207,11 @@ namespace PiEditor.Settings
                 var name = item.name;
                 string getType = "Get" + TypeName;
                 string key = String.IsNullOrWhiteSpace(item.customKey) ? $"{node.name}.{name}" : item.customKey;
-                body.Add($"{name} = storage.{getType}(\"{key}\", _{name});");
+                body.Add($"{name} = dataStore.{getType}(\"{key}\", _{name});");
             }
             if (body.Count > 0)
             {
-                var method = new Method(BuiltInDataType.Void, "LoadPersistent");
+                var method = new Method(BuiltInDataType.Void, "OnLoadCallback");
                 method.AccessModifier = AccessModifier.Public;
                 method.IndentSize -= CsGenerator.DefaultTabSize;
                 method.BodyLines = body;
@@ -251,7 +261,7 @@ namespace PiEditor.Settings
         }
         AttributeModel GetRangeAttribute(SettingEntity item)
         {
-            if (item.addRange && !item.min.Equals(item.max))
+            if (item.useRange && !item.min.Equals(item.max))
             {
                 var rangeAttribute = new AttributeModel("Range");
                 rangeAttribute.Parameters.Add(new Parameter(item.min.ToString()));
@@ -277,7 +287,7 @@ namespace PiEditor.Settings
 
                 foreach (var item in manifest.settingEntities)
                 {
-                    if (!item.Validate())
+                    if (!item.IsValid())
                         continue;
 
                     var nodePath = basePath;

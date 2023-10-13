@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace PiFramework.Settings
 {
-    public abstract class SettingsProvider
+    public abstract class SettingsProvider : IPersistentSetting
     {
         public event Action<string> changed;
         protected void OnChanged(string propertyName)
@@ -15,7 +15,21 @@ namespace PiFramework.Settings
             changed?.Invoke(propertyName);
         }
 
-        protected IKeyValueStore dataStore => SettingsManager.dataStore;
-        public abstract void LoadPersistent();
+        ISavableKeyValueStore _dataStore;
+
+        public ISavableKeyValueStore dataStore
+        {
+            get
+            {
+                _dataStore ??= SettingsManager.defaultDataStore;
+                return _dataStore;
+            }
+            set
+            {
+                _dataStore = value;
+            }
+        }
+
+        public virtual void OnLoadCallback() { }
     }
 }

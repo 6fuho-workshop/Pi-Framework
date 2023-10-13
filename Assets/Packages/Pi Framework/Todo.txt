@@ -1,0 +1,7 @@
+- Hệ thống reflection chạy at begining
+- Hệ thống Validate PiFramework All In One bao gồm Audo Validate và Manual Full Check
+- Sửa Pending Invoker
+- Giải pháp Scnene Startup
+- Nghiên cứu Dependency Injection
+- tạo Settings Persistent config trong SettingsManager
+- Áp dụng reflection và DI vào hệ thống modules

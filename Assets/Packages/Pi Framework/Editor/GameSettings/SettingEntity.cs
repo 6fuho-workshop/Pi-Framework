@@ -20,7 +20,7 @@ namespace PiEditor.Settings
         public bool readOnly = true;
         public string tooltip;
         [Tooltip("Only support int and float.")]
-        public bool addRange;
+        public bool useRange;
         public float min;
         public float max;
         public bool persistent;
@@ -44,13 +44,33 @@ namespace PiEditor.Settings
             }
         }
 
-        public bool Validate()
+        public bool IsValid()
         {
-            if (min > max)
-                min = max;
             if (string.IsNullOrEmpty(path)) return false;
             if (string.IsNullOrEmpty(type)) return false;
             return true;
+        }
+
+        public void Validate()
+        {
+            if (min > max)
+                min = max;
+            if(type == "int")
+            {
+                min = Mathf.Floor(min);
+                max = Mathf.Floor(max);
+            }
+
+            if (readOnly)
+                persistent = false;
+            path = path.Replace(" ", "");
+            type = type.Replace(" ", "");
+
+            if(type != "int" && type != "float")
+                useRange = false;
+
+            if(persistent)
+                customKey = customKey.Trim();
         }
     }
 }

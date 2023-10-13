@@ -14,5 +14,14 @@ namespace PiEditor.Settings
         public List<string> usingDirectives = new() { "System;"};
         //public List<Branch> branches;
         public List<SettingEntity> settingEntities;
+
+        private void OnValidate()
+        {
+            foreach (var entity in settingEntities)
+            {
+                entity.Validate();
+            }
+            basePath = basePath.Replace(" ", "");
+        }
     }
 }

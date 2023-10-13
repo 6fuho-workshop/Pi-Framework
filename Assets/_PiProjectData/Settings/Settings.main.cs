@@ -5,36 +5,36 @@ using PiFramework.Settings;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using PiExtension.SimpleSound;
-public partial class Settings : GameSettings, ILoadable
+public partial class Settings : GameSettings, IPersistentSetting
 {
     [SerializeField]
     private bool _global1 = false;
     [SerializeField]
     private float _global2;
     [SerializeField]
-    private devSettings _dev;
+    private DevSettings _dev;
     [SerializeField]
-    private simpleSoundPlayerSettings _simpleSoundPlayer;
+    private SimpleSoundPlayerSettings _simpleSoundPlayer;
     [SerializeField]
-    private optionsSettings _options;
+    private OptionsSettings _options;
 
     public static bool global1 => _instance._global1;
 
     public static float global2
     {
         get { return _instance._global2; }
-        set { if(_instance._global2 == value) return; _instance._global2 = value; _instance.OnChanged("global2"); storage.SetFloat(".global2", value); }
+        set { if(_instance._global2 == value) return; _instance._global2 = value; _instance.OnChanged("global2"); _instance.dataStore.SetFloat(".global2", value); }
     }
 
-    public static devSettings dev => _instance._dev;
+    public static DevSettings dev => _instance._dev;
 
-    public static simpleSoundPlayerSettings simpleSoundPlayer => _instance._simpleSoundPlayer;
+    public static SimpleSoundPlayerSettings simpleSoundPlayer => _instance._simpleSoundPlayer;
 
-    public static optionsSettings options => _instance._options;
+    public static OptionsSettings options => _instance._options;
 
-    public void LoadPersistent()
+    public void OnLoadCallback()
     {
-        global2 = storage.GetFloat(".global2", _global2);
+        global2 = dataStore.GetFloat(".global2", _global2);
     }
 
     protected override void BuildNodeDict()
@@ -48,7 +48,7 @@ public partial class Settings : GameSettings, ILoadable
     }
 
     [Serializable]
-    public class devSettings : SettingNode
+    public class DevSettings : SettingNode
     {
         [SerializeField]
         private bool _logPiMessages = false;
@@ -58,7 +58,7 @@ public partial class Settings : GameSettings, ILoadable
     }
 
     [Serializable]
-    public class simpleSoundPlayerSettings : SettingNode
+    public class SimpleSoundPlayerSettings : SettingNode
     {
         [SerializeField]
         private AudioMixer _audioMixer;
@@ -82,16 +82,16 @@ public partial class Settings : GameSettings, ILoadable
     }
 
     [Serializable]
-    public class optionsSettings : SettingNode
+    public class OptionsSettings : SettingNode
     {
         [SerializeField]
-        private soundSettings _sound;
+        private SoundSettings _sound;
 
-        public soundSettings sound => _sound;
+        public SoundSettings sound => _sound;
 
 
         [Serializable]
-        public class soundSettings : SettingNode
+        public class SoundSettings : SettingNode
         {
             [SerializeField]
             private VolumeSettings _volume;

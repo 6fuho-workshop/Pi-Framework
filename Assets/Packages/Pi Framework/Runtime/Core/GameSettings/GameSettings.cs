@@ -8,11 +8,6 @@ using UnityEngine;
 
 namespace PiFramework.Settings
 {
-    public interface ILoadable
-    {
-        void LoadPersistent();
-    }
-
     /// <summary>
     /// Cần thiết phải có abstract class GameSettings ở PiFramework Assembly 
     /// thay vì dùng Interface để có thể gán Settings Asset vào SettingsLoader.
@@ -31,19 +26,21 @@ namespace PiFramework.Settings
         protected Dictionary<string, ISettingNode> _nodeDict;
         public abstract ISettingNode GetSettingNode(string path);
         public abstract void Initialize();
-        protected static ISavableKeyValueStore storage => SettingsManager.dataStore;
-        public void Save() => storage.Save();
+
+        public ISavableKeyValueStore dataStore { get; set; }
+        public void Save() => SettingsManager.SaveSettings();
 
         internal void LoadAllPersistents()
         {
             foreach (var node in _nodeDict.Values)
             {
-                if(node is ILoadable loader)
-                    loader.LoadPersistent();
+                if (node is IPersistentSetting loader)
+                    loader.OnLoadCallback();
                 node.LoadSettingsProviders();
             }
         }
 
+        internal Dictionary<string, ISettingNode> GetNodeDict() => _nodeDict; 
         /// <summary>
         /// Tạo method virtual để khi xóa file generated vẫn không báo lỗi Undefined Method BuildNodeDict
         /// </summary>

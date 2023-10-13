@@ -8,11 +8,11 @@ using UnityEngine.Rendering;
 
 namespace PiFramework.Settings
 {
-    public sealed class SettingsManager: MonoBehaviour
+    public sealed class SettingsManager : MonoBehaviour
     {
         public static GameSettings settings { get; internal set; }
-     
-        public static ISavableKeyValueStore dataStore { get; internal set; }
+
+        public static ISavableKeyValueStore defaultDataStore { get; set; }
         internal void LoadSettings()
         {
             var loader = GetComponentInChildren<SettingsLoader>();
@@ -23,20 +23,43 @@ namespace PiFramework.Settings
             settingsObj = GameObject.Instantiate<GameSettings>(settingsObj);
 #endif
             settings = settingsObj;
+            CreateSettingsContainer();
             settings.Initialize();
 
-            foreach (Transform t in transform)
-            {
-                GameObject.Destroy(t.gameObject);
-            }
+            //todo: patch settings go here
 
+            //todo: Config Default and Custom KeyValueStore for Nodes and SettingsProviders
+            SettingsManager.defaultDataStore = new KeyValueStore.PiPlayerPref() as ISavableKeyValueStore;
+            var nodes = settings.GetNodeDict();
+            foreach(var node in nodes)
+            {
+                if(node.Value is IPersistentSetting persistent)
+                {
+                    persistent.dataStore = defaultDataStore;
+                }
+                //todo: set dataStore for SettingsProviders
+            }
+            
+            settings.LoadAllPersistents();
+        }
+
+        public static void SaveSettings()
+        {
+            defaultDataStore.Save();
+        }
+
+        void CreateSettingsContainer()
+        {
+            foreach (Transform t in transform)
+                GameObject.Destroy(t.gameObject);
             var GameObj = new GameObject("Runtime Settings");
-            loader = GameObj.AddComponent<SettingsLoader>();
-            loader.settings = settingsObj;
+            var loader = GameObj.AddComponent<SettingsLoader>();
+            loader.settings = settings;
             GameObj.transform.parent = transform;
         }
 
-        public static ISettingNode GetNode(string path) {
+        public static ISettingNode GetNode(string path)
+        {
             return settings.GetSettingNode(path);
         }
 
@@ -45,10 +68,27 @@ namespace PiFramework.Settings
             return settings.GetSettingNode(String.Empty);
         }
 
+        public static T GetValue<T>(string path)
+        {
+            var idx = path.LastIndexOf('.');
+            string nodePath = idx < 0 ? string.Empty : path[..idx];
+            string setting = idx < 0 ? path : path[(idx + 1)..];
+            return GetNode(nodePath).GetValue<T>(setting);
+        }
+
+        public static void SetValue<T>(string path, T value)
+        {
+            var idx = path.LastIndexOf('.');
+            string nodePath = idx < 0 ? string.Empty : path[..idx];
+            string setting = idx < 0 ? path : path[(idx + 1)..];
+            GetNode(nodePath).SetValue(setting, value);
+        }
+
         internal static void Destroy()
         {
+            SaveSettings();
             settings = null;
-            dataStore = null;
+            defaultDataStore = null;
         }
     }
 }

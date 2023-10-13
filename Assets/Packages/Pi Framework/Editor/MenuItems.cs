@@ -17,10 +17,10 @@ namespace PiEditor
         [MenuItem("Pi/GameObject/Framework GameObject")]
         static void AttachFramework()
         {
-            if (GameObject.FindObjectOfType<PiRoot>() == null)
+            if (GameObject.FindObjectOfType<PiGameBase>() == null)
             {
                 var go = new GameObject("PiFramework");
-                go.AddComponent<PiRoot>().hideFlags = HideFlags.NotEditable;
+                go.AddComponent<PiGameBase>().hideFlags = HideFlags.NotEditable;
                 //go.hideFlags = HideFlags.NotEditable;
             }
 

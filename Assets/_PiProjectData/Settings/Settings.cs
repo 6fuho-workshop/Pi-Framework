@@ -30,6 +30,8 @@ public partial class Settings : GameSettings
         if (String.IsNullOrEmpty(path))
             return this;
         _nodeDict.TryGetValue(path, out var node);
+        if(node == null)
+            Debug.LogError($"Node {name} does not exist");
         return node;
     }
 

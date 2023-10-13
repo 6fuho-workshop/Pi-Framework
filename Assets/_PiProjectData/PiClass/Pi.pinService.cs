@@ -15,14 +15,14 @@ using System;
 public partial class Pi {
     
     // Pin Service for quick reference. Package: Pi Core
-    private static PiFramework.PiRoot _root;
+    private static PiFramework.PiGameBase _game;
     
-    public static PiFramework.PiRoot root {
+    public static PiFramework.PiGameBase game {
         get {
-            if ((_root == null)) {
-                _root = serviceLocator.GetService<PiFramework.PiRoot>();
+            if ((_game == null)) {
+                _game = serviceLocator.GetService<PiFramework.PiGameBase>();
             }
-            return _root;
+            return _game;
         }
     }
     
@@ -47,18 +47,6 @@ public partial class Pi {
                 _systemEvents = serviceLocator.GetService<PiFramework.PiSystemEvents>();
             }
             return _systemEvents;
-        }
-    }
-    
-    // Pin Service for quick reference. Package: Pi Core
-    private static PiFramework.PiPlayerPref _playerPref;
-    
-    public static PiFramework.PiPlayerPref playerPref {
-        get {
-            if ((_playerPref == null)) {
-                _playerPref = serviceLocator.GetService<PiFramework.PiPlayerPref>();
-            }
-            return _playerPref;
         }
     }
     

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using System.Reflection;
-using System.Runtime.CompilerServices;
+using PiFramework.KeyValueStore;
 
 namespace PiFramework.Settings
 {
@@ -11,55 +11,52 @@ namespace PiFramework.Settings
     {
         event Action<string> changed;
         internal Dictionary<string, PropertyInfo> properties {  get; }
-    }
 
-    public static class ISettingNodeExtensions
-    {
-        public static T GetValue<T>(this ISettingNode node, string name)
+        internal void GetPropertiesIfEmpty()
         {
-            return (T)node.GetProperty(name).GetValue(node);
-        }
-
-        public static void SetValue<T>(this ISettingNode node, string name, T value)
-        {
-            node.GetProperty(name).SetValue(node, value);
-        }
-
-        internal static void  GetPropertiesIfEmpty(this ISettingNode node)
-        {
-            if (node.properties.Count == 0)
+            if (properties.Count == 0)
             {
-                var props = node.GetType().GetProperties();
+                var props = GetType().GetProperties();
                 foreach (var prop in props)
                 {
                     if (!prop.PropertyType.IsSubclassOf(typeof(SettingNode)))
-                        node.properties.Add(prop.Name, prop);
+                        properties.Add(prop.Name, prop);
                 }
             }
         }
 
-        internal static PropertyInfo GetProperty(this ISettingNode node, string name)
+        internal void LoadSettingsProviders()
         {
-            node.GetPropertiesIfEmpty();
+            this.GetPropertiesIfEmpty();
 
-            if (!node.properties.TryGetValue(name, out var result))
+            foreach (var prop in properties.Values)
+            {
+                if (prop.PropertyType.IsSubclassOf(typeof(SettingsProvider)))
+                {
+                    (prop.GetValue(this) as SettingsProvider).OnLoadCallback();
+                }
+            }
+        }
+
+        internal PropertyInfo GetProperty(string name)
+        {
+            GetPropertiesIfEmpty();
+
+            if (!properties.TryGetValue(name, out var result))
             {
                 Debug.LogError($"setting name {name} does not exist");
             }
             return result;
         }
 
-        internal static void LoadSettingsProviders(this ISettingNode node)
+        public T GetValue<T>(string name)
         {
-            node.GetPropertiesIfEmpty();
+            return (T)GetProperty(name).GetValue(this);
+        }
 
-            foreach (var prop in node.properties.Values)
-            {
-                if (prop.PropertyType.IsSubclassOf(typeof(SettingsProvider)))
-                {
-                    (prop.GetValue(node) as SettingsProvider).LoadPersistent();
-                }
-            }
+        public  void SetValue<T>(string name, T value)
+        {
+            GetProperty(name).SetValue(this, value);
         }
     }
 
@@ -72,7 +69,7 @@ namespace PiFramework.Settings
         public event Action<string> changed;
         Dictionary<string, PropertyInfo> _properties = new();
         Dictionary<string, PropertyInfo> ISettingNode.properties => _properties;
-
+        public ISavableKeyValueStore dataStore { get; set; }
         protected void OnChanged(string propertyName)
         {
             changed?.Invoke(propertyName);

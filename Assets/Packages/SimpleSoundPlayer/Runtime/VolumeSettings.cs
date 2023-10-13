@@ -3,7 +3,6 @@ using PiFramework.Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using UnityEngine;
 
 namespace PiExtension.SimpleSound
@@ -39,7 +38,7 @@ namespace PiExtension.SimpleSound
         [SerializeField]
         bool _ambienceMute;
 
-        public override void LoadPersistent()
+        public override void OnLoadCallback()
         {
             _enableSound = dataStore.GetBool("vol.enableSound", _enableSound);
             _mute = dataStore.GetBool("vol.mute", _mute);

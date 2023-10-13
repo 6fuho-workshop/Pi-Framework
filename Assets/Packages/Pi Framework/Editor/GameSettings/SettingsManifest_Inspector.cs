@@ -2,7 +2,7 @@
 using UnityEditor.UIElements;
 using UnityEditor;
 using UnityEngine;
-
+using Unity.VisualScripting.YamlDotNet.Serialization.NodeTypeResolvers;
 
 namespace PiEditor.Settings
 {
@@ -61,17 +61,15 @@ namespace PiEditor.Settings
             var readOnly = new PropertyField(property.FindPropertyRelative("readOnly"), "Is Read Only");
             container.Add(readOnly);
 
-            var persistentProp = property.FindPropertyRelative("persistent");
-            var persistent = new PropertyField(persistentProp, "Persistent");
-            persistent.BindProperty(persistentProp);
+            var persistent = new PropertyField(property.FindPropertyRelative("persistent"), "Persistent");
             container.Add(persistent);
 
             var customKey = new PropertyField(property.FindPropertyRelative("customKey"), "Custom Key");
             customKey.style.paddingLeft = 25;
             container.Add(customKey);
 
-            var addRange = new PropertyField(property.FindPropertyRelative("addRange"), "Use Range");
-            container.Add(addRange);
+            var useRange = new PropertyField(property.FindPropertyRelative("useRange"), "Use Range");
+            container.Add(useRange);
 
             var min = new PropertyField(property.FindPropertyRelative("min"), "Min");
             min.style.paddingLeft = 25;
@@ -81,13 +79,19 @@ namespace PiEditor.Settings
             max.style.paddingLeft = 25;
             container.Add(max);
 
+            type.RegisterValueChangeCallback(evt =>
+            {
+                var typeName = evt.changedProperty.stringValue;
+                useRange.SetEnabled(typeName == "int" || typeName == "float");
+            });
+
             readOnly.RegisterValueChangeCallback(evt =>
             {
                 var readOnly = evt.changedProperty.boolValue;
                 persistent.SetEnabled(!readOnly);
             });
 
-            addRange.RegisterValueChangeCallback(evt =>
+            useRange.RegisterValueChangeCallback(evt =>
             {
                 min.style.display = evt.changedProperty.boolValue ? DisplayStyle.Flex : DisplayStyle.None;
                 max.style.display = evt.changedProperty.boolValue ? DisplayStyle.Flex : DisplayStyle.None;

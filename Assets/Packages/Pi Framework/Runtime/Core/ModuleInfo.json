@@ -3,8 +3,8 @@
     "name": "core",
     "pinServices": [
         {
-            "name": "root",
-            "fullType": "PiFramework.PiRoot"
+            "name": "game",
+            "fullType": "PiFramework.PiGameBase"
         },
         {
             "name": "console",
@@ -13,10 +13,6 @@
         {
             "name": "systemEvents",
             "fullType": "PiFramework.PiSystemEvents"
-        },
-        {
-            "name": "playerPref",
-            "fullType": "PiFramework.PiPlayerPref"
         }
     ]
 }
