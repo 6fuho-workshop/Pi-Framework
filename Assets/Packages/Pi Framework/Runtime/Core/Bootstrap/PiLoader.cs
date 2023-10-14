@@ -7,9 +7,10 @@ using PiFramework.Internal;
 namespace PiFramework
 {
     [RequireComponent(typeof(LatestExecOrder))]
-    public class GameBase : MonoBehaviour
+    [ExecutionOrder(-32000)]
+    public class PiLoader : MonoBehaviour
     {
-        internal static GameBase instance;
+        internal static PiLoader instance;
         EarliestExecOrder earliest = new();
 
         #region behaviours

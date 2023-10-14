@@ -112,7 +112,7 @@ namespace PiFramework
         /// Bootstrap phase 2: Configuration
         /// </summary>
         /// <param name="root">PiRoot</param>
-        internal static void SystemStartup(GameBase root)
+        internal static void SystemStartup(PiLoader root)
         {
             Preload();
             LoadSettings(root);
@@ -128,7 +128,7 @@ namespace PiFramework
             PreloadCommands();
         }
 
-        static void LoadSettings(GameBase root)
+        static void LoadSettings(PiLoader root)
         {
             var sm = root.GetComponentInChildren<SettingsManager>();
             sm.LoadSettings();
@@ -173,7 +173,7 @@ namespace PiFramework
         internal static void SystemDestroy()
         {
             SettingsManager.Destroy();
-            GameBase.instance = null;
+            PiLoader.instance = null;
         }
     }
 }

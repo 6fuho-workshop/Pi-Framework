@@ -1,72 +1,24 @@
 using PiFramework.Settings;
 using System;
-using System.Collections.Generic;
-using System.Reflection;
-using UnityEngine;
 
-public partial class Settings : GameSettings, ISettingNode
+public partial class Settings : GameSettings
 {
     static Settings _instance;
-    Dictionary<string, PropertyInfo> _properties;
-    Dictionary<string, ISettingNode> _nodeDict;
+
+    public override event Action<string> changed;
 
     public static event Action<string> settingChanged
     {
-        add
-        {
-            _instance.changed += value;
-        }
-        remove {
-            _instance.changed -= value;
-        }
-    }
-
-    public event Action<string> changed;
-
-    public static void FromJsonOverwrite(string json)
-    {
-        JsonUtility.FromJsonOverwrite(json, _instance);
-    }
-
-    public override ISettingNode GetSettingNode(string path)
-    {
-        if(String.IsNullOrEmpty(path)) 
-            return null;
-        _nodeDict.TryGetValue(path, out var node);
-        return node;
-    }
-
-    public override void Save()
-    {
-        throw new NotImplementedException();
+        add { _instance.changed += value; }
+        remove { _instance.changed -= value; }
     }
 
     public override void Initialize()
     {
+        Pi.systemEvents.FinalApplicationQuit.AddListener(() => _instance = null);
         _instance = SettingsManager.settings as Settings;
         BuildNodeDict();
-    }
-
-    public T GetValue<T>(string name)
-    {
-        return (T)GetProperty(name).GetValue(this);
-    }
-
-    public void SetValue<T>(string name, T value)
-    {
-        GetProperty(name).SetValue(this, value);
-    }
-
-    PropertyInfo GetProperty(string name)
-    {
-        if (_properties == null)
-            SettingsUtil.GetSettingProperties(this, out _properties);
-
-        if (!_properties.TryGetValue(name, out var result))
-        {
-            SettingsUtil.PrintErrorName(name);
-        }
-        return result;
+        _nodeDict.Add(string.Empty, this); //add root node
     }
 
     protected void OnChanged(string propertyName)
