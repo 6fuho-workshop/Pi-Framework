@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System;
 using PiFramework.Internal;
-using UnityEditor.SceneManagement;
+
 
 namespace PiFramework
 {
-    //[RequireComponent(typeof(LatestExecOrder))]
-    public class PiGameBase : MonoBehaviour
+    [RequireComponent(typeof(LatestExecOrder))]
+    public class GameBase : MonoBehaviour
     {
-        internal static PiGameBase instance;
+        internal static GameBase instance;
         EarliestExecOrder earliest = new();
 
         #region behaviours
@@ -24,15 +24,15 @@ namespace PiFramework
             }
 
             Debug.Log(InternalUtil.PiMessage("PiRoot Awake"));
-            gameObject.AddComponent<LatestExecOrder>();
+
             instance = this;
             GameObject.DontDestroyOnLoad(gameObject);
 
-            PiBootstrap.instance.SystemAwake(this);
+            PiBase.SystemStartup(this);
 
             DisplayServices();
             earliest.Awake();
-            Application.quitting += () => PiBootstrap.SystemDestroy();
+            Application.quitting += () => PiBase.SystemDestroy();
         }
 
         //Dispatch System Event
@@ -44,17 +44,11 @@ namespace PiFramework
 
         void LateUpdate() => earliest.LateUpdate();
 
-        bool _isQuitting;
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool isQuitting
-        {
-            get { return _isQuitting; }
-        }
+        public bool isQuitting { get; private set; }
+
         private void OnApplicationQuit()
         {
-            _isQuitting = true;
+            isQuitting = true;
             earliest.OnApplicationQuit();
         }
 

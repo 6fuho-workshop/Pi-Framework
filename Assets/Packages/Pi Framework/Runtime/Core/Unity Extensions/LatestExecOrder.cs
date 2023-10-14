@@ -9,22 +9,20 @@ namespace PiFramework
     {
         private void Awake()
         {
-            PiBootstrap.instance.systemEvents.FinalAwake.Invoke();
-            print("LatestExecOrder awake");
+            PiBase.systemEvents.FinalAwake.Invoke();
         }
 
         //void Start() => PiBootstrap.instance.systemEvents.FinalStart.Invoke();
         void Start() {
-            PiBootstrap.instance.systemEvents.FinalStart.Invoke();
-            print("LatestExecOrder Start");
+            PiBase.systemEvents.FinalStart.Invoke();
         }
 
-        void Update() => PiBootstrap.instance.systemEvents.FinalUpdate.Invoke();
+        void Update() => PiBase.systemEvents.FinalUpdate.Invoke();
 
-        internal void FixedUpdate() => PiBootstrap.instance.systemEvents.FinalFixedUpdate.Invoke();
+        internal void FixedUpdate() => PiBase.systemEvents.FinalFixedUpdate.Invoke();
 
-        void LateUpdate() => PiBootstrap.instance.systemEvents.FinalLateUpdate.Invoke();
+        void LateUpdate() => PiBase.systemEvents.FinalLateUpdate.Invoke();
 
-        private void OnApplicationQuit() => PiBootstrap.instance.systemEvents.FinalApplicationQuit.Invoke();
+        private void OnApplicationQuit() => PiBase.systemEvents.FinalApplicationQuit.Invoke();
     }
 }

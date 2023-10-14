@@ -9,33 +9,20 @@ using PiFramework.KeyValueStore;
 
 namespace PiFramework
 {
-    internal class PiBootstrap
+    public partial class PiBase
     {
-        //internal PiServiceLocator serviceLocator => PiServiceLocator.instance;
-        internal PiServiceLocator serviceLocator;
-        internal PiSystemEvents systemEvents;
-        internal PiConsole console;
         internal PiModule[] modules;
 
         /// <summary>
         /// static Constructor thực thi đầu tiên, tuy nhiên khi bỏ tính năng Reload Domain trong editor settings thì 
         /// static Constructor lại không được gọi.
         /// </summary>
-        static PiBootstrap()
-        {
-            Debug.Log("PiCore static ctor");
-        }
+        //static PiBase()
+        //{
+            //Debug.Log("PiCore static ctor");
+        //}
 
-        static PiBootstrap _instance;
-        internal static PiBootstrap instance
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = new PiBootstrap();
-                return _instance;
-            }
-        }
+        
 
         /// <summary>
         /// Ngay ở bước này thì Active Scene đã loaded nhưng chưa activate
@@ -78,7 +65,7 @@ namespace PiFramework
         static void InitBeforeSceneLoad()
         {
             Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: BeforeSceneLoad"));
-            instance.Initialize();
+            Bootstrap();
         }
 
         /// <summary>
@@ -107,17 +94,17 @@ namespace PiFramework
         }
 
         //RuntimeInitializeLoadType.BeforeSceneLoad
-        void Initialize()
+        static void Bootstrap()
         {
-            serviceLocator = PiServiceLocator.instance;
-            serviceLocator.Reset();
+            services = PiServiceLocator.instance;
+            services.Reset();
             systemEvents = new GameObject("Pi.systemEvents").AddComponent<PiSystemEvents>();
-            serviceLocator.AddService<PiSystemEvents>(systemEvents, true);
+            services.AddService<PiSystemEvents>(systemEvents, true);
 
-            serviceLocator.AddService<PiPlayerPref>(new PiPlayerPref());
+            services.AddService<PiPlayerPref>(new PiPlayerPref());
 
             console = new PiConsole();
-            serviceLocator.AddService<PiConsole>(console);
+            services.AddService<PiConsole>(console);
             Debug.Log(InternalUtil.PiMessage("Pi bootstrap Initialized"));
         }
 
@@ -125,35 +112,34 @@ namespace PiFramework
         /// Bootstrap phase 2: Configuration
         /// </summary>
         /// <param name="root">PiRoot</param>
-        internal void SystemAwake(PiGameBase root)
+        internal static void SystemStartup(GameBase root)
         {
-            serviceLocator.AddService<PiGameBase>(root);
-            SystemStartup();
+            Preload();
             LoadSettings(root);
-            ModuleStartup();
+            InitModules();
         }
 
         /// <summary>
         /// Boostrap phase 3, thiết kế cho các bước tương tác 
         /// sau khi đã xây dựng hầu hết các thành phần hệ thống
         /// </summary>
-        void SystemStartup()
+        static void Preload()
         {
             PreloadCommands();
         }
 
-        void LoadSettings(PiGameBase root)
+        static void LoadSettings(GameBase root)
         {
             var sm = root.GetComponentInChildren<SettingsManager>();
             sm.LoadSettings();
         }
 
-        void ModuleStartup()
+        static void InitModules()
         {
             var modules = Object.FindObjectsByType<PiModule>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             foreach (var m in modules)
             {
-                serviceLocator.AddModule(m);
+                services.AddModule(m);
             }
             //có thể cho settings push to modules chỗ này
 
@@ -165,17 +151,17 @@ namespace PiFramework
         }
 
         //todo: hoàn chỉnh phần restart
-        internal void Restart()
+        static internal void Reset()
         {
             systemEvents.Reset();
             //Reset ServiceLocator ở bước cuối cùng
-            serviceLocator.Reset();
+            services.Reset();
 
-            //re Initialize
-            Initialize();
+            //re Initialize => sẽ gọi vào chỗ khác
+            Bootstrap();
         }
 
-        void PreloadCommands()
+        static void PreloadCommands()
         {
             console.RegisterCommand("Exit", InternalCommands.TriggerExit);
             console.RegisterCommand("Restart", InternalCommands.TriggerRestart);
@@ -187,8 +173,7 @@ namespace PiFramework
         internal static void SystemDestroy()
         {
             SettingsManager.Destroy();
-            PiGameBase.instance = null;
-            _instance = null;
+            GameBase.instance = null;
         }
     }
 }

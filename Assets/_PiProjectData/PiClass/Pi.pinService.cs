@@ -14,49 +14,13 @@ using System;
 
 public partial class Pi {
     
-    // Pin Service for quick reference. Package: Pi Core
-    private static PiFramework.PiGameBase _game;
-    
-    public static PiFramework.PiGameBase game {
-        get {
-            if ((_game == null)) {
-                _game = serviceLocator.GetService<PiFramework.PiGameBase>();
-            }
-            return _game;
-        }
-    }
-    
-    // Pin Service for quick reference. Package: Pi Core
-    private static PiFramework.PiConsole _console;
-    
-    public static PiFramework.PiConsole console {
-        get {
-            if ((_console == null)) {
-                _console = serviceLocator.GetService<PiFramework.PiConsole>();
-            }
-            return _console;
-        }
-    }
-    
-    // Pin Service for quick reference. Package: Pi Core
-    private static PiFramework.PiSystemEvents _systemEvents;
-    
-    public static PiFramework.PiSystemEvents systemEvents {
-        get {
-            if ((_systemEvents == null)) {
-                _systemEvents = serviceLocator.GetService<PiFramework.PiSystemEvents>();
-            }
-            return _systemEvents;
-        }
-    }
-    
     // Pin Service for quick reference. Package: Simple Sound Player
     private static PiExtension.SimpleSound.SimpleSoundPlayer _audio;
     
     public static PiExtension.SimpleSound.SimpleSoundPlayer audio {
         get {
             if ((_audio == null)) {
-                _audio = serviceLocator.GetService<PiExtension.SimpleSound.SimpleSoundPlayer>();
+                _audio = services.GetService<PiExtension.SimpleSound.SimpleSoundPlayer>();
             }
             return _audio;
         }

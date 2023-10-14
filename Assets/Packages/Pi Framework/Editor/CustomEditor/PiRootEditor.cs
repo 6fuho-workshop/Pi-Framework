@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace PiEditor
 {
-    [CustomEditor(typeof(PiGameBase))]
+    [CustomEditor(typeof(GameBase))]
     public class PiRootEditor : Editor
     {
         static List<Type> moduleClasses;
@@ -41,7 +41,7 @@ namespace PiEditor
 
         static GameObject GetOrCreateChild(string childName)
         {
-            var app = GameObject.FindObjectOfType<PiGameBase>();
+            var app = GameObject.FindObjectOfType<GameBase>();
             if (app == null)
                 return null;
             GameObject child = null;
@@ -93,13 +93,6 @@ namespace PiEditor
                 }
                 
                 modules.Add(comp.transform);
-                var types = comp.GetType().GetCustomAttributes(typeof(ModuleObjectNameAttribute),false);
-                if(types.Length > 0)
-                {
-                    var name = (types[0] as ModuleObjectNameAttribute).Name;
-                    if (!name.Equals(comp.gameObject.name))
-                        comp.gameObject.name = name;
-                }
             }
 
             //remove những object không chứa module

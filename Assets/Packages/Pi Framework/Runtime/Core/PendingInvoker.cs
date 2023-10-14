@@ -11,8 +11,8 @@ namespace PiFramework
         // Start is called before the first frame update
         UnityAction _callbacks;
         float _timer;
-        bool _autoReset;
-        int _loop;
+        //bool _autoReset;
+        //int _loop;
         float _interval;
         bool _enabled;
         List<object> _keys;
@@ -31,11 +31,11 @@ namespace PiFramework
 
         public PendingInvoker(float interval = 0)
         {
-            PiBootstrap.instance.systemEvents.BeginUpdate.AddListener(Update);
+            PiBase.systemEvents.BeginUpdate.AddListener(Update);
             _interval = interval;
             _timer = interval;
-            _loop = 1;
-            _autoReset = false;
+            //_loop = 1;
+            //_autoReset = false;
         }
 
         public float remainingTime
@@ -110,7 +110,7 @@ namespace PiFramework
                 if (!locked)
                 {
                     _callbacks.Invoke();
-                    PiBootstrap.instance.systemEvents.BeginUpdate.RemoveListener(Update);
+                    PiBase.systemEvents.BeginUpdate.RemoveListener(Update);
                     Dispose();
                 }
             }

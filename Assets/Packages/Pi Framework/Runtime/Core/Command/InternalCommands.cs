@@ -11,7 +11,7 @@ namespace PiFramework
             var pendingShutdown = new PendingInvoker().AddCallback(delegate () {
                 Application.Quit();
             });
-            PiBootstrap.instance.systemEvents.OnTriggerShutdown.Invoke(pendingShutdown);
+            PiBase.systemEvents.OnTriggerShutdown.Invoke(pendingShutdown);
         }
 
         internal static void TriggerRestart()
@@ -20,7 +20,7 @@ namespace PiFramework
                 SceneManager.LoadScene(0);
             });
             
-            PiBootstrap.instance.systemEvents.OnTriggerShutdown.Invoke(pendingShutdown);
+            PiBase.systemEvents.OnTriggerShutdown.Invoke(pendingShutdown);
         }
     }
 }

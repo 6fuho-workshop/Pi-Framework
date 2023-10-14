@@ -1,4 +1,5 @@
 using PiEditor;
+using PiFramework;
 using PiFramework.KeyValueStore;
 using PiFramework.Settings;
 using System;
@@ -12,27 +13,12 @@ public partial class Settings : GameSettings
 {
     static Settings _instance;
 
+    public override event Action<string> changed;
+
     public static event Action<string> settingChanged
     {
         add { _instance.changed += value; }
         remove { _instance.changed -= value; }
-    }
-
-    public override event Action<string> changed;
-
-    public static void FromJsonOverwrite(string json)
-    {
-        JsonUtility.FromJsonOverwrite(json, _instance);
-    }
-
-    public override ISettingNode GetSettingNode(string path)
-    {
-        if (String.IsNullOrEmpty(path))
-            return this;
-        _nodeDict.TryGetValue(path, out var node);
-        if(node == null)
-            Debug.LogError($"Node {name} does not exist");
-        return node;
     }
 
     public override void Initialize()

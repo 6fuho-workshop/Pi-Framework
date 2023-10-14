@@ -117,7 +117,7 @@ namespace PiFramework
             //object service;
             if (_serviceDict.TryGetValue(type, out object service))
                 return service;
-            throw new PiException("Service type " + type.ToString() + " not found");
+            throw new Exception("Service type " + type.ToString() + " not found");
         }
 
         public T GetService<T>()

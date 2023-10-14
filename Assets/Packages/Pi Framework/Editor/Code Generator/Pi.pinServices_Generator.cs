@@ -94,7 +94,7 @@ namespace PiEditor
                         CodeBinaryOperatorType.ValueEquality, new CodePrimitiveExpression(null));
 
                     CodeMethodReferenceExpression method = new CodeMethodReferenceExpression(
-                                    new CodeVariableReferenceExpression("serviceLocator"), "GetService", new CodeTypeReference(pin.fullType));
+                                    new CodeVariableReferenceExpression("services"), "GetService", new CodeTypeReference(pin.fullType));
                     CodeMethodInvokeExpression invoke = new CodeMethodInvokeExpression(method, new CodeParameterDeclarationExpression[] { });
 
                     CodeConditionStatement conditionalStatement = new CodeConditionStatement(condition,

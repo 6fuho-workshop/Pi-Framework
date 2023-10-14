@@ -31,7 +31,7 @@ namespace PiFramework
 				lock (_instanceLock)
 				{
 					
-					if (_instance == null && !PiServiceLocator.instance.GetService<PiGameBase>().isQuitting)
+					if (_instance == null && !PiServiceLocator.instance.GetService<GameBase>().isQuitting)
 					{
 						
 						_instance = GameObject.FindObjectOfType<T>();
@@ -39,7 +39,7 @@ namespace PiFramework
 						{
 							GameObject go = new GameObject(typeof(T).ToString());
 							_instance = go.AddComponent<T>();
-							PiBootstrap.instance.systemEvents.FinalApplicationQuit.AddListener(Destroy);
+							PiBase.systemEvents.FinalApplicationQuit.AddListener(Destroy);
 
 							DontDestroyOnLoad(_instance.gameObject);
 						}
@@ -61,7 +61,7 @@ namespace PiFramework
 			if (_instance == null)
 			{
 				_instance = gameObject.GetComponent<T>();
-				PiBootstrap.instance.systemEvents.FinalApplicationQuit.AddListener(Destroy);
+				PiBase.systemEvents.FinalApplicationQuit.AddListener(Destroy);
 			}
 			else if (_instance.GetInstanceID() != GetInstanceID())
 			{

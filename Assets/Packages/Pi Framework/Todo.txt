@@ -5,3 +5,7 @@
 - Nghiên cứu Dependency Injection
 - tạo Settings Persistent config trong SettingsManager
 - Áp dụng reflection và DI vào hệ thống modules
+- Lỗ hổng của PinServices là copy reference mà không reset, không destroy khi quit và destroy khi remove service
+- Split settings đến path level 1 để giảm conflict khi commit
+- Exception handling và Giải pháp restart game khi có unhandled exception. 
+- Restart Game thử nghiệm Kết hợp gọi systemEvents.OnApplicationQuit và BroadCast OnApplicationQuit to scene

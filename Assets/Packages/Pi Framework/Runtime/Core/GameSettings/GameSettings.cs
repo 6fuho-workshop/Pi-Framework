@@ -24,9 +24,10 @@ namespace PiFramework.Settings
         #endregion ISettingNode
 
         protected Dictionary<string, ISettingNode> _nodeDict;
-        public abstract ISettingNode GetSettingNode(string path);
+        //public abstract ISettingNode GetSettingNode(string path);
         public abstract void Initialize();
 
+        
         public ISavableKeyValueStore dataStore { get; set; }
         public void Save() => SettingsManager.SaveSettings();
 
@@ -38,6 +39,16 @@ namespace PiFramework.Settings
                     loader.OnLoadCallback();
                 node.LoadSettingsProviders();
             }
+        }
+
+        public ISettingNode GetSettingNode(string path)
+        {
+            if (String.IsNullOrEmpty(path))
+                return this;
+            _nodeDict.TryGetValue(path, out var node);
+            if (node == null)
+                Debug.LogError($"Node {name} does not exist");
+            return node;
         }
 
         internal Dictionary<string, ISettingNode> GetNodeDict() => _nodeDict; 
