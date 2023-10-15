@@ -8,7 +8,7 @@
     "changelogUrl": "https://example.com/changelog.html",
     "licensesUrl": "https://example.com/licensing.html",
     "dependencies": {
-        "com.piext.ssplayer": "1.0.0"
+        "com.piframework.ssplayer": "1.0.0"
     },
     "author": {
         "name": "teamfuho",

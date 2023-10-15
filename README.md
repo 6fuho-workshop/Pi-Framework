@@ -7,4 +7,4 @@ Install packages:
 <br>
 `https://github.com/6fuho-workshop/Pi-Framework.git?path=/Assets/Packages/SimpleSoundPlayer`
 <br>
-`https://github.com/6fuho-workshop/Pi-Framework.git?path=/Assets/Packages/Audio Toolkit Adapter for ssplayer`
+`https://github.com/6fuho-workshop/Pi-Framework.git?path=/Assets/Packages/AudioToolkit ssplayer`
