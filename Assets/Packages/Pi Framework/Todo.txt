@@ -9,3 +9,4 @@
 - Split settings đến path level 1 để giảm conflict khi commit
 - Exception handling và Giải pháp restart game khi có unhandled exception. 
 - Restart Game thử nghiệm Kết hợp gọi systemEvents.OnApplicationQuit và BroadCast OnApplicationQuit to scene
+- SettingsManifest: string must have ""
