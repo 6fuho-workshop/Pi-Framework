@@ -263,9 +263,10 @@ namespace PiEditor.Settings
         {
             if (item.useRange && !item.min.Equals(item.max))
             {
+                string floatChar = item.type.Equals("float") ? "f" : "";
                 var rangeAttribute = new AttributeModel("Range");
-                rangeAttribute.Parameters.Add(new Parameter(item.min.ToString()));
-                rangeAttribute.Parameters.Add(new Parameter(item.max.ToString()));
+                rangeAttribute.Parameters.Add(new Parameter(item.min.ToString() + floatChar));
+                rangeAttribute.Parameters.Add(new Parameter(item.max.ToString()+ floatChar));
                 return rangeAttribute;
             }
             else
