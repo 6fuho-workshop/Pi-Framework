@@ -2,20 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiFramework
+namespace PiFramework.Timers
 {
     public class StopWatch
     {
         float startTime = -1;
         float _elapsed;
+        //float _timestamp;
 
+        protected virtual float CurrentTime() => Time.time;
         public float elapsed
         {
             get
             {
                 if (startTime > 0)
                 {
-                    return _elapsed + Time.realtimeSinceStartup - startTime;
+                    return CurrentTime() - startTime;
                 }
                 else
                     return _elapsed;
@@ -26,14 +28,14 @@ namespace PiFramework
         public void Start()
         {
             if (startTime < 0)
-                startTime = Time.realtimeSinceStartup;
+                startTime = CurrentTime() - elapsed;
         }
 
 
-        public void stop()
+        public void Stop()
         {
             if (startTime > 0)
-                _elapsed += Time.realtimeSinceStartup - startTime;
+                _elapsed = CurrentTime() - startTime;
             startTime = -1;
         }
 
@@ -43,5 +45,17 @@ namespace PiFramework
             _elapsed = 0;
             startTime = -1;
         }
+    }
+
+
+    public class StopWatchUnscaled : StopWatch
+    {
+        protected override float CurrentTime() => Time.unscaledTime;
+    }
+
+
+    public class StopWatchRealtime : StopWatch
+    {
+        protected override float CurrentTime() => Time.realtimeSinceStartup;
     }
 }
