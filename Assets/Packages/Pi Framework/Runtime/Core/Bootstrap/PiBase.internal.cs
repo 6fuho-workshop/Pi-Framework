@@ -130,7 +130,7 @@ namespace PiFramework
 
         static void LoadSettings(PiLoader root)
         {
-            var sm = root.GetComponentInChildren<SettingsManager>();
+            var sm = root.GetComponentInChildren<SettingManager>();
             sm.LoadSettings();
         }
 
@@ -172,7 +172,7 @@ namespace PiFramework
         /// </summary>
         internal static void SystemDestroy()
         {
-            SettingsManager.Destroy();
+            SettingManager.Destroy();
             PiLoader.instance = null;
         }
     }

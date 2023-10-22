@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 
 namespace PiFramework.Settings
 {
-    public sealed class SettingsManager : MonoBehaviour
+    public sealed class SettingManager : MonoBehaviour
     {
         public static GameSettings settings { get; internal set; }
 
@@ -29,7 +29,7 @@ namespace PiFramework.Settings
             //todo: patch settings go here
 
             //todo: Config Default and Custom KeyValueStore for Nodes and SettingsProviders
-            SettingsManager.defaultDataStore = new KeyValueStore.PiPlayerPref() as ISavableKeyValueStore;
+            SettingManager.defaultDataStore = new KeyValueStore.PiPlayerPref() as ISavableKeyValueStore;
             var nodes = settings.GetNodeDict();
             foreach(var node in nodes)
             {

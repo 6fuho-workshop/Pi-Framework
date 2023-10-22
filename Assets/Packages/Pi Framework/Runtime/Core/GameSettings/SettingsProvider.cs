@@ -21,7 +21,7 @@ namespace PiFramework.Settings
         {
             get
             {
-                _dataStore ??= SettingsManager.defaultDataStore;
+                _dataStore ??= SettingManager.defaultDataStore;
                 return _dataStore;
             }
             set
