@@ -10,6 +10,7 @@ namespace PiFramework
     [ExecutionOrder(-32000)]
     public class SceneStartup : MonoBehaviour
     {
+        static bool redirected = false;
         enum SceneType { Redirect, Additive }
 
         [SerializeField]
@@ -35,6 +36,12 @@ namespace PiFramework
         //Việc xử lý xóa object của scene ở các khâu InitializeOnLoad là không khả thi
         void Awake()
         {
+            if (redirected)
+            {
+                gameObject.SetActive(false);
+                Destroy(gameObject);
+                return;
+            }
 
             if (redirect != null)
             {
@@ -46,6 +53,8 @@ namespace PiFramework
                         Destroy(o);
                     }
                 }
+
+                redirected = true;
                 SceneManager.LoadScene(redirect);
                 Destroy(gameObject);
             }
@@ -89,6 +98,11 @@ namespace PiFramework
                     asyncList = null;
                 }
             }
+        }
+
+        private void OnApplicationQuit()
+        {
+            redirected = false;
         }
     }
 }
