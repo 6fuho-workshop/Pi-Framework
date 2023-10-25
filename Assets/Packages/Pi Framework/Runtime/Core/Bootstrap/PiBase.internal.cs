@@ -30,7 +30,7 @@ namespace PiFramework
         /// Tuy nhiên ở android device thì mọi gameObject tạo ra trước 
         /// RuntimeInitializeLoadType.BeforeSceneLoad đều bị destroy (???)
         /// </summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void SubsystemRegistration()
         {
             Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: SubsystemRegistration"));
@@ -40,7 +40,7 @@ namespace PiFramework
         /// chú ý: ở android device thì mọi gameObject tạo ra trước 
         /// RuntimeInitializeLoadType.BeforeSceneLoad đều bị destroy(???)
         /// </summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
+        //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         static void InitAfterAssembliesLoaded()
         {
             Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: AfterAssembliesLoaded"));
@@ -51,7 +51,7 @@ namespace PiFramework
         /// chú ý: ở android device thì mọi gameObject tạo ra trước 
         /// RuntimeInitializeLoadType.BeforeSceneLoad đều bị destroy (???)
         /// </summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
+        //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
         static void InitBeforeSplashScreen()
         {
             Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: BeforeSplashScreen"));
@@ -64,33 +64,17 @@ namespace PiFramework
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void InitBeforeSceneLoad()
         {
-            Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: BeforeSceneLoad"));
+            //Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: BeforeSceneLoad"));
             Bootstrap();
         }
 
         /// <summary>
         /// các hàm Awake đã được chạy
         /// </summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void InitAfterSceneLoad()
         {
             Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: AfterSceneLoad"));
-            SceneStartupHandle();
-        }
-
-        //todo: chuyển về class SceneStartup tự xử lý
-        static void SceneStartupHandle()
-        {
-            SceneStartup startup = Object.FindAnyObjectByType<SceneStartup>();
-            if (startup == null || !startup.enabled || string.IsNullOrEmpty(startup.redirect))
-                return;
-
-            Scene activeScene = SceneManager.GetActiveScene();
-            foreach (var go in activeScene.GetRootGameObjects())
-            {
-                GameObject.DestroyImmediate(go);
-            }
-            SceneManager.LoadScene(startup.redirect);
         }
 
         //RuntimeInitializeLoadType.BeforeSceneLoad

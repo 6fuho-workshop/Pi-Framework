@@ -25,7 +25,7 @@ namespace PiEditor
             startupType = serializedObject.FindProperty("startupType");
             redirectScene = serializedObject.FindProperty("redirectScene");
             fragments = serializedObject.FindProperty("fragments");
-            destroyOnLoadObjs = serializedObject.FindProperty("destroyOnLoadObjs");
+            //destroyOnLoadObjs = serializedObject.FindProperty("destroyOnLoadObjs");
 
             targetScript = (SceneStartup)target;
 
@@ -47,7 +47,7 @@ namespace PiEditor
             else
             {
                 EditorGUILayout.PropertyField(redirectScene);
-                EditorGUILayout.PropertyField(destroyOnLoadObjs);
+                //EditorGUILayout.PropertyField(destroyOnLoadObjs);
             }
             serializedObject.ApplyModifiedProperties();
         }

@@ -54,7 +54,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9106266386069271702}
-  - component: {fileID: 3294986171694129757}
+  - component: {fileID: 8399711713330739752}
+  - component: {fileID: 3751752083438944297}
   m_Layer: 0
   m_Name: PiFramework
   m_TagString: Untagged
@@ -79,7 +80,7 @@ Transform:
   - {fileID: 8291398622730163866}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3294986171694129757
+--- !u!114 &8399711713330739752
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,7 +89,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 824286119927822776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43291edf67b56654ebe6f5060d943bc1, type: 3}
+  m_Script: {fileID: 11500000, guid: 6641b51948d976546995f6ef8e8b9fb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3751752083438944297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824286119927822776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da9ae247eb6a7542a0d63dd5515346b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1194954448017630869

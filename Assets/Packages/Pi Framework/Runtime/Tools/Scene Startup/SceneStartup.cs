@@ -22,8 +22,6 @@ namespace PiFramework
         [Tooltip("Fragment Scene names to load additive")]
         public string[] fragments;
 
-        public GameObject[] destroyOnLoadObjs;
-
         List<AsyncOperation> asyncList;
 
         public string redirect
@@ -37,23 +35,25 @@ namespace PiFramework
         //Việc xử lý xóa object của scene ở các khâu InitializeOnLoad là không khả thi
         void Awake()
         {
-            if (enabled)
+
+            if (redirect != null)
             {
-                if (startupType == SceneType.Redirect)
+                foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
                 {
-                    foreach (var go in destroyOnLoadObjs)
+                    if (o != gameObject)
                     {
-                        go.SetActive(false);//deactivate to prevent awake calls
-                        GameObject.Destroy(go);
+                        o.SetActive(false);//deactivate to prevent awake calls
+                        Destroy(o);
                     }
-                    //GameObject.Destroy(gameObject);
                 }
+                SceneManager.LoadScene(redirect);
+                Destroy(gameObject);
             }
         }
 
+
         void Start()
         {
-
             if (startupType == SceneType.Additive)
             {
                 asyncList = new List<AsyncOperation>();
