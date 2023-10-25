@@ -7,7 +7,7 @@ using PiFramework.Internal;
 namespace PiFramework
 {
     [RequireComponent(typeof(LatestExecOrder))]
-    [ExecutionOrder(-32000)]
+    [ExecutionOrder(-31000)]
     public class PiLoader : MonoBehaviour
     {
         internal static PiLoader instance;

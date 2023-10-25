@@ -7,7 +7,7 @@ using PiFramework;
 
 namespace PiFramework
 {
-    [ExecutionOrder(-31999)]
+    [ExecutionOrder(-32000)]
     public class SceneStartup : MonoBehaviour
     {
         enum SceneType { Redirect, Additive }
