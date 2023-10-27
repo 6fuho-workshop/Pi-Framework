@@ -31,13 +31,13 @@ namespace PiFramework
 				lock (_instanceLock)
 				{
 					
-					if (_instance == null && !PiServiceLocator.instance.GetService<PiLoader>().isQuitting)
+					if (_instance == null && !PiBase.services.GetService<PiLoader>().isQuitting)
 					{
 						
 						_instance = GameObject.FindObjectOfType<T>();
 						if (_instance == null)
 						{
-							GameObject go = new GameObject(typeof(T).ToString());
+							GameObject go = new(typeof(T).ToString());
 							_instance = go.AddComponent<T>();
 							PiBase.systemEvents.FinalApplicationQuit.AddListener(Destroy);
 

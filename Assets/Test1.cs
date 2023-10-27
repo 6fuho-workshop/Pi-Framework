@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecutionOrder(-31500)]
-public class Test : MonoBehaviour
+[ExecutionOrder(1)]
+public class Test1 : MonoBehaviour
 {
     private void Awake()
     {
-        print("test");
+        print("test1");
 
     }
 

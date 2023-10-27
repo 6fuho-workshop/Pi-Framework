@@ -80,10 +80,10 @@ namespace PiFramework
         //RuntimeInitializeLoadType.BeforeSceneLoad
         static void Bootstrap()
         {
-            services = PiServiceLocator.instance;
+            services = PiServiceRegistry.instance;
             services.Reset();
             systemEvents = new GameObject("Pi.systemEvents").AddComponent<PiSystemEvents>();
-            services.AddService<PiSystemEvents>(systemEvents, true);
+            services.AddService(typeof(PiSystemEvents), systemEvents, systemEvents.gameObject);
 
             services.AddService<PiPlayerPref>(new PiPlayerPref());
 
@@ -123,7 +123,7 @@ namespace PiFramework
             var modules = Object.FindObjectsByType<PiModule>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             foreach (var m in modules)
             {
-                services.AddModule(m);
+                services.AddService(m.GetType(), m);
             }
             //có thể cho settings push to modules chỗ này
 

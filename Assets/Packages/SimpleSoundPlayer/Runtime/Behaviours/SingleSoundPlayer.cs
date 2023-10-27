@@ -98,7 +98,7 @@ namespace PiExtension.SimpleSound
 
         private void Awake()
         {
-            _audio = PiServiceLocator.instance.GetService<SimpleSoundPlayer>();
+            _audio = PiBase.services.GetService<SimpleSoundPlayer>();
         }
         // Start is called before the first frame update
         protected void Start()

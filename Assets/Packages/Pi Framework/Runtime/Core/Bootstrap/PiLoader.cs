@@ -16,7 +16,6 @@ namespace PiFramework
         #region behaviours
         void Awake()
         {
-            print("PiLoader -31000");
             if (instance != null)
             {
                 //Nếu chỉ dùng GameObject.Destroy thì các script con sẽ vẫn gọi Awake
@@ -58,7 +57,7 @@ namespace PiFramework
 
         void DisplayServices()
         {
-            PiServiceLocator.instance.container.transform.parent = transform;
+            PiBase.services.viewContainer.transform.parent = transform;
         }
 
     }

@@ -8,7 +8,7 @@ namespace PiFramework
     {
         public static PiSystemEvents systemEvents { get; private set; }
 
-        public static PiServiceLocator services { get; private set; }
+        public static PiServiceRegistry services { get; private set; }
 
         public static PiConsole console { get; private set; }
 
