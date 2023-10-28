@@ -33,6 +33,12 @@ namespace PiFramework
             }
         }
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        static void OnAfterSceneLoad()
+        {
+            redirected = true;
+        }
+
         //Việc xử lý xóa object của scene ở các khâu InitializeOnLoad là không khả thi
         void Awake()
         {
