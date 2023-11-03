@@ -156,7 +156,7 @@ namespace PiFramework
         /// </summary>
         internal static void SystemDestroy()
         {
-            SettingManager.Destroy();
+            //SettingManager.Destroy();
             PiLoader.instance = null;
             console = null;
             systemEvents = null;

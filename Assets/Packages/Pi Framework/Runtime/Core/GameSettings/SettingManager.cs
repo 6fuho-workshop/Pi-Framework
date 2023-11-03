@@ -84,7 +84,7 @@ namespace PiFramework.Settings
             GetNode(nodePath).SetValue(setting, value);
         }
 
-        internal static void Destroy()
+        void OnDestroy()
         {
             SaveSettings();
             settings = null;
