@@ -46,10 +46,11 @@ namespace PiFramework
             {
                 gameObject.SetActive(false);
                 Destroy(gameObject);
+                redirected = false;
                 return;
             }
 
-            if (redirect != null)
+            if (!string.IsNullOrWhiteSpace(redirect))
             {
                 foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
                 {
@@ -104,11 +105,6 @@ namespace PiFramework
                     asyncList = null;
                 }
             }
-        }
-
-        private void OnApplicationQuit()
-        {
-            redirected = false;
         }
     }
 }
