@@ -158,6 +158,9 @@ namespace PiFramework
         {
             SettingManager.Destroy();
             PiLoader.instance = null;
+            console = null;
+            systemEvents = null;
+            services = null;
         }
     }
 }
