@@ -14,15 +14,10 @@ using System;
 
 public partial class Pi {
     
-    // Pin Service for quick reference. Package: Simple Sound Player
-    private static PiExtension.SimpleSound.SimpleSoundPlayer _audio;
-    
+    // Module: Simple Sound Player
     public static PiExtension.SimpleSound.SimpleSoundPlayer audio {
         get {
-            if ((_audio == null)) {
-                _audio = services.GetService<PiExtension.SimpleSound.SimpleSoundPlayer>();
-            }
-            return _audio;
+            return services.GetService<PiExtension.SimpleSound.SimpleSoundPlayer>();
         }
     }
 }

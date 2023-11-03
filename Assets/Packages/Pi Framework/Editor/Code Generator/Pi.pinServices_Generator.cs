@@ -76,12 +76,47 @@ namespace PiEditor
             {
                 foreach (var pin in module.pinServices)
                 {
-                    //if(!string.IsNullOrEmpty(pin.usingNameSpace))
-                    //nameSpace.Imports.Add(new CodeNamespaceImport(pin.usingNameSpace));
+                    //string fieldName = "_" + pin.name;
+                    //CodeSnippetTypeMember field = new CodeSnippetTypeMember($"    private static {pin.fullType} {fieldName};");
+                    //field.Comments.Add(new CodeCommentStatement("Module: " + module.displayName));
+                    //piClass.Members.Add(field);
 
+                    CodeMemberProperty serviceProperty = new();
+                    serviceProperty.Comments.Add(new CodeCommentStatement("Module: " + module.displayName));
+                    serviceProperty.Type = new CodeTypeReference(pin.fullType);
+                    serviceProperty.Name = pin.name;
+                    serviceProperty.Attributes = MemberAttributes.Public | MemberAttributes.Static;
+
+
+                    //CodeBinaryOperatorExpression condition = new CodeBinaryOperatorExpression(new CodeVariableReferenceExpression(fieldName),
+                        //CodeBinaryOperatorType.ValueEquality, new CodePrimitiveExpression(null));
+
+                    CodeMethodReferenceExpression method = new CodeMethodReferenceExpression(
+                                    new CodeVariableReferenceExpression("services"), "GetService", new CodeTypeReference(pin.fullType));
+                    CodeMethodInvokeExpression invoke = new CodeMethodInvokeExpression(method, new CodeParameterDeclarationExpression[] { });
+
+                    //CodeConditionStatement conditionalStatement = new CodeConditionStatement(condition,
+                      //  new CodeStatement[] { new CodeAssignStatement(new CodeVariableReferenceExpression(fieldName), invoke) });
+                    //serviceProperty.GetStatements.Add(conditionalStatement);
+
+                    serviceProperty.GetStatements.Add(new CodeMethodReturnStatement(invoke));
+
+                    piClass.Members.Add(serviceProperty);
+
+                }
+            }
+        }
+        /* using field to cache => need to destroy when remove Serivce and quit game
+        void GenerateServices()
+        {
+            var modules = ModuleSetup.GetAllModules();
+            foreach (var module in modules)
+            {
+                foreach (var pin in module.pinServices)
+                {
                     string fieldName = "_" + pin.name;
                     CodeSnippetTypeMember field = new CodeSnippetTypeMember($"    private static {pin.fullType} {fieldName};");
-                    field.Comments.Add(new CodeCommentStatement("Pin Service for quick reference. Package: " + module.displayName));
+                    field.Comments.Add(new CodeCommentStatement("Module: " + module.displayName));
                     piClass.Members.Add(field);
 
                     CodeMemberProperty serviceProperty = new CodeMemberProperty();
@@ -108,5 +143,6 @@ namespace PiEditor
                 }
             }
         }
+        */
     }
 }

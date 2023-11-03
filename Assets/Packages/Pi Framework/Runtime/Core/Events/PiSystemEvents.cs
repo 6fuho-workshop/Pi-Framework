@@ -30,15 +30,6 @@ namespace PiFramework
         //public UnityEvent BeginOnGUI = new();
         //public UnityEvent FinalOnGUI = new();
 
-        /// <summary>
-        /// occurs when the game started and begin loading resources,loading next scene and show loading screen, args is a PiProgress object
-        /// </summary>
-        public UnityEvent StartSceneBeginLoading = new();
-
-        /// <summary>
-        /// occurs when application begin loading the PlayScene async, , args is a PiProgress object
-        /// </summary>
-        public UnityEvent PlaySceneBeginLoading = new();
 
         /// <summary>
         /// occurs when user click exit or back button on menu screen, args is a PendingInvoker
@@ -68,8 +59,6 @@ namespace PiFramework
             FinalLateUpdate.RemoveAllListeners();
             //BeginOnGUI.RemoveAllListeners();
             
-            StartSceneBeginLoading.RemoveAllListeners();
-            PlaySceneBeginLoading.RemoveAllListeners();
             OnTriggerShutdown.RemoveAllListeners();
             BeginApplicationQuit.RemoveAllListeners();
             FinalApplicationQuit.RemoveAllListeners();
