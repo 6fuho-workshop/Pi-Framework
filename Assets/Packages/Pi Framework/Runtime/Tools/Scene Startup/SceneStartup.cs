@@ -10,6 +10,7 @@ namespace PiFramework
     [ExecutionOrder(-32000)]
     public class SceneStartup : MonoBehaviour
     {
+#if UNITY_EDITOR
         static bool redirected = false;
         enum SceneType { Redirect, Additive }
 
@@ -37,6 +38,7 @@ namespace PiFramework
         static void OnAfterSceneLoad()
         {
             redirected = true;
+            Application.quitting += () => { redirected = false; };
         }
 
         //Việc xử lý xóa object của scene ở các khâu InitializeOnLoad là không khả thi
@@ -46,7 +48,6 @@ namespace PiFramework
             {
                 gameObject.SetActive(false);
                 Destroy(gameObject);
-                redirected = false;
                 return;
             }
 
@@ -106,5 +107,6 @@ namespace PiFramework
                 }
             }
         }
+#endif
     }
 }

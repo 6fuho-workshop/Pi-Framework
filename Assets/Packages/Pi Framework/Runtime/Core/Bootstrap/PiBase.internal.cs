@@ -74,7 +74,7 @@ namespace PiFramework
         //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void InitAfterSceneLoad()
         {
-            Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: AfterSceneLoad"));
+            systemEvents.InitializeAfterSceneLoad.Invoke();
         }
 
         //RuntimeInitializeLoadType.BeforeSceneLoad

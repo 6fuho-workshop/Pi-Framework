@@ -12,38 +12,40 @@ namespace PiFramework
     public class PiSystemEvents: MonoBehaviour
     {
         //game init event
-        public UnityEvent BeginAwake = new();
-        public UnityEvent FinalAwake = new();
-        public UnityEvent BeginStart = new();
-        public UnityEvent FinalStart = new();
+        public readonly UnityEvent BeginAwake = new();
+        public readonly UnityEvent FinalAwake = new();
+        public readonly UnityEvent BeginStart = new();
+        public readonly UnityEvent FinalStart = new();
 
         //game loop event
-        public UnityEvent BeginUpdate = new();
-        public UnityEvent FinalUpdate = new();
+        public readonly UnityEvent BeginUpdate = new();
+        public readonly UnityEvent FinalUpdate = new();
 
-        public UnityEvent BeginFixedUpdate = new();
-        public UnityEvent FinalFixedUpdate = new();
+        public readonly UnityEvent BeginFixedUpdate = new();
+        public readonly UnityEvent FinalFixedUpdate = new();
 
-        public UnityEvent BeginLateUpdate = new();
-        public UnityEvent FinalLateUpdate = new();
+        public readonly UnityEvent BeginLateUpdate = new();
+        public readonly UnityEvent FinalLateUpdate = new();
 
-        //public UnityEvent BeginOnGUI = new();
-        //public UnityEvent FinalOnGUI = new();
+        //public readonly UnityEvent BeginOnGUI = new();
+        //public readonly UnityEvent FinalOnGUI = new();
 
 
         /// <summary>
         /// occurs when user click exit or back button on menu screen, args is a PendingInvoker
         /// </summary>
-        public UnityEvent<PendingInvoker> OnTriggerShutdown = new UnityEvent<PendingInvoker>();
-        public UnityEvent BeginApplicationQuit = new();
-        public UnityEvent FinalApplicationQuit = new();
+        public readonly UnityEvent<PendingInvoker> OnTriggerShutdown = new UnityEvent<PendingInvoker>();
+        public readonly UnityEvent BeginApplicationQuit = new();
+        public readonly UnityEvent FinalApplicationQuit = new();
 
 
         //Common
-        public UnityEvent UserPaused = new();
-        public UnityEvent UserUnpaused = new();
+        public readonly UnityEvent UserPaused = new();
+        public readonly UnityEvent UserUnpaused  = new();
 
         internal PiSystemEvents() { }
+
+        public readonly UnityEvent InitializeAfterSceneLoad = new();
 
         internal void Reset()
         {

@@ -22,7 +22,7 @@ MonoBehaviour:
     defaultValue: false
     readOnly: 1
     tooltip: 
-    addRange: 0
+    useRange: 0
     min: 0
     max: 0
     persistent: 0
