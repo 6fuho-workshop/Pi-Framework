@@ -38,7 +38,7 @@ namespace PiFramework
         static void OnAfterSceneLoad()
         {
             redirected = true;
-            Application.quitting += () => { redirected = false; };
+            PiBase.systemEvents.BeginApplicationQuit.AddListener(() => { redirected = false; });
         }
 
         //Việc xử lý xóa object của scene ở các khâu InitializeOnLoad là không khả thi

@@ -80,7 +80,7 @@ namespace PiFramework
         //RuntimeInitializeLoadType.BeforeSceneLoad
         static void Bootstrap()
         {
-            Application.quitting += () => PiBase.SystemDestroy();
+            Application.quitting += SystemDestroy;
 
             services = PiServiceRegistry.instance;
             services.Reset();
@@ -176,6 +176,8 @@ namespace PiFramework
             typeEvents = null;
 
             services = null;
+
+            Application.quitting -= SystemDestroy;
         }
     }
 }
