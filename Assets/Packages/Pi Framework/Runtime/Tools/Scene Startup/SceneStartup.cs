@@ -12,11 +12,11 @@ namespace PiFramework
     {
 #if UNITY_EDITOR
         static bool redirected = false;
-        enum SceneType { Redirect, Additive }
+        enum SceneStartupType { Redirect, Additive }
 
         [SerializeField]
         [Tooltip("Redirect: load scene khác thay thế ngay khi Enter Play Mode từ scene này\nAdditive: Load Additive các scene khác")]
-        SceneType startupType;
+        SceneStartupType startupType;
 
         [SerializeField]
         string redirectScene;
@@ -30,7 +30,7 @@ namespace PiFramework
         {
             get
             {
-                return (startupType == SceneType.Redirect) ? redirectScene : null;
+                return (startupType == SceneStartupType.Redirect) ? redirectScene : null;
             }
         }
 
@@ -71,7 +71,7 @@ namespace PiFramework
 
         void Start()
         {
-            if (startupType == SceneType.Additive)
+            if (startupType == SceneStartupType.Additive)
             {
                 asyncList = new List<AsyncOperation>();
 

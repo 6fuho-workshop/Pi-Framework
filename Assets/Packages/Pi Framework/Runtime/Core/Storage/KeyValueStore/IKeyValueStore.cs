@@ -1,3 +1,5 @@
+using PiFramework.KeyValueStore;
+
 namespace PiFramework.KeyValueStore
 {
     public interface IKeyValueStore
@@ -21,34 +23,40 @@ namespace PiFramework.KeyValueStore
         void SetDouble(string key, double value);
         void SetString(string key, string value);
         void SetBytes(string key, byte[] value);
+    }
+}
 
-        public bool GetBool(string key, bool defaultValue = default)
+namespace PiFramework
+{
+    public static partial class IKeyValueStoreExtensions
+    {
+        public static bool GetBool(this IKeyValueStore kvs, string key, bool defaultValue = default)
         {
-            return TryGetBool(key, out bool value) ? value : defaultValue;
+            return kvs.TryGetBool(key, out bool value) ? value : defaultValue;
         }
-        public int GetInt(string key, int defaultValue = default)
+        public static int GetInt(this IKeyValueStore kvs, string key, int defaultValue = default)
         {
-            return TryGetInt(key, out int value) ? value : defaultValue;
+            return kvs.TryGetInt(key, out int value) ? value : defaultValue;
         }
-        public long GetLong(string key, long defaultValue = default)
+        public static long GetLong(this IKeyValueStore kvs, string key, long defaultValue = default)
         {
-            return TryGetLong(key, out long value) ? value : defaultValue;
+            return kvs.TryGetLong(key, out long value) ? value : defaultValue;
         }
-        public float GetFloat(string key, float defaultValue = default)
+        public static float GetFloat(this IKeyValueStore kvs, string key, float defaultValue = default)
         {
-            return TryGetFloat(key, out float value) ? value : defaultValue;
+            return kvs.TryGetFloat(key, out float value) ? value : defaultValue;
         }
-        public double GetDouble(string key, double defaultValue = default)
+        public static double GetDouble(this IKeyValueStore kvs, string key, double defaultValue = default)
         {
-            return TryGetDouble(key, out double value) ? value : defaultValue;
+            return kvs.TryGetDouble(key, out double value) ? value : defaultValue;
         }
-        public string GetString(string key, string defaultValue = default)
+        public static string GetString(this IKeyValueStore kvs, string key, string defaultValue = default)
         {
-            return TryGetString(key, out string value) ? value : defaultValue;
+            return kvs.TryGetString(key, out string value) ? value : defaultValue;
         }
-        public byte[] GetBytes(string key, byte[] defaultValue = default)
+        public static byte[] GetBytes(this IKeyValueStore kvs, string key, byte[] defaultValue = default)
         {
-            return TryGetBytes(key, out byte[] value) ? value : defaultValue;
+            return kvs.TryGetBytes(key, out byte[] value) ? value : defaultValue;
         }
     }
 }

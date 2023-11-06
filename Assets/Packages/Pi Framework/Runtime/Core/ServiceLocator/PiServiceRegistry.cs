@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -12,12 +13,12 @@ namespace PiFramework
     /// </summary>
     public class PiServiceRegistry : IServiceRegistry
     {
-        readonly Dictionary<Type, object> _services;
+        readonly Dictionary<Type, object> services;
 
         /// <summary>
         /// Game Object tương ứng với mỗi service
         /// </summary>
-        readonly Dictionary<Type, GameObject> _serviceGoDict;
+        readonly Dictionary<Type, GameObject> serviceGoDict;
 
         private static PiServiceRegistry _instance;
         internal GameObject viewContainer;
@@ -25,8 +26,8 @@ namespace PiFramework
         //The service locator itself might be a singleton.There usually is no need to have two instances of a service locator.
         internal PiServiceRegistry()
         {
-            _services = new();
-            _serviceGoDict = new();
+            services = new();
+            serviceGoDict = new();
             CreateViewContainer();
         }
 
@@ -59,22 +60,13 @@ namespace PiFramework
         public T GetService<T>() where T : class
         {
             var type = typeof(T);
-            lock (_services)
+            lock (services)
             {
-                if (_services.TryGetValue(type, out var service))
+                if (services.TryGetValue(type, out var service))
                     return (T)service;
             }
 
             return null;
-        }
-
-        /// <inheritdoc />
-        /// <remarks>
-        /// This implementation triggers the <see cref="ServiceAdded"/> event after a service is successfully added.
-        /// </remarks>
-        public void AddService<T>(T service) where T : class
-        {
-            AddService(typeof(T), service);
         }
 
         /// <inheritdoc />
@@ -86,14 +78,14 @@ namespace PiFramework
         {
             var type = typeof(T);
             object oldService;
-            lock (_services)
+            lock (services)
             {
-                if (_services.TryGetValue(type, out oldService))
+                if (services.TryGetValue(type, out oldService))
                 {
-                    _services.Remove(type);
-                    if(_serviceGoDict.TryGetValue(type, out GameObject go))
+                    services.Remove(type);
+                    if(serviceGoDict.TryGetValue(type, out GameObject go))
                     {
-                        _serviceGoDict.Remove(type);
+                        serviceGoDict.Remove(type);
                         GameObject.Destroy(go);
                     }
                 }
@@ -112,6 +104,15 @@ namespace PiFramework
             serviceRemoved?.Invoke(this, e);
         }
 
+        /// <inheritdoc />
+        /// <remarks>
+        /// This implementation triggers the <see cref="ServiceAdded"/> event after a service is successfully added.
+        /// </remarks>
+        public IUnRegister AddService<T>(T service) where T : class
+        {
+            AddService(typeof(T), service);
+            return new UnRegister(() => RemoveService<T>());
+        }
 
         /// <summary>
         /// Thêm hoặc replace service nếu đã tồn tại
@@ -131,18 +132,18 @@ namespace PiFramework
                     throw new ArgumentException("The provider does not attached to GameObject!");
                 var transform = (service as MonoBehaviour).transform;
                 transform.SetParent(viewContainer.transform);
-                _serviceGoDict[type] = transform.gameObject;
+                serviceGoDict[type] = transform.gameObject;
             }
         }
 
         void AddService(Type type, object service)
         {
             if (service == null) throw new ArgumentNullException(nameof(service));
-            lock (_services)
+            lock (services)
             {
-                if (_services.ContainsKey(type))
+                if (services.ContainsKey(type))
                     throw new ArgumentException("Service is already registered with this type", nameof(type));
-                _services.Add(type, service);
+                services.Add(type, service);
             }
             OnServiceAdded(new ServiceEventArgs(type, service));
         }
@@ -150,8 +151,10 @@ namespace PiFramework
 
         internal void Reset()
         {
-            _services.Clear();
-            _serviceGoDict.Clear();
+            serviceAdded = null;
+            serviceRemoved = null;
+            services.Clear();
+            serviceGoDict.Clear();
             if (viewContainer)
             {
                 viewContainer.SetActive(false);
@@ -159,6 +162,5 @@ namespace PiFramework
             }
             CreateViewContainer();
         }
-
     }
 }

@@ -71,7 +71,7 @@ namespace PiFramework
         /// <summary>
         /// các hàm Awake đã được chạy
         /// </summary>
-        //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void InitAfterSceneLoad()
         {
             systemEvents.InitializeAfterSceneLoad.Invoke();
@@ -80,26 +80,35 @@ namespace PiFramework
         //RuntimeInitializeLoadType.BeforeSceneLoad
         static void Bootstrap()
         {
+            Application.quitting += () => PiBase.SystemDestroy();
+
             services = PiServiceRegistry.instance;
             services.Reset();
             systemEvents = new GameObject("Pi.systemEvents").AddComponent<PiSystemEvents>();
             services.AddService(typeof(PiSystemEvents), systemEvents, systemEvents.gameObject);
 
-            services.AddService<PiPlayerPref>(new PiPlayerPref());
+            typeEvents = new TypeEventSystem();
+            services.AddService(typeof(TypeEventSystem), typeEvents);
+
+            playerPrefs = new PiPlayerPref();
+            services.AddService<IPlayerPrefs>(playerPrefs);
 
             console = new PiConsole();
             services.AddService<PiConsole>(console);
-            Debug.Log(InternalUtil.PiMessage("Pi bootstrap Initialized"));
+
+            Debug.Log(InternalUtil.PiMessage("Pi bootstrapped"));
         }
 
         /// <summary>
         /// Bootstrap phase 2: Configuration
         /// </summary>
-        /// <param name="root">PiRoot</param>
-        internal static void SystemStartup(PiLoader root)
+        /// <param name="piRoot">PiRoot</param>
+        internal static void SystemStartup(PiRoot piRoot)
         {
+            root = piRoot;
+            gameObject = piRoot.gameObject;
             Preload();
-            LoadSettings(root);
+            LoadSettings(piRoot);
             InitModules();
         }
 
@@ -112,7 +121,7 @@ namespace PiFramework
             PreloadCommands();
         }
 
-        static void LoadSettings(PiLoader root)
+        static void LoadSettings(PiRoot root)
         {
             var sm = root.GetComponentInChildren<SettingManager>();
             sm.LoadSettings();
@@ -131,7 +140,7 @@ namespace PiFramework
             {
                 m._moduleInit();
             }
-            Debug.Log(InternalUtil.PiMessage("Modules Initialized"));
+            //Debug.Log(InternalUtil.PiMessage("Modules Initialized"));
         }
 
         //todo: hoàn chỉnh phần restart
@@ -152,14 +161,20 @@ namespace PiFramework
         }
 
         /// <summary>
-        /// Những gì là gốc rễ và ít liên đới thì Destroy sau cùng
+        /// Những gì là gốc rễ và nhiều liên đới thì Destroy sau cùng
         /// </summary>
         internal static void SystemDestroy()
         {
             //SettingManager.Destroy();
-            PiLoader.instance = null;
+            root = null;
+            gameObject = null;
+            playerPrefs = null;
             console = null;
             systemEvents = null;
+
+            typeEvents.Clear();
+            typeEvents = null;
+
             services = null;
         }
     }

@@ -28,7 +28,7 @@ namespace PiFramework
         /// <param name="service">The service to add.</param>
         /// <exception cref="ArgumentNullException">Thrown when the provided service is null.</exception>
         /// <exception cref="ArgumentException">Thrown when a service of the same type is already registered.</exception>
-        void AddService<T>([NotNull] T service) where T : class;
+        IUnRegister AddService<T>([NotNull] T service) where T : class;
 
         /// <summary>
         /// Gets the service object of the specified type.

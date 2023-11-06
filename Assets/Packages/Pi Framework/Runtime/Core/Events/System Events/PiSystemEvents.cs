@@ -7,45 +7,39 @@ using PiFramework;
 namespace PiFramework
 {
     /// <summary>
-    /// Chứa các Unityevent liên quan đến vòng lặp và các event hệ thống
+    /// Chứa các PiEvent liên quan đến vòng lặp và các event hệ thống
     /// </summary>
     public class PiSystemEvents: MonoBehaviour
     {
         //game init event
-        public readonly UnityEvent BeginAwake = new();
-        public readonly UnityEvent FinalAwake = new();
-        public readonly UnityEvent BeginStart = new();
-        public readonly UnityEvent FinalStart = new();
+        public readonly PiEvent BeginAwake = new();
+        public readonly PiEvent FinalAwake = new();
+        public readonly PiEvent BeginStart = new();
+        public readonly PiEvent FinalStart = new();
 
         //game loop event
-        public readonly UnityEvent BeginUpdate = new();
-        public readonly UnityEvent FinalUpdate = new();
+        public readonly PiEvent BeginUpdate = new();
+        public readonly PiEvent FinalUpdate = new();
 
-        public readonly UnityEvent BeginFixedUpdate = new();
-        public readonly UnityEvent FinalFixedUpdate = new();
+        public readonly PiEvent BeginFixedUpdate = new();
+        public readonly PiEvent FinalFixedUpdate = new();
 
-        public readonly UnityEvent BeginLateUpdate = new();
-        public readonly UnityEvent FinalLateUpdate = new();
-
-        //public readonly UnityEvent BeginOnGUI = new();
-        //public readonly UnityEvent FinalOnGUI = new();
-
+        public readonly PiEvent BeginLateUpdate = new();
+        public readonly PiEvent FinalLateUpdate = new();
 
         /// <summary>
         /// occurs when user click exit or back button on menu screen, args is a PendingInvoker
         /// </summary>
-        public readonly UnityEvent<PendingInvoker> OnTriggerShutdown = new UnityEvent<PendingInvoker>();
-        public readonly UnityEvent BeginApplicationQuit = new();
-        public readonly UnityEvent FinalApplicationQuit = new();
+        public readonly PiEvent<PendingInvoker> OnTriggerShutdown = new();
+        public readonly PiEvent BeginApplicationQuit = new();
+        public readonly PiEvent FinalApplicationQuit = new();
 
 
         //Common
-        public readonly UnityEvent UserPaused = new();
-        public readonly UnityEvent UserUnpaused  = new();
+        public readonly PiEvent UserPaused = new();
+        public readonly PiEvent UserUnpaused  = new();
 
-        internal PiSystemEvents() { }
-
-        public readonly UnityEvent InitializeAfterSceneLoad = new();
+        public readonly PiEvent InitializeAfterSceneLoad = new();
 
         internal void Reset()
         {
@@ -66,6 +60,8 @@ namespace PiFramework
             FinalApplicationQuit.RemoveAllListeners();
             UserPaused.RemoveAllListeners();
             UserUnpaused.RemoveAllListeners();
+
+            InitializeAfterSceneLoad.RemoveAllListeners();
         }
     }
 }

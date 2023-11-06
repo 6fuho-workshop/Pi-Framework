@@ -1,0 +1,68 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace PiFramework.Mediator
+{
+    #region Controller
+
+    public interface IController : ICanGetMediator, ICanSendCommand, ICanGetSystem, ICanGetModel,
+        ICanAddEventListener, ICanSendQuery, ICanGetUtility
+    {
+    }
+
+    #endregion
+
+    #region System
+
+    public interface ISystem : ICanGetMediator, ICanSetMediator, ICanGetModel, ICanGetUtility,
+        ICanAddEventListener, ICanSendEvent, ICanGetSystem
+    {
+        void Init();
+    }
+
+    public abstract class AbstractSystem : ISystem
+    {
+        private IMediator mMediator;
+
+        IMediator ICanGetMediator.GetMediator() => mMediator;
+
+        void ICanSetMediator.SetMediator(IMediator mediator) => mMediator = mediator;
+
+        void ISystem.Init() => OnInit();
+
+        protected abstract void OnInit();
+    }
+
+    #endregion
+
+    #region Model
+
+    public interface IModel : ICanGetMediator, ICanSetMediator, ICanGetUtility, ICanSendEvent
+    {
+        void Init();
+    }
+
+    public abstract class AbstractModel : IModel
+    {
+        private IMediator mMediator;
+
+        IMediator ICanGetMediator.GetMediator() => mMediator;
+
+        void ICanSetMediator.SetMediator(IMediator mediator) => mMediator = mediator;
+
+        void IModel.Init() => OnInit();
+
+        protected abstract void OnInit();
+    }
+
+    #endregion
+
+    #region Utility
+
+    public interface IUtility
+    {
+    }
+
+    #endregion
+}

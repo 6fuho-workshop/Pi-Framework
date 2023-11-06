@@ -4,7 +4,12 @@ using UnityEngine;
 
 namespace PiFramework.KeyValueStore
 {
-    public class PiPlayerPref : ISavableKeyValueStore
+    public interface IPlayerPrefs: ISavableKeyValueStore
+    {
+
+    }
+
+    public class PiPlayerPref : IPlayerPrefs
     {
         public void Load()
         {

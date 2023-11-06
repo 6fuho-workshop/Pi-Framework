@@ -8,15 +8,14 @@ namespace PiFramework
 {
     [RequireComponent(typeof(LatestExecOrder))]
     [ExecutionOrder(-31000)]
-    public class PiLoader : MonoBehaviour
+    public class PiRoot : MonoBehaviour
     {
-        internal static PiLoader instance;
         EarliestExecOrder earliest = new();
 
-        #region behaviours
+        
         void Awake()
         {
-            if (instance != null)
+            if (PiBase.root != null)
             {
                 //Nếu chỉ dùng GameObject.Destroy thì các script con sẽ vẫn gọi Awake
                 gameObject.SetActive(false);
@@ -24,19 +23,16 @@ namespace PiFramework
                 return;
             }
 
-            Debug.Log(InternalUtil.PiMessage("PiRoot Awake"));
-
-            instance = this;
+            //Debug.Log(InternalUtil.PiMessage("PiRoot Awake"));
             GameObject.DontDestroyOnLoad(gameObject);
-
             PiBase.SystemStartup(this);
 
             DisplayServices();
             earliest.Awake();
-            Application.quitting += () => PiBase.SystemDestroy();
         }
 
-        //Dispatch System Event
+        #region Dispatch System Events
+
         void Start() => earliest.Start();
 
         void Update() => earliest.Update();
@@ -53,7 +49,7 @@ namespace PiFramework
             earliest.OnApplicationQuit();
         }
 
-        #endregion behaviours
+        #endregion
 
         void DisplayServices()
         {

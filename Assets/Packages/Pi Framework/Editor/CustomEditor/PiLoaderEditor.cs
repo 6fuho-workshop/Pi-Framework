@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace PiEditor
 {
-    [CustomEditor(typeof(PiLoader))]
+    [CustomEditor(typeof(PiRoot))]
     public class PiRootEditor : Editor
     {
         static List<Type> moduleClasses;
@@ -41,7 +41,7 @@ namespace PiEditor
 
         static GameObject GetOrCreateChild(string childName)
         {
-            var app = GameObject.FindObjectOfType<PiLoader>();
+            var app = GameObject.FindObjectOfType<PiRoot>();
             if (app == null)
                 return null;
             GameObject child = null;
