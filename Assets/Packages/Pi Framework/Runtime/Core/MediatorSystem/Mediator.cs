@@ -44,7 +44,7 @@ namespace PiFramework.Mediator
 
         private HashSet<IModel> models = new();
 
-        public static event Action<T> registerReceiving;
+        public static event Action<T> registerHandling;
 
         protected static T _instance;
 
@@ -68,7 +68,7 @@ namespace PiFramework.Mediator
             _instance = new T();
             _instance.Init();
 
-            registerReceiving?.Invoke(_instance);
+            registerHandling?.Invoke(_instance);
 
             foreach (var model in _instance.models)
             {
