@@ -8,56 +8,25 @@ namespace PiFramework
 {
     public sealed class PendingInvoker
     {
-        // Start is called before the first frame update
-        UnityAction _callbacks;
+        Action _callbacks;
         float _timer;
-        //bool _autoReset;
-        //int _loop;
-        float _interval;
-        bool _enabled;
+        object _host;
         List<object> _keys;
 
-        public bool enabled
+        public PendingInvoker(object host, float timer = 0)
         {
-            get
-            {
-                return _enabled;
-            }
-            set
-            {
-                _enabled = value;
-            }
+            PiBase.systemEvents.beginUpdate.AddListener(Update);
+            _timer = timer;
+            _host = host;
         }
 
-        public PendingInvoker(float interval = 0)
-        {
-            PiBase.systemEvents.BeginUpdate.AddListener(Update);
-            _interval = interval;
-            _timer = interval;
-            //_loop = 1;
-            //_autoReset = false;
-        }
-
-        public float remainingTime
-        {
-            get
-            {
-                return _timer;
-            }
-        }
-        public PendingInvoker SetTimer(float t)
-        {
-            _timer = t;
-            return this;
-        }
-
-        public PendingInvoker AddCallback(UnityAction call)
+        public PendingInvoker AddCallback(Action call)
         {
             _callbacks += call;
             return this;
         }
 
-        public PendingInvoker RemoveCallback(UnityAction call)
+        public PendingInvoker RemoveCallback(Action call)
         {
             _callbacks -= call;
             return this;
@@ -91,6 +60,12 @@ namespace PiFramework
 
         void Update()
         {
+            if (_host == null)
+            {
+                Destroy();
+                return;
+            }
+
             _timer -= Time.deltaTime;
             if (_timer > 0f)
             {
@@ -109,27 +84,18 @@ namespace PiFramework
                 //Invoke
                 if (!locked)
                 {
+                    PiBase.systemEvents.beginUpdate.RemoveListener(Update);
                     _callbacks.Invoke();
-                    PiBase.systemEvents.BeginUpdate.RemoveListener(Update);
-                    Dispose();
+                    Destroy();
                 }
             }
         }
 
-        void Dispose()
+        void Destroy()
         {
             _callbacks = null;
             _keys = null;
-        }
-
-        public void Start()
-        {
-            enabled = true;
-        }
-
-        public void Stop()
-        {
-            enabled = false;
+            _host = null;
         }
     }
 }

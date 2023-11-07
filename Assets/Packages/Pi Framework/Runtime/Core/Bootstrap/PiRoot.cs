@@ -53,7 +53,7 @@ namespace PiFramework
 
         void DisplayServices()
         {
-            PiBase.services.viewContainer.transform.parent = transform;
+            PiBase._services.viewContainer.transform.parent = transform;
         }
 
     }

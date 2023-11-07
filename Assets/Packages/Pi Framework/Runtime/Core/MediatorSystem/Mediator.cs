@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 
@@ -34,11 +35,13 @@ namespace PiFramework.Mediator
 
         IUnRegister AddListener<T>(Action<T> onEvent);
         void RemoveListener<T>(Action<T> onEvent);
+
+        void Destroy();
     }
 
     public abstract class Mediator<T> : IMediator where T : Mediator<T>, new()
     {
-        private bool inited = false;
+        private bool initialized = false;
 
         private HashSet<ISystem> systems = new();
 
@@ -69,6 +72,7 @@ namespace PiFramework.Mediator
             _instance.Init();
 
             registerHandling?.Invoke(_instance);
+            registerHandling = null;
 
             foreach (var model in _instance.models)
             {
@@ -83,19 +87,27 @@ namespace PiFramework.Mediator
             }
 
             _instance.systems.Clear();
-            _instance.inited = true;
+            _instance.initialized = true;
+        }
+
+        public void Destroy()
+        {
+            container.Clear();
+            typeEventSystem.Clear();
+            registerHandling = null;
+            _instance = null;
         }
 
         protected abstract void Init();
 
-        private IOCContainer container = new IOCContainer();
+        private IOCContainer container = new();
 
         public void RegisterSystem<TSystem>(TSystem system) where TSystem : ISystem
         {
             system.SetMediator(this);
             container.Register<TSystem>(system);
 
-            if (!inited)
+            if (!initialized)
             {
                 systems.Add(system);
             }
@@ -110,7 +122,7 @@ namespace PiFramework.Mediator
             model.SetMediator(this);
             container.Register<TModel>(model);
 
-            if (!inited)
+            if (!initialized)
             {
                 models.Add(model);
             }
@@ -153,7 +165,7 @@ namespace PiFramework.Mediator
             return query.Do();
         }
 
-        private TypeEventSystem typeEventSystem = new TypeEventSystem();
+        private TypeEventSystem typeEventSystem = new();
 
         public void SendEvent<TEvent>() where TEvent : new() => typeEventSystem.Send<TEvent>();
 
@@ -170,7 +182,7 @@ namespace PiFramework.Mediator
 
     public class IOCContainer
     {
-        private Dictionary<Type, object> instances = new Dictionary<Type, object>();
+        private Dictionary<Type, object> instances = new();
 
         public void Register<T>(T instance)
         {
@@ -196,6 +208,11 @@ namespace PiFramework.Mediator
             }
 
             return null;
+        }
+
+        public void Clear()
+        {
+            instances.Clear();
         }
     }
 

@@ -12,56 +12,58 @@ namespace PiFramework
     public class PiSystemEvents: MonoBehaviour
     {
         //game init event
-        public readonly PiEvent BeginAwake = new();
-        public readonly PiEvent FinalAwake = new();
-        public readonly PiEvent BeginStart = new();
-        public readonly PiEvent FinalStart = new();
+        public readonly PiEvent beginAwake = new();
+        public readonly PiEvent finalAwake = new();
+        public readonly PiEvent beginStart = new();
+        public readonly PiEvent finalStart = new();
 
         //game loop event
-        public readonly PiEvent BeginUpdate = new();
-        public readonly PiEvent FinalUpdate = new();
+        public readonly PiEvent beginUpdate = new();
+        public readonly PiEvent finalUpdate = new();
 
-        public readonly PiEvent BeginFixedUpdate = new();
-        public readonly PiEvent FinalFixedUpdate = new();
+        public readonly PiEvent beginFixedUpdate = new();
+        public readonly PiEvent finalFixedUpdate = new();
 
-        public readonly PiEvent BeginLateUpdate = new();
-        public readonly PiEvent FinalLateUpdate = new();
+        public readonly PiEvent beginLateUpdate = new();
+        public readonly PiEvent finalLateUpdate = new();
 
         /// <summary>
         /// occurs when user click exit or back button on menu screen, args is a PendingInvoker
         /// </summary>
-        public readonly PiEvent<PendingInvoker> OnTriggerShutdown = new();
-        public readonly PiEvent BeginApplicationQuit = new();
-        public readonly PiEvent FinalApplicationQuit = new();
+        public readonly Interruption onTriggerShutdown = new();
+        public readonly PiEvent beginApplicationQuit = new();
+        public readonly PiEvent finalApplicationQuit = new();
 
 
         //Common
-        public readonly PiEvent UserPaused = new();
-        public readonly PiEvent UserUnpaused  = new();
+        public readonly PiEvent userPaused = new();
+        public readonly PiEvent userUnpaused  = new();
 
-        public readonly PiEvent InitializeAfterSceneLoad = new();
+        public readonly PiEvent initializeAfterSceneLoad = new();
 
         internal void Reset()
         {
-            BeginAwake.RemoveAllListeners();
-            FinalAwake.RemoveAllListeners();
-            BeginStart.RemoveAllListeners();
-            FinalStart.RemoveAllListeners();
-            BeginUpdate.RemoveAllListeners();
-            FinalUpdate.RemoveAllListeners();
-            BeginFixedUpdate.RemoveAllListeners();
-            FinalFixedUpdate.RemoveAllListeners();
-            BeginLateUpdate.RemoveAllListeners();
-            FinalLateUpdate.RemoveAllListeners();
+            beginAwake.RemoveAllListeners();
+            finalAwake.RemoveAllListeners();
+            beginStart.RemoveAllListeners();
+            finalStart.RemoveAllListeners();
+            beginUpdate.RemoveAllListeners();
+            finalUpdate.RemoveAllListeners();
+            beginFixedUpdate.RemoveAllListeners();
+            finalFixedUpdate.RemoveAllListeners();
+            beginLateUpdate.RemoveAllListeners();
+            finalLateUpdate.RemoveAllListeners();
             //BeginOnGUI.RemoveAllListeners();
             
-            OnTriggerShutdown.RemoveAllListeners();
-            BeginApplicationQuit.RemoveAllListeners();
-            FinalApplicationQuit.RemoveAllListeners();
-            UserPaused.RemoveAllListeners();
-            UserUnpaused.RemoveAllListeners();
+            onTriggerShutdown.RemoveAllListeners();
+            beginApplicationQuit.RemoveAllListeners();
+            finalApplicationQuit.RemoveAllListeners();
+            userPaused.RemoveAllListeners();
+            userUnpaused.RemoveAllListeners();
 
-            InitializeAfterSceneLoad.RemoveAllListeners();
+            initializeAfterSceneLoad.RemoveAllListeners();
         }
     }
+
+    public class Interruption : PiEvent<PendingInvoker> { }
 }

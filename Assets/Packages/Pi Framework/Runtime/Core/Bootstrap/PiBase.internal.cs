@@ -74,7 +74,7 @@ namespace PiFramework
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void InitAfterSceneLoad()
         {
-            systemEvents.InitializeAfterSceneLoad.Invoke();
+            systemEvents.initializeAfterSceneLoad.Invoke();
         }
 
         //RuntimeInitializeLoadType.BeforeSceneLoad
@@ -82,19 +82,19 @@ namespace PiFramework
         {
             Application.quitting += SystemDestroy;
 
-            services = PiServiceRegistry.instance;
-            services.Reset();
+            _services = PiServiceRegistry.instance;
+            _services.Reset();
             systemEvents = new GameObject("Pi.systemEvents").AddComponent<PiSystemEvents>();
-            services.AddService(typeof(PiSystemEvents), systemEvents, systemEvents.gameObject);
+            _services.AddService(typeof(PiSystemEvents), systemEvents, systemEvents.gameObject);
 
             typeEvents = new TypeEventSystem();
-            services.AddService(typeof(TypeEventSystem), typeEvents);
+            _services.AddService(typeof(TypeEventSystem), typeEvents);
 
             playerPrefs = new PiPlayerPref();
-            services.AddService<IPlayerPrefs>(playerPrefs);
+            _services.AddService<IPlayerPrefs>(playerPrefs);
 
             console = new PiConsole();
-            services.AddService<PiConsole>(console);
+            _services.AddService<PiConsole>(console);
 
             Debug.Log(InternalUtil.PiMessage("Pi bootstrapped"));
         }
@@ -132,7 +132,7 @@ namespace PiFramework
             var modules = Object.FindObjectsByType<PiModule>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             foreach (var m in modules)
             {
-                services.AddService(m.GetType(), m);
+                _services.AddService(m.GetType(), m);
             }
             //có thể cho settings push to modules chỗ này
 
@@ -148,7 +148,7 @@ namespace PiFramework
         {
             systemEvents.Reset();
             //Reset ServiceLocator ở bước cuối cùng
-            services.Reset();
+            _services.Reset();
 
             //re Initialize => sẽ gọi vào chỗ khác
             Bootstrap();
@@ -175,7 +175,7 @@ namespace PiFramework
             typeEvents.Clear();
             typeEvents = null;
 
-            services = null;
+            _services = null;
 
             Application.quitting -= SystemDestroy;
         }

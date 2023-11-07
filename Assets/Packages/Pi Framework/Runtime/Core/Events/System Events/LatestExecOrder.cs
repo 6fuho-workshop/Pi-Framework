@@ -9,20 +9,20 @@ namespace PiFramework
     {
         private void Awake()
         {
-            PiBase.systemEvents.FinalAwake.Invoke();
+            PiBase.systemEvents.finalAwake.Invoke();
         }
 
         //void Start() => PiBootstrap.instance.systemEvents.FinalStart.Invoke();
         void Start() {
-            PiBase.systemEvents.FinalStart.Invoke();
+            PiBase.systemEvents.finalStart.Invoke();
         }
 
-        void Update() => PiBase.systemEvents.FinalUpdate.Invoke();
+        void Update() => PiBase.systemEvents.finalUpdate.Invoke();
 
-        internal void FixedUpdate() => PiBase.systemEvents.FinalFixedUpdate.Invoke();
+        internal void FixedUpdate() => PiBase.systemEvents.finalFixedUpdate.Invoke();
 
-        void LateUpdate() => PiBase.systemEvents.FinalLateUpdate.Invoke();
+        void LateUpdate() => PiBase.systemEvents.finalLateUpdate.Invoke();
 
-        private void OnApplicationQuit() => PiBase.systemEvents.FinalApplicationQuit.Invoke();
+        private void OnApplicationQuit() => PiBase.systemEvents.finalApplicationQuit.Invoke();
     }
 }

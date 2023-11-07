@@ -32,7 +32,7 @@ namespace PiFramework
         private Action unRegister { get; set; }
         public UnRegister(Action unRegisterAction) => unRegister = unRegisterAction;
 
-        public void ExecUnRegister()
+        void IUnRegister.ExecUnRegister()
         {
             unRegister.Invoke();
             unRegister = null;

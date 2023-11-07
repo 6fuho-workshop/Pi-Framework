@@ -7,7 +7,8 @@ namespace PiFramework
 {
     public partial class PiBase
     {
-        public static PiServiceRegistry services { get; private set; }
+        internal static PiServiceRegistry _services;
+        public static IServiceRegistry services => _services;
 
         public static PiSystemEvents systemEvents { get; private set; }
 
