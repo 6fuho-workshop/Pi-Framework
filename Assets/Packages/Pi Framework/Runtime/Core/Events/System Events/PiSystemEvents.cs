@@ -30,7 +30,7 @@ namespace PiFramework
         /// <summary>
         /// occurs when user click exit or back button on menu screen, args is a PendingInvoker
         /// </summary>
-        public readonly Interruption onTriggerShutdown = new();
+        public readonly InterruptableEvent triggeredShutdown = new();
         public readonly PiEvent beginApplicationQuit = new();
         public readonly PiEvent finalApplicationQuit = new();
 
@@ -55,7 +55,7 @@ namespace PiFramework
             finalLateUpdate.RemoveAllListeners();
             //BeginOnGUI.RemoveAllListeners();
             
-            onTriggerShutdown.RemoveAllListeners();
+            triggeredShutdown.RemoveAllListeners();
             beginApplicationQuit.RemoveAllListeners();
             finalApplicationQuit.RemoveAllListeners();
             userPaused.RemoveAllListeners();
@@ -64,6 +64,4 @@ namespace PiFramework
             initializeAfterSceneLoad.RemoveAllListeners();
         }
     }
-
-    public class Interruption : PiEvent<PendingInvoker> { }
 }

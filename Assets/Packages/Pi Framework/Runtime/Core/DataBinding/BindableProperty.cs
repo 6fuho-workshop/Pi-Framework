@@ -17,9 +17,9 @@ namespace PiFramework
     {
         T Value { get; }
 
-        IUnRegister AddListenerWithCallBack(Action<T> action);
-        void RemoveListener(Action<T> onValueChanged);
-        IUnRegister AddListener(Action<T> onValueChanged);
+        IUnregister AddListenerWithCallBack(Action<T> action);
+        void RemoveListener(Action<T> valueChanged);
+        IUnregister AddListener(Action<T> valueChanged);
     }
 
     public class BindableProperty<T> : IBindableProperty<T>
@@ -45,7 +45,7 @@ namespace PiFramework
                 if (value != null && Comparer(value, this.value)) return;
 
                 SetValue(value);
-                onValueChanged?.Invoke(value);
+                valueChanged?.Invoke(value);
             }
         }
 
@@ -55,23 +55,23 @@ namespace PiFramework
 
         public void SetValueWithoutEvent(T newValue) => value = newValue;
 
-        private Action<T> onValueChanged = (v) => { };
+        private Action<T> valueChanged;
 
-        public IUnRegister AddListener(Action<T> onValueChanged)
+        public IUnregister AddListener(Action<T> onValueChanged)
         {
-            this.onValueChanged += onValueChanged;
+            this.valueChanged += onValueChanged;
             return new BindablePropertyUnRegister<T>(this, onValueChanged);
         }
 
-        public IUnRegister AddListenerWithCallBack(Action<T> onValueChanged)
+        public IUnregister AddListenerWithCallBack(Action<T> onValueChanged)
         {
             onValueChanged(value);
             return AddListener(onValueChanged);
         }
 
-        public void RemoveListener(Action<T> onValueChanged) => this.onValueChanged -= onValueChanged;
+        public void RemoveListener(Action<T> onValueChanged) => this.valueChanged -= onValueChanged;
 
-        IUnRegister IPiEvent.AddListener(Action onEvent)
+        IUnregister IPiEvent.AddListener(Action onEvent)
         {
             return AddListener(Action);
             void Action(T _) => onEvent();
@@ -79,7 +79,7 @@ namespace PiFramework
 
         public override string ToString() => Value.ToString();
 
-        public void RemoveAllListeners() => onValueChanged = (v) => { };
+        public void RemoveAllListeners() => valueChanged = null;
     }
 
     internal class ComparerAutoRegister
@@ -110,23 +110,23 @@ namespace PiFramework
 #endif
     }
 
-    public class BindablePropertyUnRegister<T> : IUnRegister
+    public class BindablePropertyUnRegister<T> : IUnregister
     {
-        public BindablePropertyUnRegister(BindableProperty<T> bindableProperty, Action<T> onValueChanged)
+        public BindablePropertyUnRegister(BindableProperty<T> bindableProperty, Action<T> valueChanged)
         {
-            BindableProperty = bindableProperty;
-            OnValueChanged = onValueChanged;
+            this.bindableProperty = bindableProperty;
+            this.valueChanged = valueChanged;
         }
 
-        public BindableProperty<T> BindableProperty { get; set; }
+        public BindableProperty<T> bindableProperty { get; set; }
 
-        public Action<T> OnValueChanged { get; set; }
+        public Action<T> valueChanged { get; set; }
 
-        public void ExecUnRegister()
+        public void InvokeUnregister()
         {
-            BindableProperty.RemoveListener(OnValueChanged);
-            BindableProperty = null;
-            OnValueChanged = null;
+            bindableProperty.RemoveListener(valueChanged);
+            bindableProperty = null;
+            valueChanged = null;
         }
     }
 }

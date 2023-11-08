@@ -16,10 +16,10 @@ namespace PiFramework
 
         private Action mCalls = () => { };
 
-        public IUnRegister AddListener(Action call)
+        public IUnregister AddListener(Action call)
         {
             mCalls += call;
-            return new UnRegister(() => { RemoveListener(call); });
+            return new Unregister(() => { RemoveListener(call); });
         }
 
         public void RemoveListener(Action call)
@@ -30,11 +30,11 @@ namespace PiFramework
 
         private void Invoke() => mCalls?.Invoke();
 
-        private List<IUnRegister> _unRegisterList { get; } = new List<IUnRegister>();
+        private List<IUnregister> _unRegisterList { get; } = new List<IUnregister>();
 
         void ChainRemoveListener()
         {
-            _unRegisterList.ForEach(x => x.ExecUnRegister());
+            _unRegisterList.ForEach(x => x.InvokeUnregister());
             _unRegisterList.Clear();
         }
     }

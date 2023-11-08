@@ -6,7 +6,7 @@ namespace PiFramework
 {
     public interface IPiEvent
     {
-        IUnRegister AddListener(Action call);
+        IUnregister AddListener(Action call);
         void RemoveAllListeners();
     }
 
@@ -14,10 +14,10 @@ namespace PiFramework
     {
         private Action mCalls;
 
-        public IUnRegister AddListener(Action call)
+        public IUnregister AddListener(Action call)
         {
             mCalls += call;
-            return new UnRegister(() => { RemoveListener(call); });
+            return new Unregister(() => { RemoveListener(call); });
         }
 
         public void RemoveListener(Action onEvent) => mCalls -= onEvent;
@@ -31,17 +31,17 @@ namespace PiFramework
     {
         private Action<T> mCalls;
 
-        public IUnRegister AddListener(Action<T> call)
+        public IUnregister AddListener(Action<T> call)
         {
             mCalls += call;
-            return new UnRegister(() => { RemoveListener(call); });
+            return new Unregister(() => { RemoveListener(call); });
         }
 
         public void RemoveListener(Action<T> call) => mCalls -= call;
 
         public void Invoke(T t) => mCalls?.Invoke(t);
 
-        IUnRegister IPiEvent.AddListener(Action call)
+        IUnregister IPiEvent.AddListener(Action call)
         {
             return AddListener(Action);
             void Action(T _) => call();
@@ -54,17 +54,17 @@ namespace PiFramework
     {
         private Action<T, K> mCalls;
 
-        public IUnRegister AddListener(Action<T, K> call)
+        public IUnregister AddListener(Action<T, K> call)
         {
             mCalls += call;
-            return new UnRegister(() => { RemoveListener(call); });
+            return new Unregister(() => { RemoveListener(call); });
         }
 
         public void RemoveListener(Action<T, K> call) => mCalls -= call;
 
         public void Invoke(T t, K k) => mCalls?.Invoke(t, k);
 
-        IUnRegister IPiEvent.AddListener(Action call)
+        IUnregister IPiEvent.AddListener(Action call)
         {
             return AddListener(Action);
             void Action(T _, K __) => call();
@@ -77,17 +77,17 @@ namespace PiFramework
     {
         private Action<T, K, S> mCalls;
 
-        public IUnRegister AddListener(Action<T, K, S> call)
+        public IUnregister AddListener(Action<T, K, S> call)
         {
             mCalls += call;
-            return new UnRegister(() => { RemoveListener(call); });
+            return new Unregister(() => { RemoveListener(call); });
         }
 
         public void RemoveListener(Action<T, K, S> call) => mCalls -= call;
 
         public void Invoke(T t, K k, S s) => mCalls?.Invoke(t, k, s);
 
-        IUnRegister IPiEvent.AddListener(Action call)
+        IUnregister IPiEvent.AddListener(Action call)
         {
             return AddListener(Action);
             void Action(T _, K __, S ___) => call();

@@ -12,7 +12,7 @@ namespace PiFramework
 
         public void Send<T>(T e) => GetEvent<PiEvent<T>>()?.Invoke(e);
 
-        public IUnRegister AddListener<T>(Action<T> onEvent) => GetOrAddEvent<PiEvent<T>>().AddListener(onEvent);
+        public IUnregister AddListener<T>(Action<T> onEvent) => GetOrAddEvent<PiEvent<T>>().AddListener(onEvent);
 
         public void RemoveListener<T>(Action<T> onEvent)
         {

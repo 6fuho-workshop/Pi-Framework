@@ -108,10 +108,10 @@ namespace PiFramework
         /// <remarks>
         /// This implementation triggers the <see cref="ServiceAdded"/> event after a service is successfully added.
         /// </remarks>
-        public IUnRegister AddService<T>(T service) where T : class
+        public IUnregister AddService<T>(T service) where T : class
         {
             AddService(typeof(T), service);
-            return new UnRegister(() => RemoveService<T>());
+            return new Unregister(() => RemoveService<T>());
         }
 
         /// <summary>

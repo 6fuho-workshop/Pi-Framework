@@ -5,34 +5,34 @@ using UnityEngine;
 
 namespace PiFramework
 {
-    public interface IUnRegister
+    public interface IUnregister
     {
-        void ExecUnRegister();
+        void InvokeUnregister();
     }
 
     public interface IUnRegisterList
     {
-        List<IUnRegister> unRegisterList { get; }
+        List<IUnregister> unregisterList { get; }
     }
 
     public static class IUnRegisterListExtension
     {
-        public static void AddToUnregisterList(this IUnRegister self, IUnRegisterList unRegisterList) =>
-            unRegisterList.unRegisterList.Add(self);
+        public static void AddToUnregisterList(this IUnregister self, IUnRegisterList unRegisterList) =>
+            unRegisterList.unregisterList.Add(self);
 
         public static void UnRegisterAll(this IUnRegisterList self)
         {
-            self.unRegisterList.ForEach(x => x.ExecUnRegister());
-            self.unRegisterList.Clear();
+            self.unregisterList.ForEach(x => x.InvokeUnregister());
+            self.unregisterList.Clear();
         }
     }
 
-    public struct UnRegister : IUnRegister
+    public struct Unregister : IUnregister
     {
         private Action unRegister { get; set; }
-        public UnRegister(Action unRegisterAction) => unRegister = unRegisterAction;
+        public Unregister(Action unRegisterAction) => unRegister = unRegisterAction;
 
-        void IUnRegister.ExecUnRegister()
+        void IUnregister.InvokeUnregister()
         {
             unRegister.Invoke();
             unRegister = null;
@@ -41,17 +41,17 @@ namespace PiFramework
 
     public class UnRegisterOnDestroyTrigger : UnityEngine.MonoBehaviour
     {
-        private readonly HashSet<IUnRegister> unRegisters = new HashSet<IUnRegister>();
+        private readonly HashSet<IUnregister> unRegisters = new HashSet<IUnregister>();
 
-        public void AddUnRegister(IUnRegister unRegister) => unRegisters.Add(unRegister);
+        public void AddUnregister(IUnregister unregister) => unRegisters.Add(unregister);
 
-        public void RemoveUnRegister(IUnRegister unRegister) => unRegisters.Remove(unRegister);
+        public void RemoveUnregister(IUnregister unregister) => unRegisters.Remove(unregister);
 
         private void OnDestroy()
         {
-            foreach (var unRegister in unRegisters)
+            foreach (var ur in unRegisters)
             {
-                unRegister.ExecUnRegister();
+                ur.InvokeUnregister();
             }
 
             unRegisters.Clear();
@@ -60,7 +60,7 @@ namespace PiFramework
 
     public static class UnRegisterExtension
     {
-        public static IUnRegister UnRegisterWhenGameObjectDestroyed(this IUnRegister unRegister, UnityEngine.GameObject gameObject)
+        public static IUnregister UnregisterWhenGameObjectDestroyed(this IUnregister unregister, UnityEngine.GameObject gameObject)
         {
             var trigger = gameObject.GetComponent<UnRegisterOnDestroyTrigger>();
 
@@ -69,13 +69,13 @@ namespace PiFramework
                 trigger = gameObject.AddComponent<UnRegisterOnDestroyTrigger>();
             }
 
-            trigger.AddUnRegister(unRegister);
+            trigger.AddUnregister(unregister);
 
-            return unRegister;
+            return unregister;
         }
 
-        public static IUnRegister UnRegisterWhenGameObjectDestroyed<T>(this IUnRegister self, T component)
+        public static IUnregister UnregisterWhenGameObjectDestroyed<T>(this IUnregister self, T component)
             where T : UnityEngine.Component =>
-            self.UnRegisterWhenGameObjectDestroyed(component.gameObject);
+            self.UnregisterWhenGameObjectDestroyed(component.gameObject);
     }
 }

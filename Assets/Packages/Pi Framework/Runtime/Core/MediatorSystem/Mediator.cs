@@ -33,7 +33,7 @@ namespace PiFramework.Mediator
         void SendEvent<T>() where T : new();
         void SendEvent<T>(T e);
 
-        IUnRegister AddListener<T>(Action<T> onEvent);
+        IUnregister AddListener<T>(Action<T> onEvent);
         void RemoveListener<T>(Action<T> onEvent);
 
         void Destroy();
@@ -47,7 +47,7 @@ namespace PiFramework.Mediator
 
         private HashSet<IModel> models = new();
 
-        public static event Action<T> registerHandling;
+        public static PiEvent<T> patchingRegisters;
 
         protected static T _instance;
 
@@ -71,8 +71,8 @@ namespace PiFramework.Mediator
             _instance = new T();
             _instance.Init();
 
-            registerHandling?.Invoke(_instance);
-            registerHandling = null;
+            patchingRegisters?.Invoke(_instance);
+            patchingRegisters = null;
 
             foreach (var model in _instance.models)
             {
@@ -94,7 +94,7 @@ namespace PiFramework.Mediator
         {
             container.Clear();
             typeEventSystem.Clear();
-            registerHandling = null;
+            patchingRegisters = null;
             _instance = null;
         }
 
@@ -171,7 +171,7 @@ namespace PiFramework.Mediator
 
         public void SendEvent<TEvent>(TEvent e) => typeEventSystem.Send<TEvent>(e);
 
-        public IUnRegister AddListener<TEvent>(Action<TEvent> onEvent) => typeEventSystem.AddListener<TEvent>(onEvent);
+        public IUnregister AddListener<TEvent>(Action<TEvent> onEvent) => typeEventSystem.AddListener<TEvent>(onEvent);
 
         public void RemoveListener<TEvent>(Action<TEvent> onEvent) => typeEventSystem.RemoveListener<TEvent>(onEvent);
     }
@@ -266,7 +266,7 @@ namespace PiFramework.Mediator
 
     public static class CanAddEventListenerExtension
     {
-        public static IUnRegister AddListener<T>(this ICanAddEventListener self, Action<T> onEvent) =>
+        public static IUnregister AddListener<T>(this ICanAddEventListener self, Action<T> onEvent) =>
             self.GetMediator().AddListener<T>(onEvent);
 
         public static void RemoveListener<T>(this ICanAddEventListener self, Action<T> onEvent) =>

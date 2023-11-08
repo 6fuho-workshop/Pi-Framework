@@ -8,14 +8,14 @@ namespace PiFramework
     {
         internal static void TriggerExit()
         {
-            var pendingShutdown = new PendingInvoker(PiBase.gameObject).AddCallback(() => Application.Quit());
-            PiBase.systemEvents.onTriggerShutdown.Invoke(pendingShutdown);
+            var pendingShutdown = new PendingAction(PiBase.gameObject, () => Application.Quit());
+            PiBase.systemEvents.triggeredShutdown.Invoke(pendingShutdown);
         }
 
         internal static void TriggerRestart()
         {
-            var pendingShutdown = new PendingInvoker(PiBase.gameObject).AddCallback(() => SceneManager.LoadScene(0));
-            PiBase.systemEvents.onTriggerShutdown.Invoke(pendingShutdown);
+            var pendingShutdown = new PendingAction(PiBase.gameObject, () => SceneManager.LoadScene(0));
+            PiBase.systemEvents.triggeredShutdown.Invoke(pendingShutdown);
         }
-}
+    }
 }
