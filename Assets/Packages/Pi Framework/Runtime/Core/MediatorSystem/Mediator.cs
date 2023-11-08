@@ -49,6 +49,8 @@ namespace PiFramework.Mediator
 
         public static PiEvent<T> patchingRegisters;
 
+        public static IUnregisterList unregisterList = new UnregisterList();
+
         protected static T _instance;
 
         public static IMediator instance
@@ -95,6 +97,7 @@ namespace PiFramework.Mediator
             container.Clear();
             typeEventSystem.Clear();
             patchingRegisters = null;
+            unregisterList.UnregisterAll();
             _instance = null;
         }
 

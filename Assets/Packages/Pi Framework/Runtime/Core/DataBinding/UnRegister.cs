@@ -10,17 +10,22 @@ namespace PiFramework
         void InvokeUnregister();
     }
 
-    public interface IUnRegisterList
+    public interface IUnregisterList
     {
         List<IUnregister> unregisterList { get; }
     }
 
+    public class UnregisterList : IUnregisterList
+    {
+        public List<IUnregister> unregisterList { get; } = new();
+    }
+
     public static class IUnRegisterListExtension
     {
-        public static void AddToUnregisterList(this IUnregister self, IUnRegisterList unRegisterList) =>
+        public static void AddToUnregisterList(this IUnregister self, IUnregisterList unRegisterList) =>
             unRegisterList.unregisterList.Add(self);
 
-        public static void UnRegisterAll(this IUnRegisterList self)
+        public static void UnregisterAll(this IUnregisterList self)
         {
             self.unregisterList.ForEach(x => x.InvokeUnregister());
             self.unregisterList.Clear();
@@ -58,7 +63,7 @@ namespace PiFramework
         }
     }
 
-    public static class UnRegisterExtension
+    public static class UnregisterExtension
     {
         public static IUnregister UnregisterWhenGameObjectDestroyed(this IUnregister unregister, UnityEngine.GameObject gameObject)
         {
