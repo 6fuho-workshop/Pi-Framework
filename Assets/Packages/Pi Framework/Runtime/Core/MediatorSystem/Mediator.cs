@@ -47,7 +47,7 @@ namespace PiFramework.Mediator
 
         private HashSet<IModel> models = new();
 
-        public static PiEvent<T> patchingRegisters = new();
+        public static event Action<T> patchingRegisters;
 
         public static IUnregisterList unregisterList = new UnregisterList();
 
@@ -74,7 +74,7 @@ namespace PiFramework.Mediator
             _instance.Init();
 
             patchingRegisters?.Invoke(_instance);
-            patchingRegisters.RemoveAllListeners();
+            patchingRegisters =null;
 
             foreach (var model in _instance.models)
             {
@@ -96,7 +96,7 @@ namespace PiFramework.Mediator
         {
             container.Clear();
             typeEventSystem.Clear();
-            patchingRegisters.RemoveAllListeners();
+            patchingRegisters = null;
             unregisterList.UnregisterAll();
             _instance = null;
         }
@@ -274,6 +274,34 @@ namespace PiFramework.Mediator
 
         public static void RemoveListener<T>(this ICanAddEventListener self, Action<T> onEvent) =>
             self.GetMediator().RemoveListener<T>(onEvent);
+    }
+
+    public interface IEventHandler<TEvent>
+    {
+        void EventHandler(TEvent e);
+    }
+
+    public static class IEventHandlerExtension
+    {
+        public static IUnregister RegisterHandler<T>(this IEventHandler<T> self)
+        {
+            var listenable = self as ICanAddEventListener;
+            if(listenable == null)
+            {
+                Debug.LogError("Object must implements ICanAddEventListener to use AddEventHandler");
+                return null;
+            }
+            else
+            {
+                return listenable.AddListener<T>(self.EventHandler);
+            }
+        }
+
+        public static void UnregisterHandler<T>(this IEventHandler<T> self)
+        {
+            var listenable = self as ICanAddEventListener;
+            listenable?.RemoveListener<T>(self.EventHandler);
+        }
     }
 
     public interface ICanSendCommand : ICanGetMediator
