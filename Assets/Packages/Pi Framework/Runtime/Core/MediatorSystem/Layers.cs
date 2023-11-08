@@ -34,6 +34,19 @@ namespace PiFramework.Mediator
         protected abstract void OnInit();
     }
 
+    public abstract class MonoSystem : MonoBehaviour, ISystem
+    {
+        private IMediator mMediator;
+
+        IMediator ICanGetMediator.GetMediator() => mMediator;
+
+        void ICanSetMediator.SetMediator(IMediator mediator) => mMediator = mediator;
+
+        void ISystem.Init() => OnInit();
+
+        protected abstract void OnInit();
+    }
+
     #endregion
 
     #region Model
