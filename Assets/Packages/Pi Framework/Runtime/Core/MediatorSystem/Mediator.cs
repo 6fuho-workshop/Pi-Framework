@@ -47,7 +47,7 @@ namespace PiFramework.Mediator
 
         private HashSet<IModel> models = new();
 
-        public static PiEvent<T> patchingRegisters;
+        public static PiEvent<T> patchingRegisters = new();
 
         public static IUnregisterList unregisterList = new UnregisterList();
 
@@ -74,7 +74,7 @@ namespace PiFramework.Mediator
             _instance.Init();
 
             patchingRegisters?.Invoke(_instance);
-            patchingRegisters = null;
+            patchingRegisters.RemoveAllListeners();
 
             foreach (var model in _instance.models)
             {
@@ -96,7 +96,7 @@ namespace PiFramework.Mediator
         {
             container.Clear();
             typeEventSystem.Clear();
-            patchingRegisters = null;
+            patchingRegisters.RemoveAllListeners();
             unregisterList.UnregisterAll();
             _instance = null;
         }
