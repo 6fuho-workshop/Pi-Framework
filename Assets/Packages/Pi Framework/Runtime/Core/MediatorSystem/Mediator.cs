@@ -276,14 +276,14 @@ namespace PiFramework.Mediator
             self.GetMediator().RemoveListener<T>(onEvent);
     }
 
-    public interface IEventHandler<TEvent>
+    public interface IHandler<TEvent>
     {
-        void EventHandler(TEvent e);
+        void Handle(TEvent e);
     }
 
     public static class IEventHandlerExtension
     {
-        public static IUnregister RegisterHandler<T>(this IEventHandler<T> self)
+        public static IUnregister AddHandler<T>(this IHandler<T> self)
         {
             var listenable = self as ICanAddEventListener;
             if(listenable == null)
@@ -293,14 +293,14 @@ namespace PiFramework.Mediator
             }
             else
             {
-                return listenable.AddListener<T>(self.EventHandler);
+                return listenable.AddListener<T>(self.Handle);
             }
         }
 
-        public static void UnregisterHandler<T>(this IEventHandler<T> self)
+        public static void RemoveHandler<T>(this IHandler<T> self)
         {
             var listenable = self as ICanAddEventListener;
-            listenable?.RemoveListener<T>(self.EventHandler);
+            listenable?.RemoveListener<T>(self.Handle);
         }
     }
 
