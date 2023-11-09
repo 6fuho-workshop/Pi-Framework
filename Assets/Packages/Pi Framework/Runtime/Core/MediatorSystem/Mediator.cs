@@ -33,23 +33,36 @@ namespace PiFramework.Mediator
         void SendEvent<T>() where T : new();
         void SendEvent<T>(T e);
 
-        IUnregister AddListener<T>(Action<T> onEvent);
-        void RemoveListener<T>(Action<T> onEvent);
+        IUnRegister Subscribe<T>(Action<T> onEvent);
+        void Unsubscribe<T>(Action<T> onEvent);
 
         void Destroy();
     }
 
+    public enum PatchType { Once, Persistent }
     public abstract class Mediator<T> : IMediator where T : Mediator<T>, new()
     {
         private bool initialized = false;
+
+        private bool destroyed = false;
 
         private HashSet<ISystem> systems = new();
 
         private HashSet<IModel> models = new();
 
-        public static event Action<T> patchingRegisters;
+        static event Action<T> oneTimePatch;
 
-        public static IUnregisterList unregisterList = new UnregisterList();
+        static event Action<T> persistentPatch;
+
+        static void RegisterPatch(Action<T> onRegister, PatchType type = PatchType.Once)
+        {
+            if (type == PatchType.Once)
+                oneTimePatch += onRegister;
+            else
+                persistentPatch += onRegister;
+        }
+
+        public static IUnRegisterList unregisterList = new UnRegisterList();
 
         protected static T _instance;
 
@@ -58,23 +71,20 @@ namespace PiFramework.Mediator
             get
             {
                 if (_instance == null)
-                {
                     InstantiateMediator();
-                }
-
                 return _instance;
             }
         }
 
-
         static void InstantiateMediator()
         {
-
             _instance = new T();
+            PiBase.systemEvents.finalAppQuit.RegisterIfNotExists(OnApplicationQuit);
             _instance.Init();
 
-            patchingRegisters?.Invoke(_instance);
-            patchingRegisters =null;
+            oneTimePatch?.Invoke(_instance);
+            persistentPatch?.Invoke(_instance);
+            oneTimePatch = null;
 
             foreach (var model in _instance.models)
             {
@@ -94,11 +104,20 @@ namespace PiFramework.Mediator
 
         public void Destroy()
         {
+            if (destroyed) return;
+            //PiBase.systemEvents.finalApplicationQuit.RemoveListener((_instance as IMediator).OnApplicationQuit);
+            destroyed = true;
             container.Clear();
             typeEventSystem.Clear();
-            patchingRegisters = null;
+            oneTimePatch = null;
             unregisterList.UnregisterAll();
             _instance = null;
+        }
+
+        static void OnApplicationQuit()
+        {
+            _instance?.Destroy();
+            persistentPatch = null;
         }
 
         protected abstract void Init();
@@ -170,13 +189,13 @@ namespace PiFramework.Mediator
 
         private TypeEventSystem typeEventSystem = new();
 
-        public void SendEvent<TEvent>() where TEvent : new() => typeEventSystem.Send<TEvent>();
+        public void SendEvent<TEvent>() where TEvent : new() => typeEventSystem.Dispatch<TEvent>();
 
-        public void SendEvent<TEvent>(TEvent e) => typeEventSystem.Send<TEvent>(e);
+        public void SendEvent<TEvent>(TEvent e) => typeEventSystem.Dispatch<TEvent>(e);
 
-        public IUnregister AddListener<TEvent>(Action<TEvent> onEvent) => typeEventSystem.AddListener<TEvent>(onEvent);
+        public IUnRegister Subscribe<TEvent>(Action<TEvent> onEvent) => typeEventSystem.Subscribe<TEvent>(onEvent);
 
-        public void RemoveListener<TEvent>(Action<TEvent> onEvent) => typeEventSystem.RemoveListener<TEvent>(onEvent);
+        public void Unsubscribe<TEvent>(Action<TEvent> onEvent) => typeEventSystem.Unsubscribe<TEvent>(onEvent);
     }
 
     #endregion
@@ -263,44 +282,35 @@ namespace PiFramework.Mediator
             self.GetMediator().GetUtility<T>();
     }
 
-    public interface ICanAddEventListener : ICanGetMediator
+    public interface ICanSubscribeEvent : ICanGetMediator
     {
     }
 
-    public static class CanAddEventListenerExtension
+    public static class ICanSubcribeEventExtension
     {
-        public static IUnregister AddListener<T>(this ICanAddEventListener self, Action<T> onEvent) =>
-            self.GetMediator().AddListener<T>(onEvent);
+        public static IUnRegister Subscribe<T>(this ICanSubscribeEvent self, Action<T> onEvent) =>
+            self.GetMediator().Subscribe<T>(onEvent);
 
-        public static void RemoveListener<T>(this ICanAddEventListener self, Action<T> onEvent) =>
-            self.GetMediator().RemoveListener<T>(onEvent);
+        public static void Unsubscribe<T>(this ICanSubscribeEvent self, Action<T> onEvent) =>
+            self.GetMediator().Unsubscribe<T>(onEvent);
     }
 
-    public interface IHandler<TEvent>
+    public interface ISubscribe<TEvent> : ICanGetMediator
     {
         void Handle(TEvent e);
     }
 
     public static class IEventHandlerExtension
     {
-        public static IUnregister AddHandler<T>(this IHandler<T> self)
+        public static IUnRegister Subscribe<T>(this ISubscribe<T> self)
         {
-            var listenable = self as ICanAddEventListener;
-            if(listenable == null)
-            {
-                Debug.LogError("Object must implements ICanAddEventListener to use AddEventHandler");
-                return null;
-            }
-            else
-            {
-                return listenable.AddListener<T>(self.Handle);
-            }
+            return self.GetMediator().Subscribe<T>(self.Handle);
         }
 
-        public static void RemoveHandler<T>(this IHandler<T> self)
+        public static void RemoveHandler<T>(this ISubscribe<T> self)
         {
-            var listenable = self as ICanAddEventListener;
-            listenable?.RemoveListener<T>(self.Handle);
+            var listenable = self as ICanSubscribeEvent;
+            self.GetMediator().Unsubscribe<T>(self.Handle);
         }
     }
 

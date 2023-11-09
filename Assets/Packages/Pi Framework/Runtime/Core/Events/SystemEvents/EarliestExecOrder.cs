@@ -16,6 +16,6 @@ namespace PiFramework
 
         internal void LateUpdate() => PiBase.systemEvents.beginLateUpdate.Invoke();
 
-        internal void OnApplicationQuit() => PiBase.systemEvents.beginApplicationQuit.Invoke();
+        internal void OnApplicationQuit() => PiBase.systemEvents.beginAppQuit.Invoke();
     }
 }

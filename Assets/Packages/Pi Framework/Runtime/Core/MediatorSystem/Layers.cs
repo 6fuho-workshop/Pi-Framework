@@ -7,7 +7,7 @@ namespace PiFramework.Mediator
     #region Controller
 
     public interface IController : ICanGetMediator, ICanSendCommand, ICanGetSystem, ICanGetModel,
-        ICanAddEventListener, ICanSendQuery, ICanGetUtility
+        ICanSubscribeEvent, ICanSendQuery, ICanGetUtility
     {
     }
 
@@ -16,7 +16,7 @@ namespace PiFramework.Mediator
     #region System
 
     public interface ISystem : ICanGetMediator, ICanSetMediator, ICanGetModel, ICanGetUtility,
-        ICanAddEventListener, ICanSendEvent, ICanGetSystem
+        ICanSubscribeEvent, ICanSendEvent, ICanGetSystem
     {
         void Init();
     }

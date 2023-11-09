@@ -80,6 +80,7 @@ namespace PiFramework
         //RuntimeInitializeLoadType.BeforeSceneLoad
         static void Bootstrap()
         {
+            Application.quitting -= SystemDestroy;
             Application.quitting += SystemDestroy;
 
             _services = PiServiceRegistry.instance;
@@ -96,7 +97,7 @@ namespace PiFramework
             console = new PiConsole();
             _services.AddService<PiConsole>(console);
 
-            Debug.Log(InternalUtil.PiMessage("Pi bootstrapped"));
+            //Debug.Log(InternalUtil.PiMessage("Pi bootstrapped"));
         }
 
         /// <summary>
@@ -165,19 +166,15 @@ namespace PiFramework
         /// </summary>
         internal static void SystemDestroy()
         {
-            //SettingManager.Destroy();
+            Application.quitting -= SystemDestroy;
             root = null;
             gameObject = null;
             playerPrefs = null;
             console = null;
             systemEvents = null;
-
-            typeEvents.Clear();
-            typeEvents = null;
-
             _services = null;
-
-            Application.quitting -= SystemDestroy;
+            typeEvents?.Clear();
+            typeEvents = null;
         }
     }
 }

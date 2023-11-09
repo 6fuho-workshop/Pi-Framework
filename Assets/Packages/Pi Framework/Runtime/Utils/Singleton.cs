@@ -39,7 +39,7 @@ namespace PiFramework
 						{
 							GameObject go = new(typeof(T).ToString());
 							_instance = go.AddComponent<T>();
-							PiBase.systemEvents.finalApplicationQuit.AddListener(Destroy);
+							PiBase.systemEvents.finalAppQuit.Register(Destroy);
 
 							DontDestroyOnLoad(_instance.gameObject);
 						}
@@ -61,7 +61,7 @@ namespace PiFramework
 			if (_instance == null)
 			{
 				_instance = gameObject.GetComponent<T>();
-				PiBase.systemEvents.finalApplicationQuit.AddListener(Destroy);
+				PiBase.systemEvents.finalAppQuit.Register(Destroy);
 			}
 			else if (_instance.GetInstanceID() != GetInstanceID())
 			{

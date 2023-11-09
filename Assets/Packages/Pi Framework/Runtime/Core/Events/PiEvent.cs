@@ -1,98 +1,199 @@
-
+﻿
 using PiFramework.Mediator;
 using System;
+using static UnityEditor.Progress;
 
 namespace PiFramework
 {
     public interface IPiEvent
     {
-        IUnregister AddListener(Action call);
-        void RemoveAllListeners();
+        /// <summary>
+        /// Add a Action callback to PiEvent
+        /// </summary>
+        IUnRegister Register(Action callback);
+
+        void UnRegister(Action callback);
+
+        /// <summary>
+        /// Add event listener nhưng sẽ bỏ qua nếu listener đã được Add.<br/>
+        /// Nếu bỏ qua thì IUnRegister return sẽ có thuộc tính isEmpty = true.
+        /// </summary>
+        /// <returns>IUnRegister Instruction to remove listenter</returns>
+        IUnRegister RegisterIfNotExists(Action callback);
+
+        /// <summary>
+        /// Remove all listeners
+        /// </summary>
+        
     }
 
-    public class PiEvent : IPiEvent
+    public abstract class PiEventBase : IPiEvent
     {
-        private Action mCalls;
+        protected Action actions;
 
-        public IUnregister AddListener(Action call)
+        public IUnRegister Register(Action call)
         {
-            mCalls += call;
-            return new Unregister(() => { RemoveListener(call); });
+            actions += call;
+            return new Unregister(() => { UnRegister(call); });
         }
 
-        public void RemoveListener(Action onEvent) => mCalls -= onEvent;
+        public IUnRegister RegisterIfNotExists(Action call)
+        {
+            var unbinder = new Unregister(() => { UnRegister(call); });
+            if (Contains(actions, call))
+                unbinder.isEmpty = true;
+            else
+                actions += call;
+            return unbinder;
+        }
 
-        public void Invoke() => mCalls?.Invoke();
+        public void UnRegister(Action call) => actions -= call;
 
-        public void RemoveAllListeners() => mCalls = null;
+        public abstract void UnRegisterAll();
+
+        /// <summary>
+        /// Internal Helper.<br/> check if the invoker is in InvocationList of deledate d.
+        /// </summary>
+        internal static bool Contains(Delegate d, Delegate invoker)
+        {
+            if (d == null)
+                return false;
+            var arr = d.GetInvocationList();
+            for (uint i = 0; i < arr.Length; ++i)
+            {
+                if (arr[i].Equals(invoker))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
-    public class PiEvent<T> : IPiEvent
+    public class PiEvent : PiEventBase
     {
-        private Action<T> mCalls;
+        public void Invoke() => actions?.Invoke();
 
-        public IUnregister AddListener(Action<T> call)
-        {
-            mCalls += call;
-            return new Unregister(() => { RemoveListener(call); });
-        }
-
-        public void RemoveListener(Action<T> call) => mCalls -= call;
-
-        public void Invoke(T t) => mCalls?.Invoke(t);
-
-        IUnregister IPiEvent.AddListener(Action call)
-        {
-            return AddListener(Action);
-            void Action(T _) => call();
-        }
-
-        public void RemoveAllListeners() => mCalls = null;
+        public override void UnRegisterAll() => actions = null;
     }
 
-    public class PiEvent<T, K> : IPiEvent
+    public class PiEvent<T> : PiEventBase
     {
-        private Action<T, K> mCalls;
+        private Action<T> calls;
 
-        public IUnregister AddListener(Action<T, K> call)
+        public IUnRegister Register(Action<T> call)
         {
-            mCalls += call;
-            return new Unregister(() => { RemoveListener(call); });
+            calls += call;
+            return new Unregister(() => { UnRegister(call); });
         }
 
-        public void RemoveListener(Action<T, K> call) => mCalls -= call;
-
-        public void Invoke(T t, K k) => mCalls?.Invoke(t, k);
-
-        IUnregister IPiEvent.AddListener(Action call)
+        /// <summary>
+        /// Add event listener nhưng sẽ bỏ qua nếu listener đã được Add.<br/>
+        /// Nếu bỏ qua thì IUnRegister return sẽ có thuộc tính isEmpty = true.
+        /// </summary>
+        /// <returns>Instruction to remove listenter</returns>
+        public IUnRegister RegisterIfNotExists(Action<T> call)
         {
-            return AddListener(Action);
-            void Action(T _, K __) => call();
+            var unbinder = new Unregister(() => { UnRegister(call); });
+            if (PiEvent.Contains(calls, call))
+                unbinder.isEmpty = true;
+            else
+                calls += call;
+            return unbinder;
         }
 
-        public void RemoveAllListeners() => mCalls = null;
+        public void UnRegister(Action<T> call) => calls -= call;
+
+        public void Invoke(T t)
+        {
+            actions?.Invoke();
+            calls?.Invoke(t);
+        }
+
+        public override void UnRegisterAll()
+        {
+            actions = null;
+            calls = null;
+        }
     }
 
-    public class PiEvent<T, K, S> : IPiEvent
+    public class PiEvent<T, K> : PiEventBase
     {
-        private Action<T, K, S> mCalls;
+        private Action<T, K> calls;
 
-        public IUnregister AddListener(Action<T, K, S> call)
+        public IUnRegister Register(Action<T, K> call)
         {
-            mCalls += call;
-            return new Unregister(() => { RemoveListener(call); });
+            calls += call;
+            return new Unregister(() => { UnRegister(call); });
         }
 
-        public void RemoveListener(Action<T, K, S> call) => mCalls -= call;
-
-        public void Invoke(T t, K k, S s) => mCalls?.Invoke(t, k, s);
-
-        IUnregister IPiEvent.AddListener(Action call)
+        /// <summary>
+        /// Add event listener nhưng sẽ bỏ qua nếu listener đã được Add.<br/>
+        /// Nếu bỏ qua thì IUnRegister return sẽ có thuộc tính isEmpty = true.
+        /// </summary>
+        /// <returns>Instruction to remove listenter</returns>
+        public IUnRegister RegisterIfNotExists(Action<T, K> call)
         {
-            return AddListener(Action);
-            void Action(T _, K __, S ___) => call();
+            var unbinder = new Unregister(() => { UnRegister(call); });
+            if (PiEvent.Contains(calls, call))
+                unbinder.isEmpty = true;
+            else
+                calls += call;
+            return unbinder;
         }
 
-        public void RemoveAllListeners() => mCalls = null;
+        public void UnRegister(Action<T, K> call) => calls -= call;
+
+        public void Invoke(T t, K k)
+        {
+            actions?.Invoke();
+            calls?.Invoke(t, k);
+        }
+
+        public override void UnRegisterAll()
+        {
+            actions = null;
+            calls = null;
+        }
+    }
+
+    public class PiEvent<T, K, S> : PiEventBase
+    {
+        private Action<T, K, S> calls;
+
+        public IUnRegister Register(Action<T, K, S> call)
+        {
+            calls += call;
+            return new Unregister(() => { UnRegister(call); });
+        }
+
+        /// <summary>
+        /// Add event listener nhưng sẽ bỏ qua nếu listener đã được Add.<br/>
+        /// Nếu bỏ qua thì IUnRegister return sẽ có thuộc tính isEmpty = true.
+        /// </summary>
+        /// <returns>Instruction to remove listenter</returns>
+        public IUnRegister RegisterIfNotExists(Action<T, K, S> call)
+        {
+            var unbinder = new Unregister(() => { UnRegister(call); });
+            if (PiEvent.Contains(calls, call))
+                unbinder.isEmpty = true;
+            else
+                calls += call;
+            return unbinder;
+        }
+
+        public void UnRegister(Action<T, K, S> call) => calls -= call;
+
+        public void Invoke(T t, K k, S s)
+        {
+            actions?.Invoke();
+            calls?.Invoke(t, k, s);
+        }
+
+        public override void UnRegisterAll()
+        {
+            actions = null;
+            calls = null;
+        }
     }
 }

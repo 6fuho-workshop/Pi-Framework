@@ -28,11 +28,20 @@ namespace PiFramework
         public readonly PiEvent finalLateUpdate = new();
 
         /// <summary>
-        /// occurs when user click exit or back button on menu screen, args is a PendingInvoker
+        /// Occurs when user click exit or back button on menu screen.<br/>
+        /// Can be interrupted for further processing.
         /// </summary>
         public readonly InterruptableEvent triggeredShutdown = new();
-        public readonly PiEvent beginApplicationQuit = new();
-        public readonly PiEvent finalApplicationQuit = new();
+
+        /// <summary>
+        /// /// The first call of OnApplicationQuit step
+        /// </summary>
+        public readonly PiEvent beginAppQuit = new();
+
+        /// <summary>
+        /// The last call of OnApplicationQuit step
+        /// </summary>
+        public readonly PiEvent finalAppQuit = new();
 
 
         //Common
@@ -43,25 +52,25 @@ namespace PiFramework
 
         internal void Reset()
         {
-            beginAwake.RemoveAllListeners();
-            finalAwake.RemoveAllListeners();
-            beginStart.RemoveAllListeners();
-            finalStart.RemoveAllListeners();
-            beginUpdate.RemoveAllListeners();
-            finalUpdate.RemoveAllListeners();
-            beginFixedUpdate.RemoveAllListeners();
-            finalFixedUpdate.RemoveAllListeners();
-            beginLateUpdate.RemoveAllListeners();
-            finalLateUpdate.RemoveAllListeners();
+            beginAwake.UnRegisterAll();
+            finalAwake.UnRegisterAll();
+            beginStart.UnRegisterAll();
+            finalStart.UnRegisterAll();
+            beginUpdate.UnRegisterAll();
+            finalUpdate.UnRegisterAll();
+            beginFixedUpdate.UnRegisterAll();
+            finalFixedUpdate.UnRegisterAll();
+            beginLateUpdate.UnRegisterAll();
+            finalLateUpdate.UnRegisterAll();
             //BeginOnGUI.RemoveAllListeners();
             
-            triggeredShutdown.RemoveAllListeners();
-            beginApplicationQuit.RemoveAllListeners();
-            finalApplicationQuit.RemoveAllListeners();
-            userPaused.RemoveAllListeners();
-            userUnpaused.RemoveAllListeners();
+            triggeredShutdown.UnRegisterAll();
+            beginAppQuit.UnRegisterAll();
+            finalAppQuit.UnRegisterAll();
+            userPaused.UnRegisterAll();
+            userUnpaused.UnRegisterAll();
 
-            initializeAfterSceneLoad.RemoveAllListeners();
+            initializeAfterSceneLoad.UnRegisterAll();
         }
     }
 }

@@ -7,39 +7,34 @@ namespace PiFramework
 {
     public class TypeEventSystem
     {
-        private readonly Dictionary<Type, IPiEvent> typeEvents = new();
-        public void Send<T>() where T : new() => GetEvent<PiEvent<T>>()?.Invoke(new T());
+        private readonly Dictionary<Type, PiEventBase> typeEvents = new();
+        public void Dispatch<T>() where T : new() => GetEvent<PiEvent<T>>()?.Invoke(new T());
 
-        public void Send<T>(T e) => GetEvent<PiEvent<T>>()?.Invoke(e);
+        public void Dispatch<T>(T e) => GetEvent<PiEvent<T>>()?.Invoke(e);
 
-        public IUnregister AddListener<T>(Action<T> onEvent) => GetOrAddEvent<PiEvent<T>>().AddListener(onEvent);
+        public IUnRegister Subscribe<T>(Action<T> onEvent) => GetOrAddEvent<PiEvent<T>>().Register(onEvent);
 
-        public void RemoveListener<T>(Action<T> onEvent)
+        public void Unsubscribe<T>(Action<T> onEvent)
         {
             var e = GetEvent<PiEvent<T>>();
-            e?.RemoveListener(onEvent);
-        }
-
-        public void RemoveAllListeners<T>() where T : IPiEvent
-        {
-            GetEvent<T>()?.RemoveAllListeners();
+            e?.UnRegister(onEvent);
         }
 
         internal void Clear()
         {
             foreach (var piEvent in typeEvents.Values)
             {
-                piEvent.RemoveAllListeners();
+                piEvent.UnRegisterAll();
             }
             typeEvents.Clear();
         }
 
-        T GetEvent<T>() where T : IPiEvent
+        T GetEvent<T>() where T : PiEventBase
         {
             return typeEvents.TryGetValue(typeof(T), out var e) ? (T)e : default;
         }
 
-        T GetOrAddEvent<T>() where T : IPiEvent, new()
+        T GetOrAddEvent<T>() where T : PiEventBase, new()
         {
             var eType = typeof(T);
             if (typeEvents.TryGetValue(eType, out var e))
