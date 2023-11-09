@@ -14,8 +14,8 @@ namespace PiFramework
 
         internal static void TriggerRestart()
         {
-            var pendingShutdown = new PendingAction(PiBase.gameObject, () => SceneManager.LoadScene(0));
-            PiBase.systemEvents.triggeredShutdown.Invoke(pendingShutdown);
+            var pendingRestart = new PendingAction(PiBase.gameObject, () => SceneManager.LoadScene(0));
+            PiBase.systemEvents.triggeredRestart.Invoke(pendingRestart);
         }
     }
 }

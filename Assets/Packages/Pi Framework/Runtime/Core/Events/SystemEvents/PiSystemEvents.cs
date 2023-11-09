@@ -33,6 +33,7 @@ namespace PiFramework
         /// </summary>
         public readonly InterruptableEvent triggeredShutdown = new();
 
+        public readonly InterruptableEvent triggeredRestart = new();
 
         /// <summary>
         /// OnApplicationQuit
