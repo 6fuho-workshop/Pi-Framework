@@ -79,7 +79,7 @@ namespace PiFramework.Mediator
         static void InstantiateMediator()
         {
             _instance = new T();
-            PiBase.systemEvents.finalAppQuit.RegisterIfNotExists(OnApplicationQuit);
+            PiBase.systemEvents.AppQuitPhase3.RegisterIfNotExists(AppQuitHandler);
             _instance.Init();
 
             oneTimePatch?.Invoke(_instance);
@@ -114,7 +114,7 @@ namespace PiFramework.Mediator
             _instance = null;
         }
 
-        static void OnApplicationQuit()
+        static void AppQuitHandler()
         {
             _instance?.Destroy();
             persistentPatch = null;

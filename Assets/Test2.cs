@@ -8,18 +8,26 @@ public class Test2 : MonoBehaviour
 {
     private void Awake()
     {
-        print("test2");
-
+        print("test2 awake");
+        //enabled = false;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
+        print("test2 OnEnable");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnApplicationQuit()
     {
-        
+        print("Test2 OnApplicationQuit");
+    }
+
+    private void OnDisable()
+    {
+        print("Test2 OnDisable");
+    }
+    private void OnDestroy()
+    {
+        print("Test2 OnDestroy");
     }
 }

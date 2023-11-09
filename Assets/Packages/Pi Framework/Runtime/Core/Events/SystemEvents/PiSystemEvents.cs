@@ -28,21 +28,26 @@ namespace PiFramework
         public readonly PiEvent finalLateUpdate = new();
 
         /// <summary>
-        /// Occurs when user click exit or back button on menu screen.<br/>
+        /// Occurs when user clicked exit or back button on menu screen.<br/>
         /// Can be interrupted for further processing.
         /// </summary>
         public readonly InterruptableEvent triggeredShutdown = new();
 
-        /// <summary>
-        /// /// The first call of OnApplicationQuit step
-        /// </summary>
-        public readonly PiEvent beginAppQuit = new();
 
         /// <summary>
-        /// The last call of OnApplicationQuit step
+        /// OnApplicationQuit
         /// </summary>
-        public readonly PiEvent finalAppQuit = new();
+        public readonly PiEvent AppQuitPhase1 = new();
 
+        /// <summary>
+        /// Application.quitting
+        /// </summary>
+        public readonly PiEvent AppQuitPhase2 = new();
+
+        /// <summary>
+        /// OnDestroy
+        /// </summary>
+        public readonly PiEvent AppQuitPhase3 = new();
 
         //Common
         public readonly PiEvent userPaused = new();
@@ -65,8 +70,7 @@ namespace PiFramework
             //BeginOnGUI.RemoveAllListeners();
             
             triggeredShutdown.UnRegisterAll();
-            beginAppQuit.UnRegisterAll();
-            finalAppQuit.UnRegisterAll();
+            AppQuitPhase1.UnRegisterAll();
             userPaused.UnRegisterAll();
             userUnpaused.UnRegisterAll();
 

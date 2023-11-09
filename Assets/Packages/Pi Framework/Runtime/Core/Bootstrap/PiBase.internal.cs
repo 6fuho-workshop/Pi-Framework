@@ -80,8 +80,8 @@ namespace PiFramework
         //RuntimeInitializeLoadType.BeforeSceneLoad
         static void Bootstrap()
         {
-            Application.quitting -= SystemDestroy;
-            Application.quitting += SystemDestroy;
+            Application.quitting -= OnAppQuitting;
+            Application.quitting += OnAppQuitting;
 
             _services = PiServiceRegistry.instance;
             _services.Reset();
@@ -161,12 +161,19 @@ namespace PiFramework
             console.RegisterCommand("Restart", InternalCommands.TriggerRestart);
         }
 
+        static void OnAppQuitting()
+        {
+            Application.quitting -= OnAppQuitting;
+            systemEvents.AppQuitPhase2.Invoke();
+            systemEvents.AppQuitPhase3.Register(SystemDestroy);
+        }
+
         /// <summary>
         /// Những gì là gốc rễ và nhiều liên đới thì Destroy sau cùng
         /// </summary>
         internal static void SystemDestroy()
         {
-            Application.quitting -= SystemDestroy;
+            Debug.Log("SystemDestroyed");
             root = null;
             gameObject = null;
             playerPrefs = null;

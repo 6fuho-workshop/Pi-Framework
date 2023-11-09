@@ -10,21 +10,27 @@ public class Test3 : MonoBehaviour
     private void Awake()
     {
         //GetService<Terrain>().Update();
-        print(this.GetName());
-        var test2 = GetComponent<Test2>();
-        test2.GetName();
-
+        print("test3 Awkae");
+        //enabled = false;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
+        print("test3 OnEnable");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnApplicationQuit()
     {
-        
+        print("Test3 OnApplicationQuit");
+    }
+
+    private void OnDisable()
+    {
+        print("Test3 OnDisable");
+    }
+    private void OnDestroy()
+    {
+        print("Test3 OnDestroy");
     }
 }
 

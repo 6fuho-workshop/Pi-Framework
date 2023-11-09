@@ -10,9 +10,7 @@ namespace PiFramework
     [ExecutionOrder(-31000)]
     public class PiRoot : MonoBehaviour
     {
-        EarliestExecOrder earliest = new();
-
-        
+        bool isSingleton;
         void Awake()
         {
             if (PiBase.root != null)
@@ -23,30 +21,39 @@ namespace PiFramework
                 return;
             }
 
+            isSingleton = true;
+
             //Debug.Log(InternalUtil.PiMessage("PiRoot Awake"));
             GameObject.DontDestroyOnLoad(gameObject);
             PiBase.SystemStartup(this);
 
             DisplayServices();
-            earliest.Awake();
+
+            PiBase.systemEvents.beginAwake.Invoke();
         }
 
         #region Dispatch System Events
 
-        void Start() => earliest.Start();
+        void Start() => PiBase.systemEvents.beginStart.Invoke();
 
-        void Update() => earliest.Update();
+        void Update() => PiBase.systemEvents.beginUpdate.Invoke();
 
-        void FixedUpdate() => earliest.FixedUpdate();
+        void FixedUpdate() => PiBase.systemEvents.beginFixedUpdate.Invoke();
 
-        void LateUpdate() => earliest.LateUpdate();
+        void LateUpdate() => PiBase.systemEvents.beginLateUpdate.Invoke();
 
         public bool isQuitting { get; private set; }
 
         private void OnApplicationQuit()
         {
             isQuitting = true;
-            earliest.OnApplicationQuit();
+            PiBase.systemEvents.AppQuitPhase1.Invoke();
+        }
+
+        private void OnDestroy()
+        {
+            if(isSingleton)
+                PiBase.systemEvents.AppQuitPhase3.Invoke();
         }
 
         #endregion

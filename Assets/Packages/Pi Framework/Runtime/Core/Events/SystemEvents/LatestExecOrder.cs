@@ -23,6 +23,6 @@ namespace PiFramework
 
         void LateUpdate() => PiBase.systemEvents.finalLateUpdate.Invoke();
 
-        private void OnApplicationQuit() => PiBase.systemEvents.finalAppQuit.Invoke();
+        private void OnApplicationQuit() => PiBase.systemEvents.AppQuitPhase1.Invoke();
     }
 }

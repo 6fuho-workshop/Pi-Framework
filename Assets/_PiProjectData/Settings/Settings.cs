@@ -15,7 +15,7 @@ public partial class Settings : GameSettings
 
     public override void Initialize()
     {
-        Pi.systemEvents.finalAppQuit.Register(() => _instance = null);
+        Pi.systemEvents.AppQuitPhase1.Register(() => _instance = null);
         _instance = SettingManager.settings as Settings;
         BuildNodeDict();
         _nodeDict.Add(string.Empty, this); //add root node

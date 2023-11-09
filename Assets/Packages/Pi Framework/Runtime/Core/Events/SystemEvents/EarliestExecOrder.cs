@@ -6,7 +6,6 @@ namespace PiFramework
 {
     internal class EarliestExecOrder
     {
-        internal void Awake() => PiBase.systemEvents.beginAwake.Invoke();
 
         internal void Start() => PiBase.systemEvents.beginStart.Invoke();
 
@@ -16,6 +15,6 @@ namespace PiFramework
 
         internal void LateUpdate() => PiBase.systemEvents.beginLateUpdate.Invoke();
 
-        internal void OnApplicationQuit() => PiBase.systemEvents.beginAppQuit.Invoke();
+        internal void OnApplicationQuit() => PiBase.systemEvents.AppQuitPhase1.Invoke();
     }
 }
