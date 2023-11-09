@@ -54,7 +54,7 @@ namespace PiFramework.Mediator
 
         static event Action<T> persistentPatch;
 
-        static void RegisterPatch(Action<T> onRegister, PatchType type = PatchType.Once)
+        public static void RegisterPatch(Action<T> onRegister, PatchType type = PatchType.Once)
         {
             if (type == PatchType.Once)
                 oneTimePatch += onRegister;
