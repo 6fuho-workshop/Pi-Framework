@@ -30,11 +30,11 @@ namespace PiFramework.Mediator
 
         TResult SendQuery<TResult>(IQuery<TResult> query);
 
-        void SendEvent<T>() where T : new();
-        void SendEvent<T>(T e);
+        void SendEvent<TEvent>() where TEvent : new();
+        void SendEvent<TEvent>(TEvent e);
 
-        IUnRegister Subscribe<T>(Action<T> onEvent);
-        void Unsubscribe<T>(Action<T> onEvent);
+        IUnRegister Subscribe<TEvent>(Action<TEvent> callback);
+        void Unsubscribe<TEvent>(Action<TEvent> callback);
 
         void Destroy();
     }
@@ -79,7 +79,7 @@ namespace PiFramework.Mediator
         static void InstantiateMediator()
         {
             _instance = new T();
-            PiBase.systemEvents.AppQuitPhase3.RegisterIfNotExists(AppQuitHandler);
+            PiBase.systemEvents.AppQuitPhase3.RegisterIfNotExists(OnAppQuit);
             _instance.Init();
 
             oneTimePatch?.Invoke(_instance);
@@ -110,11 +110,11 @@ namespace PiFramework.Mediator
             container.Clear();
             typeEventSystem.Clear();
             oneTimePatch = null;
-            unregisterList.UnregisterAll();
+            unregisterList.UnRegisterAll();
             _instance = null;
         }
 
-        static void AppQuitHandler()
+        static void OnAppQuit()
         {
             _instance?.Destroy();
             persistentPatch = null;
@@ -189,13 +189,13 @@ namespace PiFramework.Mediator
 
         private TypeEventSystem typeEventSystem = new();
 
-        public void SendEvent<TEvent>() where TEvent : new() => typeEventSystem.Dispatch<TEvent>();
+        public void SendEvent<TEvent>() where TEvent : new() => typeEventSystem.SendEvent<TEvent>();
 
-        public void SendEvent<TEvent>(TEvent e) => typeEventSystem.Dispatch<TEvent>(e);
+        public void SendEvent<TEvent>(TEvent e) => typeEventSystem.SendEvent<TEvent>(e);
 
-        public IUnRegister Subscribe<TEvent>(Action<TEvent> onEvent) => typeEventSystem.Subscribe<TEvent>(onEvent);
+        public IUnRegister Subscribe<TEvent>(Action<TEvent> callback) => typeEventSystem.Subscribe<TEvent>(callback);
 
-        public void Unsubscribe<TEvent>(Action<TEvent> onEvent) => typeEventSystem.Unsubscribe<TEvent>(onEvent);
+        public void Unsubscribe<TEvent>(Action<TEvent> callback) => typeEventSystem.UnSubscribe<TEvent>(callback);
     }
 
     #endregion
@@ -288,29 +288,29 @@ namespace PiFramework.Mediator
 
     public static class ICanSubcribeEventExtension
     {
-        public static IUnRegister Subscribe<T>(this ICanSubscribeEvent self, Action<T> onEvent) =>
-            self.GetMediator().Subscribe<T>(onEvent);
+        public static IUnRegister Subscribe<T>(this ICanSubscribeEvent self, Action<T> callback) =>
+            self.GetMediator().Subscribe<T>(callback);
 
-        public static void Unsubscribe<T>(this ICanSubscribeEvent self, Action<T> onEvent) =>
-            self.GetMediator().Unsubscribe<T>(onEvent);
+        public static void Unsubscribe<T>(this ICanSubscribeEvent self, Action<T> callback) =>
+            self.GetMediator().Unsubscribe<T>(callback);
     }
 
-    public interface ISubscribe<TEvent> : ICanGetMediator
+    public interface ISubscriber<TEvent> : ICanGetMediator
     {
-        void Handle(TEvent e);
+        void HandleEvent(TEvent e);
     }
 
-    public static class IEventHandlerExtension
+    public static class ISubscriberExtension
     {
-        public static IUnRegister Subscribe<T>(this ISubscribe<T> self)
+        public static IUnRegister Subscribe<T>(this ISubscriber<T> self)
         {
-            return self.GetMediator().Subscribe<T>(self.Handle);
+            return self.GetMediator().Subscribe<T>(self.HandleEvent);
         }
 
-        public static void RemoveHandler<T>(this ISubscribe<T> self)
+        public static void Unsubscribe<T>(this ISubscriber<T> self)
         {
             var listenable = self as ICanSubscribeEvent;
-            self.GetMediator().Unsubscribe<T>(self.Handle);
+            self.GetMediator().Unsubscribe<T>(self.HandleEvent);
         }
     }
 
@@ -334,7 +334,7 @@ namespace PiFramework.Mediator
     {
     }
 
-    public static class CanSendEventExtension
+    public static class ICanSendEventExtension
     {
         public static void SendEvent<T>(this ICanSendEvent self) where T : new() =>
             self.GetMediator().SendEvent<T>();

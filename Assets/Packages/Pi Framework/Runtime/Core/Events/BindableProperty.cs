@@ -28,7 +28,7 @@ namespace PiFramework
     /// BindableProperty is an object containing data + data change events.
     /// </summary>
     /// <typeparam name="T">Property Data Type</typeparam>
-    public class BindableProperty<T> : IBindableProperty<T>
+    public class BindableProperty<T> : PiEventBase<T>, IBindableProperty<T> 
     {
         public BindableProperty(T defaultValue = default) => _value = defaultValue;
 
@@ -51,8 +51,16 @@ namespace PiFramework
                 if (value != null && Comparer(value, _value)) return;
 
                 SetValue(value);
-                valueChanged?.Invoke(value);
-                valueChangedAction.Invoke();
+                Invoke(value);
+            }
+        }
+        void Invoke(T t)
+        {
+            if (CheckInvokable())
+            {
+                actions?.Invoke();
+                calls?.Invoke(t);
+                PostInvoke();
             }
         }
 
@@ -62,30 +70,6 @@ namespace PiFramework
 
         public void SetValueIgnoreEvent(T newValue) => _value = newValue;
 
-        private Action<T> valueChanged;
-        private Action valueChangedAction;
-
-        public IUnRegister Register(Action<T> changedHandler)
-        {
-            valueChanged += changedHandler;
-            //return new BindablePropertyUnRegister<T>(this, changedHandler);
-            return new Unregister(() => UnRegister(changedHandler));
-        }
-
-        public IUnRegister RegisterIfNotExists(Action<T> changedHandler)
-        {
-            //var unbinder = new BindablePropertyUnRegister<T>(this, onValueChanged);
-
-            var unbinder = new Unregister(() => UnRegister(changedHandler));
-
-            if (PiEvent.Contains(valueChanged, changedHandler))
-                unbinder.isEmpty = true;
-            else
-                valueChanged += changedHandler;
-
-            return unbinder;
-        }
-
         public IUnRegister RegisterNotifyBack(Action<T> onValueChanged)
         {
             var unregister = Register(onValueChanged);
@@ -93,37 +77,8 @@ namespace PiFramework
             return unregister;
         }
 
-        public void UnRegister(Action<T> onValueChanged) => valueChanged -= onValueChanged;
-
-        public IUnRegister Register(Action onChangedAction)
-        {
-            valueChangedAction += onChangedAction;
-            return new Unregister(() => UnRegister(onChangedAction));
-            //return AddListener(Action);
-            //void Action(T _) => call();
-        }
-
-        public IUnRegister RegisterIfNotExists(Action onChangedAction)
-        {
-            var unbinder = new Unregister(() => UnRegister(onChangedAction));
-
-            if (PiEvent.Contains(valueChangedAction, onChangedAction))
-                unbinder.isEmpty = true;
-            else
-                valueChangedAction += onChangedAction;
-
-            return unbinder;
-        }
-
-        public void UnRegister(Action onChangedAction) => valueChangedAction -= onChangedAction;
 
         public override string ToString() => value.ToString();
-
-        internal void UnRegisterAll()
-        {
-            valueChanged = null;
-            valueChangedAction = null;
-        }
     }
 
     internal class ComparerAutoRegister

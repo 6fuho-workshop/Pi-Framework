@@ -111,7 +111,7 @@ namespace PiFramework
         public IUnRegister AddService<T>(T service) where T : class
         {
             AddService(typeof(T), service);
-            return new Unregister(() => RemoveService<T>());
+            return new CustomUnRegister(() => RemoveService<T>());
         }
 
         /// <summary>

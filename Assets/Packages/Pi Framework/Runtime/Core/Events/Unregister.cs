@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,66 +23,70 @@ namespace PiFramework
 
     public static class IUnRegisterListExtension
     {
-        public static void AddToUnregisterList(this IUnRegister self, IUnRegisterList unregisterList)
+        /// <summary>
+        /// Add to pending unregisterList for later unregister
+        /// </summary>
+        /// <param name="unRegisterList"></param>
+        public static void AddToPendingList(this IUnRegister self, IUnRegisterList unRegisterList)
         {
             if(!self.isEmpty)
-                unregisterList.unregisterList.Add(self);
+                unRegisterList.unregisterList.Add(self);
         }
 
-        public static void UnregisterAll(this IUnRegisterList self)
+        public static void UnRegisterAll(this IUnRegisterList self)
         {
             self.unregisterList.ForEach(x => x.UnRegister());
             self.unregisterList.Clear();
         }
     }
 
-    public struct Unregister : IUnRegister
+    public struct CustomUnRegister : IUnRegister
     {
-        private Action onUnRegister { get; set; }
+        private Action onUnregister { get; set; }
         public bool isEmpty { get; set; }
 
-        public Unregister(Action onUnRegister) {
-            this.onUnRegister = onUnRegister; 
+        public CustomUnRegister(Action unregisterHandler) {
+            onUnregister = unregisterHandler; 
             isEmpty = false;
         }
 
         public void UnRegister()
         {
-            onUnRegister.Invoke();
-            onUnRegister = null;
+            onUnregister.Invoke();
+            onUnregister = null;
         }
     }
 
-    public class UnregisterOnDestroyTrigger : UnityEngine.MonoBehaviour
+    public class UnRegisterOnDestroyTrigger : UnityEngine.MonoBehaviour
     {
-        private readonly HashSet<IUnRegister> unbinders = new HashSet<IUnRegister>();
+        private readonly HashSet<IUnRegister> unRegisters = new HashSet<IUnRegister>();
 
-        public void AddUnregister(IUnRegister unregister) => unbinders.Add(unregister);
+        public void AddUnregister(IUnRegister unregister) => unRegisters.Add(unregister);
 
-        public void RemoveUnregister(IUnRegister unregister) => unbinders.Remove(unregister);
+        public void RemoveUnregister(IUnRegister unregister) => unRegisters.Remove(unregister);
 
         private void OnDestroy()
         {
-            foreach (var ur in unbinders)
+            foreach (var ur in unRegisters)
             {
                 ur.UnRegister();
             }
 
-            unbinders.Clear();
+            unRegisters.Clear();
         }
     }
 
     public static class IUnRegisterExtension
     {
-        public static IUnRegister UnregisterWhenGameObjectDestroyed(this IUnRegister self, UnityEngine.GameObject gameObject)
+        public static IUnRegister UnRegisterWhenGameObjectDestroyed(this IUnRegister self, UnityEngine.GameObject gameObject)
         {
             if (!self.isEmpty)
             {
-                var trigger = gameObject.GetComponent<UnregisterOnDestroyTrigger>();
+                var trigger = gameObject.GetComponent<UnRegisterOnDestroyTrigger>();
 
                 if (!trigger)
                 {
-                    trigger = gameObject.AddComponent<UnregisterOnDestroyTrigger>();
+                    trigger = gameObject.AddComponent<UnRegisterOnDestroyTrigger>();
                 }
 
                 trigger.AddUnregister(self);
@@ -91,8 +95,8 @@ namespace PiFramework
             return self;
         }
 
-        public static IUnRegister UnregisterWhenGameObjectDestroyed<T>(this IUnRegister self, T component)
+        public static IUnRegister UnRegisterWhenGameObjectDestroyed<T>(this IUnRegister self, T component)
             where T : UnityEngine.Component =>
-            self.UnregisterWhenGameObjectDestroyed(component.gameObject);
+            self.UnRegisterWhenGameObjectDestroyed(component.gameObject);
     }
 }

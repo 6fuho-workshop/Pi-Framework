@@ -8,16 +8,19 @@ namespace PiFramework
     public class TypeEventSystem
     {
         private readonly Dictionary<Type, PiEventBase> typeEvents = new();
-        public void Dispatch<T>() where T : new() => GetEvent<PiEvent<T>>()?.Invoke(new T());
+        public void SendEvent<T>() where T : new() => GetEvent<PiEvent<T>>()?.Invoke(new T());
 
-        public void Dispatch<T>(T e) => GetEvent<PiEvent<T>>()?.Invoke(e);
+        public void SendEvent<T>(T e) => GetEvent<PiEvent<T>>()?.Invoke(e);
 
-        public IUnRegister Subscribe<T>(Action<T> onEvent) => GetOrAddEvent<PiEvent<T>>().Register(onEvent);
+        /// <summary>
+        /// Add event callback
+        /// </summary>
+        public IUnRegister Subscribe<T>(Action<T> callback) => GetOrAddEvent<PiEvent<T>>().Register(callback);
 
-        public void Unsubscribe<T>(Action<T> onEvent)
+        public void UnSubscribe<T>(Action<T> callback)
         {
             var e = GetEvent<PiEvent<T>>();
-            e?.UnRegister(onEvent);
+            e?.UnRegister(callback);
         }
 
         internal void Clear()

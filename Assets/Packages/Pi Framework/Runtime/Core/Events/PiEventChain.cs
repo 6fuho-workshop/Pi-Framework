@@ -19,7 +19,7 @@ namespace PiFramework
         public IUnRegister AddListener(Action call)
         {
             mCalls += call;
-            return new Unregister(() => { RemoveListener(call); });
+            return new CustomUnRegister(() => { RemoveListener(call); });
         }
 
         public void RemoveListener(Action call)
