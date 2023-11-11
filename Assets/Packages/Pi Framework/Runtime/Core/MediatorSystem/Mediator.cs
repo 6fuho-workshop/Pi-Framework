@@ -295,19 +295,19 @@ namespace PiFramework.Mediator
             self.GetMediator().Unsubscribe<T>(callback);
     }
 
-    public interface ISubscriber<TEvent> : ICanGetMediator
+    public interface IHandler<TEvent> : ICanGetMediator
     {
         void HandleEvent(TEvent e);
     }
 
-    public static class ISubscriberExtension
+    public static class IHandlerExtension
     {
-        public static IUnRegister Subscribe<T>(this ISubscriber<T> self)
+        public static IUnRegister Subscribe<T>(this IHandler<T> self)
         {
             return self.GetMediator().Subscribe<T>(self.HandleEvent);
         }
 
-        public static void Unsubscribe<T>(this ISubscriber<T> self)
+        public static void Unsubscribe<T>(this IHandler<T> self)
         {
             var listenable = self as ICanSubscribeEvent;
             self.GetMediator().Unsubscribe<T>(self.HandleEvent);
