@@ -37,6 +37,10 @@ namespace PiFramework.Mediator
         IUnRegister Subscribe<TEvent>(Action<TEvent> callback);
         void Unsubscribe<TEvent>(Action<TEvent> callback);
 
+        public IUnRegister RegisterHandler<TCommand>(Action<TCommand> handler);
+
+        public void UnRegisterHandler<TCommand>(Action<TCommand> handler);
+
         void Destroy();
     }
 
@@ -336,10 +340,10 @@ namespace PiFramework.Mediator
     public static class ICanHandleCommandExtension
     {
         public static IUnRegister RegisterHandler<T>(this ICanHandleCommand self, Action<T> callback) where T : ICommand
-            => self.GetMediator().Subscribe<T>(callback);
+            => self.GetMediator().RegisterHandler<T>(callback);
 
         public static void UnRegisterHandler<T>(this ICanHandleCommand self, Action<T> callback) where T : ICommand
-            => self.GetMediator().Unsubscribe<T>(callback);
+            => self.GetMediator().UnRegisterHandler<T>(callback);
     }
 
 
