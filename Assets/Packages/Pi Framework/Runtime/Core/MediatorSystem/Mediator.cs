@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -109,6 +110,7 @@ namespace PiFramework.Mediator
             destroyed = true;
             container.Clear();
             typeEventSystem.Clear();
+            commandHandlers.Clear();
             oneTimePatch = null;
             unregisterList.UnRegisterAll();
             _instance = null;
