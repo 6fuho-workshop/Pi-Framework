@@ -11,8 +11,7 @@ namespace PiFramework.Mediator
     }
 
     public interface ICommand<TResult> : ICanGetMediator, ICanSetMediator, ICanGetSystem, ICanGetModel,
-        ICanGetUtility,
-        ICanSendEvent, ICanSendCommand, ICanSendQuery
+        ICanGetUtility, ICanSendEvent, ICanSendCommand, ICanSendQuery
     {
         TResult Execute();
     }

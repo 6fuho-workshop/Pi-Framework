@@ -17,7 +17,7 @@ namespace PiFramework
         /// </summary>
         public IUnRegister Subscribe<T>(Action<T> callback) => GetOrAddEvent<PiEvent<T>>().Register(callback);
 
-        public void UnSubscribe<T>(Action<T> callback)
+        public void Unsubscribe<T>(Action<T> callback)
         {
             var e = GetEvent<PiEvent<T>>();
             e?.UnRegister(callback);
