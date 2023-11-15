@@ -37,7 +37,9 @@ namespace PiFramework.Mediator
         IUnRegister Subscribe<TEvent>(Action<TEvent> callback);
         void Unsubscribe<TEvent>(Action<TEvent> callback);
 
-        public IUnRegister RegisterHandler<TCommand>(Action<TCommand> handler);
+        public IUnRegister RegisterHandler<TCommand>(Action<TCommand> handler) where TCommand : ICommand;
+
+        public IUnRegister RegisterHandler<TResult>(Action<ICommand<TResult>> handler);
 
         public void UnRegisterHandler<TCommand>(Action<TCommand> handler);
 
@@ -171,31 +173,47 @@ namespace PiFramework.Mediator
 
         private TypeEventSystem commandHandlers = new();
 
-        public TResult SendCommand<TResult>(ICommand<TResult> command) => ExecuteCommand(command);
-
-        public void SendCommand<TCommand>(TCommand command) where TCommand : ICommand
+        public virtual TResult SendCommand<TResult>(ICommand<TResult> command)
         {
-            ExecuteCommand(command);
-            commandHandlers.SendEvent<TCommand>(command);
+            command.SetMediator(this);
+            var result = command.Execute();
+            if (command.allowHandler)
+                commandHandlers.SendEvent<ICommand<TResult>>(command);
+            return result;
         }
 
-        public IUnRegister RegisterHandler<TCommand>(Action<TCommand> handler) => commandHandlers.Subscribe<TCommand>(handler);
+        public virtual void SendCommand<TCommand>(TCommand command) where TCommand : ICommand
+        {
+            command.SetMediator(this);
+            command.Execute();
+            if (command.allowHandler)
+                commandHandlers.SendEvent<TCommand>(command);
+        }
+
+        public IUnRegister RegisterHandler<TCommand>(Action<TCommand> handler) where TCommand : ICommand
+            => commandHandlers.Subscribe<TCommand>(handler);
+
+        public IUnRegister RegisterHandler<TResult>(Action<ICommand<TResult>> handler)
+        {
+            return commandHandlers.Subscribe(handler);
+        }
 
         public void UnRegisterHandler<TCommand>(Action<TCommand> handler) => commandHandlers.Unsubscribe<TCommand>(handler);
 
-        
 
+        /*
         protected virtual TResult ExecuteCommand<TResult>(ICommand<TResult> command)
         {
             command.SetMediator(this);
             return command.Execute();
-        }
+        }*/
 
-        protected virtual void ExecuteCommand(ICommand command)
+        /*
+        protected virtual void ExecuteCommand<TCommand>(TCommand command) where TCommand : ICommand
         {
             command.SetMediator(this);
             command.Execute();
-        }
+        }*/
 
         public TResult SendQuery<TResult>(IQuery<TResult> query) => DoQuery<TResult>(query);
 

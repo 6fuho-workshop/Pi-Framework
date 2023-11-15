@@ -8,17 +8,21 @@ namespace PiFramework.Mediator
         ICanSendEvent, ICanSendCommand, ICanSendQuery
     {
         void Execute();
+        bool allowHandler {  get; set; }
     }
 
     public interface ICommand<TResult> : ICanGetMediator, ICanSetMediator, ICanGetSystem, ICanGetModel,
         ICanGetUtility, ICanSendEvent, ICanSendCommand, ICanSendQuery
     {
         TResult Execute();
+        bool allowHandler { get; set; }
     }
 
     public abstract class AbstractCommand : ICommand
     {
         private IMediator mMediator;
+
+        public bool allowHandler { get; set; } = true;
 
         IMediator ICanGetMediator.GetMediator() => mMediator;
 
@@ -32,6 +36,8 @@ namespace PiFramework.Mediator
     public abstract class AbstractCommand<TResult> : ICommand<TResult>
     {
         private IMediator mMediator;
+
+        public bool allowHandler { get; set; } = true;
 
         IMediator ICanGetMediator.GetMediator() => mMediator;
 
