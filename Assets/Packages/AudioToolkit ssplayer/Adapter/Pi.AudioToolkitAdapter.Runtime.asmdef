@@ -2,8 +2,8 @@
     "name": "Pi.AudioToolkitAdapter.Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:4de1c6a7f781e3448b1160573424a55f",
-        "GUID:a8624c9d6ee6b3743a5c32608cdd8ef3"
+        "AudioToolkitRuntime",
+        "Pi.SimpleSoundPlayer.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
