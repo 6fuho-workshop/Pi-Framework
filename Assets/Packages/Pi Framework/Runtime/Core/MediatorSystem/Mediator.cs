@@ -15,13 +15,13 @@ namespace PiFramework.Mediator
     {
         void RegisterSystem<T>(T system) where T : ISystem;
 
-        void RegisterModel<T>(T model) where T : IDataModel;
+        void RegisterModel<T>(T model) where T : IModel;
 
         void RegisterUtility<T>(T utility) where T : IUtility;
 
         T GetSystem<T>() where T : class, ISystem;
 
-        T GetModel<T>() where T : class, IDataModel;
+        T GetModel<T>() where T : class, IModel;
 
         T GetUtility<T>() where T : class, IUtility;
 
@@ -55,7 +55,7 @@ namespace PiFramework.Mediator
 
         private HashSet<ISystem> systems = new();
 
-        private HashSet<IDataModel> models = new();
+        private HashSet<IModel> models = new();
 
         static event Action<T> oneTimePatch;
 
@@ -147,7 +147,7 @@ namespace PiFramework.Mediator
             }
         }
 
-        public void RegisterModel<TModel>(TModel model) where TModel : IDataModel
+        public void RegisterModel<TModel>(TModel model) where TModel : IModel
         {
             model.SetMediator(this);
             container.Register<TModel>(model);
@@ -167,7 +167,7 @@ namespace PiFramework.Mediator
 
         public TSystem GetSystem<TSystem>() where TSystem : class, ISystem => container.Get<TSystem>();
 
-        public TModel GetModel<TModel>() where TModel : class, IDataModel => container.Get<TModel>();
+        public TModel GetModel<TModel>() where TModel : class, IModel => container.Get<TModel>();
 
         public TUtility GetUtility<TUtility>() where TUtility : class, IUtility => container.Get<TUtility>();
 
@@ -294,7 +294,7 @@ namespace PiFramework.Mediator
 
     public static class CanGetModelExtension
     {
-        public static T GetModel<T>(this ICanGetModel self) where T : class, IDataModel =>
+        public static T GetModel<T>(this ICanGetModel self) where T : class, IModel =>
             self.GetMediator().GetModel<T>();
     }
 

@@ -51,12 +51,12 @@ namespace PiFramework.Mediator
 
     #region Model
 
-    public interface IDataModel : ICanGetMediator, ICanSetMediator, ICanGetUtility, ICanSendEvent, ICanHandleCommand
+    public interface IModel : ICanGetMediator, ICanSetMediator, ICanGetUtility, ICanSendEvent, ICanHandleCommand
     {
         void Init();
     }
 
-    public abstract class AbstractDataModel : IDataModel
+    public abstract class AbstractModel : IModel
     {
         private IMediator mMediator;
 
@@ -64,7 +64,7 @@ namespace PiFramework.Mediator
 
         void ICanSetMediator.SetMediator(IMediator mediator) => mMediator = mediator;
 
-        void IDataModel.Init() => OnInit();
+        void IModel.Init() => OnInit();
 
         protected abstract void OnInit();
     }
