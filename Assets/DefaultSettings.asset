@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: DefaultSettings
   m_EditorClassIdentifier: 
   _global1: 0
-  _global2: {x: 0, y: 0, z: 0}
+  _global2: 0
   _dev:
     _logPiMessages: 0
-    _testV3: {x: 0, y: 0, z: 0}
   _simpleSoundPlayer:
     _audioMixer: {fileID: 24100000, guid: c0cb2a8445c217f4081ae244925b0b8c, type: 2}
     _unmuteFadeLength: 1

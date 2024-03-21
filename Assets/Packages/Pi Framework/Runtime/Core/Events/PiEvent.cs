@@ -60,7 +60,7 @@ namespace PiFramework
         {
             if (invoking)
             {
-                UnityEngine.Debug.LogError("An event cannot be reinvoked while it being invoked.");
+                //UnityEngine.Debug.LogError("An event cannot be reinvoked while it being invoked.");
                 return false;
             }
             else
