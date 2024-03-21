@@ -38,7 +38,6 @@ namespace PiExtension.SimpleSound
         private void Start()
         {
             CheckAction(onStart);
-            Debug.Log("Playlist started");
         }
         private void OnEnable()
         {

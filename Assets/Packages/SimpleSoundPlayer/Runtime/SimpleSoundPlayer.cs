@@ -114,7 +114,6 @@ namespace PiExtension.SimpleSound
         {
             ReadSettings();
             foreach (var mixerGroup in _mixers) mixerGroup.ApplyVolume();
-            Debug.Log("Mixer applied Volume");
         }
 
         #endregion settings
