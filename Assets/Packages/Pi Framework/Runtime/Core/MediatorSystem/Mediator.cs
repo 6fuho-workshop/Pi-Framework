@@ -191,11 +191,11 @@ namespace PiFramework.Mediator
         }
 
         public IUnRegister RegisterHandler<TCommand>(Action<TCommand> handler) where TCommand : ICommand
-            => commandHandlers.Subscribe<TCommand>(handler);
+            => commandHandlers.SubscribeEvent<TCommand>(handler);
 
         public IUnRegister RegisterHandler<TResult>(Action<ICommand<TResult>> handler)
         {
-            return commandHandlers.Subscribe(handler);
+            return commandHandlers.SubscribeEvent(handler);
         }
 
         public void UnRegisterHandler<TCommand>(Action<TCommand> handler) => commandHandlers.Unsubscribe<TCommand>(handler);
@@ -229,7 +229,7 @@ namespace PiFramework.Mediator
 
         public void SendEvent<TEvent>(TEvent e) => typeEventSystem.SendEvent<TEvent>(e);
 
-        public IUnRegister Subscribe<TEvent>(Action<TEvent> callback) => typeEventSystem.Subscribe<TEvent>(callback);
+        public IUnRegister Subscribe<TEvent>(Action<TEvent> callback) => typeEventSystem.SubscribeEvent<TEvent>(callback);
 
         public void Unsubscribe<TEvent>(Action<TEvent> callback) => typeEventSystem.Unsubscribe<TEvent>(callback);
     }
@@ -329,25 +329,6 @@ namespace PiFramework.Mediator
 
         public static void Unsubscribe<T>(this ICanSubscribeEvent self, Action<T> callback) =>
             self.GetMediator().Unsubscribe<T>(callback);
-    }
-
-    /// <summary>Global events</summary>
-    public interface ISubscriber<TEvent>
-    {
-        void Handle(TEvent e);
-    }
-
-    public static class ISubscriberExtension
-    {
-        public static IUnRegister Subscribe<T>(this ISubscriber<T> self)
-        {
-            return PiBase.typeEvents.Subscribe<T>(self.Handle);
-        }
-
-        public static void Unsubscribe<T>(this ISubscriber<T> self)
-        {
-            PiBase.typeEvents.Unsubscribe<T>(self.Handle);
-        }
     }
 
     public interface ICanHandleCommand : ICanGetMediator

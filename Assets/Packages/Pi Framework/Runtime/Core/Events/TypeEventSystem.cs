@@ -15,7 +15,7 @@ namespace PiFramework
         /// <summary>
         /// Add event callback
         /// </summary>
-        public IUnRegister Subscribe<T>(Action<T> callback) => GetOrAddEvent<PiEvent<T>>().Register(callback);
+        public IUnRegister SubscribeEvent<T>(Action<T> callback) => GetOrAddEvent<PiEvent<T>>().Register(callback);
 
         public void Unsubscribe<T>(Action<T> callback)
         {
@@ -48,6 +48,25 @@ namespace PiFramework
             var t = new T();
             typeEvents.Add(eType, t);
             return t;
+        }
+    }
+
+    /// <summary>Global events</summary>
+    public interface IEventSubscriber<TEvent>
+    {
+        void EventHandler(TEvent e);
+    }
+
+    public static class ISubscriberExtension
+    {
+        public static IUnRegister SubscribeEvent<T>(this IEventSubscriber<T> self)
+        {
+            return PiBase.typeEvents.SubscribeEvent<T>(self.EventHandler);
+        }
+
+        public static void Unsubscribe<T>(this IEventSubscriber<T> self)
+        {
+            PiBase.typeEvents.Unsubscribe<T>(self.EventHandler);
         }
     }
 }

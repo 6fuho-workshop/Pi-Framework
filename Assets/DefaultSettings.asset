@@ -17,7 +17,7 @@ MonoBehaviour:
   _dev:
     _logPiMessages: 0
   _simpleSoundPlayer:
-    _audioMixer: {fileID: 24100000, guid: c0cb2a8445c217f4081ae244925b0b8c, type: 2}
+    _audioMixer: {fileID: 24100000, guid: 1268f99de93f1b64688d12671e56ce45, type: 2}
     _unmuteFadeLength: 1
     _pauseFadeLength: 1
     _stopFadeLength: 1
