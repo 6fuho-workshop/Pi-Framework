@@ -270,7 +270,7 @@ namespace PiExtension.SimpleSound
                 _enableSound = value;
                 _masterMixer.fadingVolume = _enableSound ? 1 : 0;
                 _masterMixer.ApplyVolume();
-                _volSettings.enableSound = value;
+                //_volSettings.enableSound = value;
             }
         }
 
@@ -290,7 +290,7 @@ namespace PiExtension.SimpleSound
             set
             {
                 _masterMixer.mute = value;
-                _volSettings.mute = value;
+                //_volSettings.mute = value;
             }
         }
         public bool sfxMute
@@ -299,7 +299,7 @@ namespace PiExtension.SimpleSound
             set
             {
                 _sfxMixer.mute = value;
-                _volSettings.sfxMute = value;
+                //_volSettings.sfxMute = value;
             }
         }
         public bool musicMute
@@ -308,7 +308,7 @@ namespace PiExtension.SimpleSound
             set
             {
                 _musicMixer.mute = value;
-                _volSettings.musicMute = value;
+                //_volSettings.musicMute = value;
             }
         }
         public bool ambienceMute
@@ -317,7 +317,7 @@ namespace PiExtension.SimpleSound
             set
             {
                 _ambienceMixer.mute = value;
-                _volSettings.ambienceMute = value;
+                //_volSettings.ambienceMute = value;
             }
         }
 
@@ -327,7 +327,7 @@ namespace PiExtension.SimpleSound
             set
             {
                 _voiceMixer.mute = value;
-                _volSettings.voiceMute = value;
+                //_volSettings.voiceMute = value;
             }
         }
 
@@ -337,7 +337,7 @@ namespace PiExtension.SimpleSound
             set
             {
                 _masterMixer.volume = value;
-                _volSettings.masterVolume = value;
+                //_volSettings.masterVolume = value;
             }
         }
         public float sfxVolume
@@ -346,7 +346,7 @@ namespace PiExtension.SimpleSound
             set
             {
                 _sfxMixer.volume = value;
-                _volSettings.sfxVolume = value;
+                //_volSettings.sfxVolume = value;
             }
         }
         public float musicVolume
@@ -355,7 +355,7 @@ namespace PiExtension.SimpleSound
             set
             {
                 _musicMixer.volume = value;
-                _volSettings.musicVolume = value;
+                //_volSettings.musicVolume = value;
             }
         }
         public float ambienceVolume
@@ -364,7 +364,7 @@ namespace PiExtension.SimpleSound
             set
             {
                 _ambienceMixer.volume = value;
-                _volSettings.ambienceVolume = value;
+                //_volSettings.ambienceVolume = value;
             }
 
         }
@@ -374,7 +374,7 @@ namespace PiExtension.SimpleSound
             set
             {
                 _voiceMixer.volume = value;
-                _volSettings.voiceVolume = value;
+                //_volSettings.voiceVolume = value;
             }
         }
 
