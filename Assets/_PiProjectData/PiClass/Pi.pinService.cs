@@ -14,6 +14,13 @@ using System;
 
 public partial class Pi {
     
+    // Module: Pool Manager
+    public static PiFramework.Pool.PoolManager pool {
+        get {
+            return services.GetService<PiFramework.Pool.PoolManager>();
+        }
+    }
+    
     // Module: Simple Sound Player
     public static PiExtension.SimpleSound.SimpleSoundPlayer audio {
         get {
