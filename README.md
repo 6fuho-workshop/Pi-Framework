@@ -8,3 +8,5 @@ Install packages:
 `https://github.com/6fuho-workshop/Pi-Framework.git?path=/Assets/Packages/SimpleSoundPlayer`
 <br>
 `https://github.com/6fuho-workshop/Pi-Framework.git?path=/Assets/Packages/AudioToolkit ssplayer`
+<br>
+`https://github.com/6fuho-workshop/Pi-Framework.git?path=/Assets/Packages/Pool Manager`
