@@ -1,8 +1,8 @@
 {
-    "name": "com.piframework.ssplayer",
-    "displayName": "Simple Sound Player",
+    "name": "com.piframework.pool",
+    "displayName": "Pool Manager",
     "version": "1.0.0",
-    "description": "Simple Sound Player for Pi Framework",
+    "description": "GameObject Pool solution and Poolable component for Prefabs",
     "unity": "2022.3",
     "documentationUrl": "https://www.example.com/",
     "changelogUrl": "https://example.com/changelog.html",

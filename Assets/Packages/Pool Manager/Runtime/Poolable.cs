@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace PiFramework.Pool
 {
+    [AddComponentMenu("Pi/Poolable")]
     public class Poolable : MonoBehaviour
     {
         //Dùng Unity Pool thì không thể auto preload each frame đc
@@ -12,13 +13,12 @@ namespace PiFramework.Pool
         public int maxSize = 10000;
         public int defaultCapacity = 10;
         public int preloadCount = 0;
-        public bool setParentOnCreate = true;
+        public bool setParentOnCreate;
         public bool deactiveOnRelease;
         public bool hideOnRelease;
-        //[Tooltip("Auto Preload Time since Preload() call")]
-        //public float targetPreloadTime = 1f;
-
         public bool dontDestroyOnLoad;
 
+        //internal bool released;//dùng để check lỗi double release  
+        internal int poolID;
     }
 }
