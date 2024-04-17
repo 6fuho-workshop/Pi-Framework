@@ -8,10 +8,10 @@ namespace PiFramework.Pool
 {
     public class GameObjectPool : IObjectPool<GameObject>
     {
-        const string poolPrefix = "[POOL]";
+        const string poolPrefix = "[POOL] ";
         static readonly Vector3 hidePos = Vector3.left * 100000;
 
-        Func<GameObject> _creatFunc;
+        readonly Func<GameObject> _creatFunc;
         Action<GameObject> _onGet;
         Action<GameObject> _onRelease;
         Action<GameObject> _onDestroy;
@@ -154,7 +154,7 @@ namespace PiFramework.Pool
 
         public void Clear()
         {
-            GameObject.DestroyImmediate(_poolContainer);
+            GameObject.DestroyImmediate(_poolContainer.gameObject);
             _pool.Clear();
         }
     }
