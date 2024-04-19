@@ -60,13 +60,6 @@ namespace PiFramework.Pool
             GetPool(poolablePrefab).Preload();
         }
 
-        private void OnDestroy()
-        {
-            foreach (var pool in _pools.Values)
-            {
-                pool.Clear();
-            }
-            _pools.Clear();
-        }
+        //OnDestroy //ko can thiet
     }
 }
