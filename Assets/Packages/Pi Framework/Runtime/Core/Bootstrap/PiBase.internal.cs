@@ -19,10 +19,10 @@ namespace PiFramework
         /// </summary>
         //static PiBase()
         //{
-            //Debug.Log("PiCore static ctor");
+        //Debug.Log("PiCore static ctor");
         //}
 
-        
+
 
         /// <summary>
         /// Ngay ở bước này thì Active Scene đã loaded nhưng chưa activate
@@ -77,6 +77,14 @@ namespace PiFramework
             systemEvents.initializeAfterSceneLoad.Invoke();
         }
 
+        public static bool isQuitting
+        {
+            get
+            {
+                return root == null || root.isQuitting;
+            }
+        }
+
         //RuntimeInitializeLoadType.BeforeSceneLoad
         static void Bootstrap()
         {
@@ -107,7 +115,7 @@ namespace PiFramework
         internal static void SystemStartup(PiRoot piRoot)
         {
             root = piRoot;
-            gameObject = piRoot.gameObject;
+            //gameObject = piRoot.gameObject;
             Preload();
             LoadSettings(piRoot);
             InitModules();
@@ -175,7 +183,7 @@ namespace PiFramework
         {
             Debug.Log("SystemDestroyed");
             root = null;
-            gameObject = null;
+            //gameObject = null;
             playerPrefs = null;
             console = null;
             systemEvents = null;

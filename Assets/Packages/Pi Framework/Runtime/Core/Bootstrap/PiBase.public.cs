@@ -26,6 +26,6 @@ namespace PiFramework
         /// <summary>
         /// Root GameObject (PiFramework GameObject)
         /// </summary>
-        public static GameObject gameObject { get; private set; }
+        //public static GameObject gameObject { get; private set; } //chua thuc su can thiet
     }
 }

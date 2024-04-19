@@ -42,7 +42,7 @@ namespace PiFramework
 
         void LateUpdate() => PiBase.systemEvents.beginLateUpdate.Invoke();
 
-        public bool isQuitting { get; private set; }
+        internal bool isQuitting { get; private set; }
 
         private void OnApplicationQuit()
         {
