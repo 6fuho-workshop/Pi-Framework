@@ -26,6 +26,7 @@ namespace PiEditor.Settings
         void ApplyBtnClickedHandler()
         {
             SettingsGenerator.Generate();
+            AssetDatabase.SaveAssetIfDirty(target);
         }
     }
 
