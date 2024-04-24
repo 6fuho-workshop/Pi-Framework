@@ -68,7 +68,27 @@ namespace PiExtension.SimpleSound
 
         public AudioSource PlaySound3DFollow(string audioID, SoundChannel channel, Transform target, float volume = 1, float delay = 0, float startTime = 0)
         {
-            throw new System.NotImplementedException();
+            AudioObject obj = null;
+            switch (channel)
+            {
+                case SoundChannel.SFX:
+                    obj = AudioController.Play(audioID, target, volume, delay, startTime);
+                    break;
+                case SoundChannel.Music:
+                    obj = AudioController.PlayMusic(audioID, target, volume, delay, startTime);
+                    break;
+                case SoundChannel.Ambience:
+                    obj = AudioController.PlayAmbienceSound(audioID, target, volume, delay, startTime);
+                    break;
+                case SoundChannel.Voice:
+                    Debug.LogError("Play Voice not implemented");
+                    break;
+            }
+
+            if (obj != null)
+                return obj.primaryAudioSource;
+
+            return null;
         }
 
         public void SetFinishCallback(string audioID, Action callback)

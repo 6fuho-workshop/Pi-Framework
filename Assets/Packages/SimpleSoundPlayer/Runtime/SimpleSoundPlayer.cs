@@ -157,7 +157,7 @@ namespace PiExtension.SimpleSound
         }
         public AudioSource PlayFollow(string audioID, SoundChannel channel, Transform target, float volume = 1, float delay = 0, float startTime = 0)
         {
-            throw new System.NotImplementedException();
+            return _adapter.PlaySound3DFollow(audioID, channel, target, volume, delay, startTime);
         }
         public AudioSource PlaySFXScheduled(string audioID, float delay, float volume = 1)
         {
