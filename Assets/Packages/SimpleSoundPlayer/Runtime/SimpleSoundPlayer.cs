@@ -143,25 +143,25 @@ namespace PiExtension.SimpleSound
             _adapter.PlaySound(audioID, SoundChannel.Music, playback.volume, playback.delay, playback.startTime);
         }
 
-        public void PlaySFX(string group, float volume = 1)
+        public AudioSource PlaySFX(string group, float volume = 1)
         {
-            _adapter.PlaySound(group, SoundChannel.SFX, volume);
+            return _adapter.PlaySound(group, SoundChannel.SFX, volume);
         }
-        public void PlaySFX(string group, PlaybackParams playback)
+        public AudioSource PlaySFX(string group, PlaybackParams playback)
         {
-            _adapter.PlaySound(group, SoundChannel.SFX, playback.volume, playback.delay, playback.startTime, playback.overrideLoop);
+            return _adapter.PlaySound(group, SoundChannel.SFX, playback.volume, playback.delay, playback.startTime, playback.overrideLoop);
         }
-        public void PlayAtVector3(string audioID, SoundChannel channel, Vector3 pos, float volume = 1, float delay = 0, float startTime = 0)
+        public AudioSource PlayAtVector3(string audioID, SoundChannel channel, Vector3 pos, float volume = 1, float delay = 0, float startTime = 0)
         {
             throw new System.NotImplementedException();
         }
-        public void PlayFollow(string audioID, SoundChannel channel, Transform target, float volume = 1, float delay = 0, float startTime = 0)
+        public AudioSource PlayFollow(string audioID, SoundChannel channel, Transform target, float volume = 1, float delay = 0, float startTime = 0)
         {
             throw new System.NotImplementedException();
         }
-        public void PlaySFXScheduled(string audioID, float delay, float volume = 1)
+        public AudioSource PlaySFXScheduled(string audioID, float delay, float volume = 1)
         {
-            _adapter.PlaySound(audioID, SoundChannel.SFX, volume, delay);
+            return _adapter.PlaySound(audioID, SoundChannel.SFX, volume, delay);
         }
 
         public void SetFinishCallback(string audioID, Action callback)
