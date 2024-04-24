@@ -22,19 +22,19 @@ namespace PiExtension.SimpleSound
             
         }
 
-        public void PlaySound(string audioID, SoundChannel channel, float volume = 1, float delay = 0, float startTime = 0, bool? overrideLoop = null)
+        public AudioSource PlaySound(string audioID, SoundChannel channel, float volume = 1, float delay = 0, float startTime = 0, bool? overrideLoop = null)
         {
-            
+            return null;
         }
 
-        public void PlaySound3DAtVector3(string audioID, SoundChannel channel, Vector3 pos, float volume = 1, float delay = 0, float startTime = 0)
+        public AudioSource PlaySound3DAtVector3(string audioID, SoundChannel channel, Vector3 pos, float volume = 1, float delay = 0, float startTime = 0)
         {
-            
+            return null;
         }
 
-        public void PlaySound3DFollow(string audioID, SoundChannel channel, Transform target, float volume = 1, float delay = 0, float startTime = 0)
+        public AudioSource PlaySound3DFollow(string audioID, SoundChannel channel, Transform target, float volume = 1, float delay = 0, float startTime = 0)
         {
-            
+            return null;
         }
 
         public void SetFinishCallback(string audioID, Action callback)

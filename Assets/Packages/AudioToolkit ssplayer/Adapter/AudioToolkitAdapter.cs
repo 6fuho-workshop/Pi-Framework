@@ -34,7 +34,7 @@ namespace PiExtension.SimpleSound
             AudioController.PlayMusicPlaylist(playlist);
         }
 
-        public void PlaySound(string audioID, SoundChannel channel, float volume = 1, float delay = 0, float startTime = 0, bool? overrideLoop = null)
+        public AudioSource PlaySound(string audioID, SoundChannel channel, float volume = 1, float delay = 0, float startTime = 0, bool? overrideLoop = null)
         {
             AudioObject obj = null;
             switch (channel)
@@ -52,18 +52,21 @@ namespace PiExtension.SimpleSound
                     Debug.LogError("Play Voice not implemented");
                     break;
             }
-            if (obj != null && overrideLoop.HasValue)
+            if (obj != null)
             {
-                obj.audioItem.Loop = overrideLoop.Value ? AudioItem.LoopMode.LoopSubitem : AudioItem.LoopMode.DoNotLoop;
+                if (overrideLoop.HasValue)
+                    obj.audioItem.Loop = overrideLoop.Value ? AudioItem.LoopMode.LoopSubitem : AudioItem.LoopMode.DoNotLoop;
+                return obj.primaryAudioSource;
             }
+            return null;
         }
 
-        public void PlaySound3DAtVector3(string audioID, SoundChannel channel, Vector3 pos, float volume = 1, float delay = 0, float startTime = 0)
+        public AudioSource PlaySound3DAtVector3(string audioID, SoundChannel channel, Vector3 pos, float volume = 1, float delay = 0, float startTime = 0)
         {
             throw new System.NotImplementedException();
         }
 
-        public void PlaySound3DFollow(string audioID, SoundChannel channel, Transform target, float volume = 1, float delay = 0, float startTime = 0)
+        public AudioSource PlaySound3DFollow(string audioID, SoundChannel channel, Transform target, float volume = 1, float delay = 0, float startTime = 0)
         {
             throw new System.NotImplementedException();
         }
