@@ -36,10 +36,10 @@ namespace PiExtension.SimpleSound
 
         public void SetItemVolume(string audioID, float volume)
         {
-            var item = AudioController.GetAudioItem(audioID);
-            if (item != null)
+            var objs = AudioController.GetPlayingAudioObjects(audioID, true);
+            foreach (var obj in objs)
             {
-                item.Volume = volume;
+                obj.volume = volume;
             }
         }
 
