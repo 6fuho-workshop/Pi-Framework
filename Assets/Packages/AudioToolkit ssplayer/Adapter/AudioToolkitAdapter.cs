@@ -39,7 +39,8 @@ namespace PiExtension.SimpleSound
             var objs = AudioController.GetPlayingAudioObjects(audioID, true);
             foreach (var obj in objs)
             {
-                obj.volume = volume;
+                obj.volumeItem = volume;
+                //obj.volume = volume;
             }
         }
 
