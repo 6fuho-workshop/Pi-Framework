@@ -134,6 +134,11 @@ namespace PiExtension.SimpleSound
 
         #region playing control
 
+        public void SetItemVolume(string audioID, float volume)
+        {
+            _adapter.SetItemVolume(audioID, volume);
+        }
+
         public void PlayMusic(string audioID, bool? overrideLoop = null)
         {
             _adapter.PlaySound(audioID, SoundChannel.Music, 1, 0, 0, overrideLoop);

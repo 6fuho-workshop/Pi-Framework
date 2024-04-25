@@ -6,7 +6,7 @@ namespace PiExtension.SimpleSound
 {
     public interface ISoundAdapter
     {
-
+        void SetItemVolume(string audioID, float volume);
         void PlayMusicPlaylist(string playlist);
         AudioSource PlaySound(string audioID, SoundChannel channel, float volume = 1, float delay = 0, float startTime = 0, bool? overrideLoop = null);
         AudioSource PlaySound3DAtVector3(string audioID, SoundChannel channel, Vector3 pos, float volume = 1, float delay = 0, float startTime = 0);
@@ -20,6 +20,7 @@ namespace PiExtension.SimpleSound
         void Stop(string audioID, float fadeOut);
         void StopAllSound(float fadeOut);
         void StopPlaylist();
+        
     }
 
 }

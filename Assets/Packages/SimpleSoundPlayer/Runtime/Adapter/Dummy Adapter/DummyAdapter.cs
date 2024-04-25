@@ -42,6 +42,11 @@ namespace PiExtension.SimpleSound
             
         }
 
+        public void SetItemVolume(string audioID, float volume)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Stop(string audioID, float fadeOut)
         {
             

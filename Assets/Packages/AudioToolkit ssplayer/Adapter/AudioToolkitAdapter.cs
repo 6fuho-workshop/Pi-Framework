@@ -34,6 +34,15 @@ namespace PiExtension.SimpleSound
             AudioController.PlayMusicPlaylist(playlist);
         }
 
+        public void SetItemVolume(string audioID, float volume)
+        {
+            var item = AudioController.GetAudioItem(audioID);
+            if (item != null)
+            {
+                item.Volume = volume;
+            }
+        }
+
         public AudioSource PlaySound(string audioID, SoundChannel channel, float volume = 1, float delay = 0, float startTime = 0, bool? overrideLoop = null)
         {
             AudioObject obj = null;
