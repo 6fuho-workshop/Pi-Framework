@@ -1,7 +1,7 @@
 {
     "name": "com.piext.audiotookit4ssplayer",
     "displayName": "Audio Toolkit Adapter for ssplayer",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Audio Toolkit Adapter for SimpleSoundPlayer module (Pi Framework)",
     "unity": "2022.3",
     "documentationUrl": "https://example.com/",

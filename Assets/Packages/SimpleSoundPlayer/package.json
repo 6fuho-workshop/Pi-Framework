@@ -1,7 +1,7 @@
 {
     "name": "com.piframework.ssplayer",
     "displayName": "Simple Sound Player",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Simple Sound Player for Pi Framework",
     "unity": "2022.3",
     "documentationUrl": "https://www.example.com/",
