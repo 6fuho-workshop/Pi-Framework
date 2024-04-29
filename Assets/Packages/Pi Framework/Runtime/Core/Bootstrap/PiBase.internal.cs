@@ -12,6 +12,7 @@ namespace PiFramework
     public partial class PiBase
     {
         internal PiModule[] modules;
+        public static bool initialized { get; private set; }
 
         /// <summary>
         /// static Constructor thực thi đầu tiên, tuy nhiên khi bỏ tính năng Reload Domain trong editor settings thì 
@@ -88,6 +89,7 @@ namespace PiFramework
         //RuntimeInitializeLoadType.BeforeSceneLoad
         static void Bootstrap()
         {
+            initialized = false;
             Application.quitting -= OnAppQuitting;
             Application.quitting += OnAppQuitting;
 
@@ -119,6 +121,7 @@ namespace PiFramework
             Preload();
             LoadSettings(piRoot);
             InitModules();
+            initialized = true;
         }
 
         /// <summary>
@@ -190,6 +193,7 @@ namespace PiFramework
             _services = null;
             typeEvents?.Clear();
             typeEvents = null;
+            initialized = false;
         }
     }
 }

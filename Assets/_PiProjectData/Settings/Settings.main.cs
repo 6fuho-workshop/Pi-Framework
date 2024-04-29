@@ -12,6 +12,8 @@ public partial class Settings : GameSettings, IPersistentSetting
     [SerializeField]
     private float _global2;
     [SerializeField]
+    private float _global3;
+    [SerializeField]
     private DevSettings _dev;
     [SerializeField]
     private SimpleSoundPlayerSettings _simpleSoundPlayer;
@@ -26,6 +28,12 @@ public partial class Settings : GameSettings, IPersistentSetting
         set { if(_instance._global2 == value) return; _instance._global2 = value; _instance.OnChanged("global2"); _instance.dataStore.SetFloat(".global2", value); }
     }
 
+    public static float global3
+    {
+        get { return _instance._global3; }
+        set { if(_instance._global3 == value) return; _instance._global3 = value; _instance.OnChanged("global3"); _instance.dataStore.SetFloat(".global3", value); }
+    }
+
     public static DevSettings dev => _instance._dev;
 
     public static SimpleSoundPlayerSettings simpleSoundPlayer => _instance._simpleSoundPlayer;
@@ -35,6 +43,7 @@ public partial class Settings : GameSettings, IPersistentSetting
     public void OnLoadCallback()
     {
         global2 = dataStore.GetFloat(".global2", _global2);
+        global3 = dataStore.GetFloat(".global3", _global3);
     }
 
     protected override void BuildNodeDict()

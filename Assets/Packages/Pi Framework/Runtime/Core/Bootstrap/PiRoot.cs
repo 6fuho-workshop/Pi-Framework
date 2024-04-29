@@ -23,7 +23,7 @@ namespace PiFramework
 
             isSingleton = true;
 
-            //Debug.Log(InternalUtil.PiMessage("PiRoot Awake"));
+            Debug.Log(InternalUtil.PiMessage("PiRoot Awake"));
             GameObject.DontDestroyOnLoad(gameObject);
             PiBase.SystemStartup(this);
 

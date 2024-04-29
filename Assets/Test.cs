@@ -18,8 +18,7 @@ public class Test : MonoBehaviour
         print("begin invoke lan 1");
         testAction.Invoke();
 
-        var a = new PiEvent<Test>();
-        
+        var a = new PiEvent<Test>(); 
     }
 
     void AwesomeAction()

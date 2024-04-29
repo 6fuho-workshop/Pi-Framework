@@ -53,7 +53,7 @@ namespace PiEditor
             {
                 File.WriteAllText(sourceFile, newCode);
                 Debug.Log(sourceFile + " file generated!");
-                EditorUtility.RequestScriptReload();
+                PE.Recompile();
             }
         }
 

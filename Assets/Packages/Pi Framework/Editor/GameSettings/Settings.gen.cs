@@ -6,6 +6,7 @@ using System.IO;
 using CsCodeGenerator;
 using CsCodeGenerator.Enums;
 using System;
+using UnityEditor.Compilation;
 
 
 namespace PiEditor.Settings
@@ -27,6 +28,7 @@ namespace PiEditor.Settings
         public static void Generate()
         {
             new SettingsGenerator().GenerateCodeFile();
+            PE.Recompile();
         }
 
         void GenerateCodeFile()
@@ -40,7 +42,6 @@ namespace PiEditor.Settings
             //File.WriteAllText(sourceFile, newCode);
             //Debug.Log(sourceFile + " file generated!");
             //}
-            EditorUtility.RequestScriptReload();
         }
 
         void GenerateClass()

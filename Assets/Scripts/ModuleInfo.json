@@ -1,0 +1,10 @@
+{
+    "displayName": "Pool Manager 2",
+    "name": "pool2",
+    "pinServices": [
+        {
+            "name": "test",
+            "fullType": "PiFramework.Pool.PoolManager"
+        }
+    ]
+}

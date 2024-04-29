@@ -22,7 +22,7 @@ MonoBehaviour:
     defaultValue: false
     readOnly: 1
     tooltip: 
-    addRange: 0
+    useRange: 0
     min: 0
     max: 0
     persistent: 0
@@ -33,7 +33,18 @@ MonoBehaviour:
     defaultValue: 
     readOnly: 0
     tooltip: 
-    addRange: 0
+    useRange: 0
+    min: 1
+    max: 3
+    persistent: 1
+    customKey: 
+  - fullPath: 
+    path: global3
+    type: float
+    defaultValue: 
+    readOnly: 0
+    tooltip: 
+    useRange: 0
     min: 1
     max: 3
     persistent: 1

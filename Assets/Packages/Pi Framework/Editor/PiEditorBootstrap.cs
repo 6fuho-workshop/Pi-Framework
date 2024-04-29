@@ -7,11 +7,7 @@ using PiFramework;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using System.CodeDom;
 using System.IO;
-using System.CodeDom.Compiler;
-using Microsoft.CSharp;
-using UnityEditor.Compilation;
 using UnityEditor.Callbacks;
 using System.Linq;
 
@@ -29,6 +25,7 @@ namespace PiEditor
         static bool _systemInitialized;
         static PiEditorBootstrap()
         {
+            //Debug.Log("PiEditorBootstrap sctor");
             ValidateFiles();
             ValidateTags();
             UpdateExecutionOrder();

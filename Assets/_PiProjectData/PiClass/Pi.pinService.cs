@@ -27,4 +27,11 @@ public partial class Pi {
             return services.GetService<PiExtension.SimpleSound.SimpleSoundPlayer>();
         }
     }
+    
+    // Module: Pool Manager 2
+    public static PiFramework.Pool.PoolManager test {
+        get {
+            return services.GetService<PiFramework.Pool.PoolManager>();
+        }
+    }
 }
