@@ -8,7 +8,8 @@ using System.Reflection;
 
 namespace PiEditor
 {
-    [CustomEditor(typeof(PiRoot))]
+    //[CustomEditor(typeof(PiRoot))]
+    [Obsolete]
     public class PiRootEditor : Editor
     {
         static List<Type> moduleClasses;
@@ -16,7 +17,7 @@ namespace PiEditor
         /// <summary>
         /// Get and Cache all class derived from PiModule
         /// </summary>
-        [InitializeOnLoadMethod]
+        //[InitializeOnLoadMethod]
         static void OnProjectLoadedInEditor()
         {
             EditorApplication.hierarchyChanged += OnHierarchyChanged;
@@ -108,12 +109,5 @@ namespace PiEditor
             }
             
         }
-
-        /*
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-        }
-        */
     }
 }

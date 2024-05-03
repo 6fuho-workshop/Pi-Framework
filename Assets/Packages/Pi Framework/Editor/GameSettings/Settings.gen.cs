@@ -7,6 +7,7 @@ using CsCodeGenerator;
 using CsCodeGenerator.Enums;
 using System;
 using UnityEditor.Compilation;
+using System.Xml;
 
 
 namespace PiEditor.Settings
@@ -21,19 +22,20 @@ namespace PiEditor.Settings
         const string classSuffix = "Settings";
         SettingsGenerator()
         {
-            sourceFile = FileHelper.GetPiDataPath() + "/Settings/Settings.main.cs";
+            sourceFile = FileHelper.dataDirectory + "/Settings/Settings.main.cs";
         }
 
         [MenuItem("Pi/Force Generate Code/Settings")]
         public static void Generate()
         {
-            new SettingsGenerator().GenerateCodeFile();
-            PE.Recompile();
+            var changed = new SettingsGenerator().GenerateCodeFile();
+            if (changed)
+                PE.Recompile();
         }
 
-        void GenerateCodeFile()
+        bool GenerateCodeFile()
         {
-            GenerateClass();
+            var success = GenerateClass();
             //StringWriter sw = new StringWriter();
             //string oldCode = File.Exists(sourceFile) ? File.ReadAllText(sourceFile) : "";
             //string newCode = sw.ToString();
@@ -42,32 +44,39 @@ namespace PiEditor.Settings
             //File.WriteAllText(sourceFile, newCode);
             //Debug.Log(sourceFile + " file generated!");
             //}
+            return success;
         }
 
-        void GenerateClass()
+        bool GenerateClass()
         {
             Node root = new(string.Empty) { isRoot = true };
 
             var usingDirectives = InitUsingDirectives();
-            BuildSettingsTree(root, usingDirectives);
+            if (BuildSettingsTree(root, usingDirectives))
+            {
 
-            ClassModel settingsClass = CreateNodeClass(root);
-            var baseClass = settingsClass.BaseClass;
-            settingsClass.BaseClass = "GameSettings";
-            if (baseClass.Contains("IPersistentSetting"))
-                settingsClass.BaseClass += ", IPersistentSetting";
-            settingsClass.IndentSize = 0;
-            settingsClass.Attributes.Clear();
-            settingsClass.KeyWords.Add(KeyWord.Partial);
+                ClassModel settingsClass = CreateNodeClass(root);
+                var baseClass = settingsClass.BaseClass;
+                settingsClass.BaseClass = "GameSettings";
+                if (baseClass.Contains("IPersistentSetting"))
+                    settingsClass.BaseClass += ", IPersistentSetting";
+                settingsClass.IndentSize = 0;
+                settingsClass.Attributes.Clear();
+                settingsClass.KeyWords.Add(KeyWord.Partial);
 
-            Method buildNodeDict = BuildNodeDictMethod(root);
-            settingsClass.Methods.Add(buildNodeDict);
+                Method buildNodeDict = BuildNodeDictMethod(root);
+                settingsClass.Methods.Add(buildNodeDict);
 
-            FileModel file = new("Settings.main");
-            file.LoadUsingDirectives(usingDirectives);
-            file.Classes.Add(settingsClass);
+                FileModel file = new("Settings.main");
+                file.LoadUsingDirectives(usingDirectives);
+                file.Classes.Add(settingsClass);
 
-            File.WriteAllText(sourceFile, file.ToString());
+                File.WriteAllText(sourceFile, file.ToString());
+
+                return true;
+            }
+
+            return false;
         }
 
         Method BuildNodeDictMethod(Node root)
@@ -223,25 +232,17 @@ namespace PiEditor.Settings
 
         string GetTypeNameStorage(string dataType)
         {
-            switch (dataType)
+            return dataType switch
             {
-                case "bool":
-                    return "Bool";
-                case "int":
-                    return "Int";
-                case "long":
-                    return "Long";
-                case "float":
-                    return "Float";
-                case "double":
-                    return "Double";
-                case "string":
-                    return "String";
-                case "byte[]":
-                    return "Bytes";
-                default:
-                    return null;
-            }
+                "bool" => "Bool",
+                "int" => "Int",
+                "long" => "Long",
+                "float" => "Float",
+                "double" => "Double",
+                "string" => "String",
+                "byte[]" => "Bytes",
+                _ => null,
+            };
         }
 
         Field CreateField(SettingEntity item)
@@ -267,14 +268,14 @@ namespace PiEditor.Settings
                 string floatChar = item.type.Equals("float") ? "f" : "";
                 var rangeAttribute = new AttributeModel("Range");
                 rangeAttribute.Parameters.Add(new Parameter(item.min.ToString() + floatChar));
-                rangeAttribute.Parameters.Add(new Parameter(item.max.ToString()+ floatChar));
+                rangeAttribute.Parameters.Add(new Parameter(item.max.ToString() + floatChar));
                 return rangeAttribute;
             }
             else
                 return null;
         }
 
-        void BuildSettingsTree(Node root, List<string> usingDirectives)
+        bool BuildSettingsTree(Node root, List<string> usingDirectives)
         {
             string[] assetPaths = FileHelper.FindScriptableObjects<SettingsManifest>();
 
@@ -298,9 +299,12 @@ namespace PiEditor.Settings
                     nodePath += item.nodePath;
 
                     var node = GetSettingNodeByPath(nodePath, root);
-                    node.AddEntity(item);
+                    if (!node.AddEntity(item))
+                        return false;
                 }
             }
+
+            return true;
         }
         Node GetSettingNodeByPath(string path, Node root)
         {
@@ -343,17 +347,22 @@ namespace PiEditor.Settings
                 return childNodes[name];
             }
 
-            public void AddEntity(SettingEntity item)
+            // retrun false if error
+            public bool AddEntity(SettingEntity item)
             {
                 foreach (var child in entities)
                 {
                     if (child.name.Equals(item.name))
                     {
                         EditorUtility.DisplayDialog("Invalid Setting definition", $"Setting entity duplicated: {fullPath}.{item.name}", "OK");
-                        return;
+                        return false;
                     }
+
+
                 }
                 entities.Add(item);
+
+                return true;
             }
 
             public HashSet<Node> GetChildrenRecursive()

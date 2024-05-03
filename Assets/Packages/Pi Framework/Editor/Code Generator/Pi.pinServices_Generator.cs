@@ -11,6 +11,7 @@ using System.CodeDom;
 using System.IO;
 using System.CodeDom.Compiler;
 using Microsoft.CSharp;
+using PiEditor.Callbacks;
 
 namespace PiEditor
 {
@@ -26,11 +27,12 @@ namespace PiEditor
         //public List<PinServiceAttribute> IndexServiceAttributes;
         PinServicesGenerator()
         {
-            sourceFile = FileHelper.GetPiDataPath() + "/PiClass/Pi.pinService.cs";
+            sourceFile = FileHelper.dataDirectory + "/PiClass/Pi.pinService.cs";
             compileUnit = new CodeCompileUnit();
         }
 
         [MenuItem("Pi/Force Generate Code/PinServices")]
+        [OnLoadPiEditor]
         public static void Generate()
         {
             new PinServicesGenerator().GenerateCodeFile();

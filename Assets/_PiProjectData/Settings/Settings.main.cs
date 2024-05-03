@@ -12,7 +12,13 @@ public partial class Settings : GameSettings, IPersistentSetting
     [SerializeField]
     private float _global2;
     [SerializeField]
-    private float _global3;
+    private float _global23;
+    [SerializeField]
+    [Tooltip("Should the Player be running when the application is in the background?")]
+    private bool _runInBackground = false;
+    [SerializeField]
+    [Tooltip("The default value -1. In the default case, Unity uses the platform's default target frame rate. \nNote that platform and device capabilities affect the frame rate at runtime, so your game might not achieve the target frame rate.")]
+    private int _targetFrameRate = -1;
     [SerializeField]
     private DevSettings _dev;
     [SerializeField]
@@ -28,11 +34,15 @@ public partial class Settings : GameSettings, IPersistentSetting
         set { if(_instance._global2 == value) return; _instance._global2 = value; _instance.OnChanged("global2"); _instance.dataStore.SetFloat(".global2", value); }
     }
 
-    public static float global3
+    public static float global23
     {
-        get { return _instance._global3; }
-        set { if(_instance._global3 == value) return; _instance._global3 = value; _instance.OnChanged("global3"); _instance.dataStore.SetFloat(".global3", value); }
+        get { return _instance._global23; }
+        set { if(_instance._global23 == value) return; _instance._global23 = value; _instance.OnChanged("global23"); _instance.dataStore.SetFloat(".global23", value); }
     }
+
+    public static bool runInBackground => _instance._runInBackground;
+
+    public static int targetFrameRate => _instance._targetFrameRate;
 
     public static DevSettings dev => _instance._dev;
 
@@ -43,7 +53,7 @@ public partial class Settings : GameSettings, IPersistentSetting
     public void OnLoadCallback()
     {
         global2 = dataStore.GetFloat(".global2", _global2);
-        global3 = dataStore.GetFloat(".global3", _global3);
+        global23 = dataStore.GetFloat(".global23", _global23);
     }
 
     protected override void BuildNodeDict()

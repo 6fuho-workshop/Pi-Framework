@@ -7,7 +7,7 @@ using PiFramework.Internal;
 namespace PiFramework
 {
     [RequireComponent(typeof(LatestExecOrder))]
-    [ExecutionOrder(-31000)]
+    //[ExecutionOrder(-32000)]
     public class PiRoot : MonoBehaviour
     {
         bool isSingleton;
@@ -23,7 +23,7 @@ namespace PiFramework
 
             isSingleton = true;
 
-            Debug.Log(InternalUtil.PiMessage("PiRoot Awake"));
+            //Debug.Log(InternalUtil.PiMessage("PiRoot Awake"));
             GameObject.DontDestroyOnLoad(gameObject);
             PiBase.SystemStartup(this);
 

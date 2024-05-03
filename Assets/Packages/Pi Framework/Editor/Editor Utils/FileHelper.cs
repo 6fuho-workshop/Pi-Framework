@@ -4,15 +4,36 @@ using System.Collections;
 using System.IO;
 using UnityEditor;
 using System.Collections.Generic;
+using System;
+using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 
 namespace PiEditor.Utils
 {
     public class FileHelper
     {
         /// <summary>
+        /// full path of _PiProjectData folder
+        /// </summary>
+        public static readonly string dataDirectory;
+        public static readonly string piResourcesDirectory;
+        public static readonly string piPrefabPath;
+        public static readonly string moduleDirectory;
+        public static readonly string settingDirectory;
+        static FileHelper()
+        {
+            var ds = Path.DirectorySeparatorChar;
+            dataDirectory = Application.dataPath + ds + PiEditorParams.PiProjectDataFolder;
+            piResourcesDirectory = dataDirectory + ds + "Resources";
+            piPrefabPath = piResourcesDirectory + ds + "PiFramework.prefab";
+            moduleDirectory = Application.dataPath + ds + "PiModules";
+            settingDirectory = Application.dataPath + ds + "Settings";
+        }
+
+        /// <summary>
         /// Get full path of _PiProjectData folder
         /// </summary>
         /// <returns></returns>
+        [Obsolete]
         public static string GetPiDataPath()
         {
             return Application.dataPath + "/" + PiEditorParams.PiProjectDataFolder;
@@ -72,6 +93,28 @@ namespace PiEditor.Utils
         }
 
         /// <summary>
+        /// Ignore if dest already existed
+        /// </summary>
+        /// <param name="uniqueName"></param>
+        /// <param name="desPath"></param>
+        public static void CopyAssetWithFullName(string uniqueName, string desPath)
+        {
+            if (File.Exists(desPath))
+                return;
+
+            var files = FileHelper.FindAssetsWithFullName(uniqueName);
+            if (files.Length == 0)
+            {
+                Debug.LogError("Not found " + uniqueName);
+            }
+            else
+            {
+                var path = files[0];
+                FileUtil.CopyFileOrDirectory(path, desPath);
+            }
+        }
+
+        /// <summary>
         /// find all path of a ScriptableObject in the Project of a Type
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -79,7 +122,7 @@ namespace PiEditor.Utils
         public static string[] FindScriptableObjects<T>() where T : ScriptableObject
         {
             string[] results = AssetDatabase.FindAssets("t:" + typeof(T).Name);
-            for (int i = 0; i < results.Length; i++) 
+            for (int i = 0; i < results.Length; i++)
             {
                 results[i] = AssetDatabase.GUIDToAssetPath(results[i]);
             }

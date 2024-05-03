@@ -61,21 +61,27 @@ namespace PiFramework
         /// <summary>
         /// các hàm Awake sẽ chạy sau bước này và trước AfterSceneLoad. 
         /// Lúc này nếu gọi activeScene.GetRootGameObjects() sẽ empty
+        /// PiRoot.Awake được gọi trước các hàm Awake khác trong scene
+        /// Do đó Pi.initialized cũng hoàn thành trước các Awake
         /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void InitBeforeSceneLoad()
         {
             //Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: BeforeSceneLoad"));
             Bootstrap();
+            var pi = GameObject.Instantiate(Resources.Load<GameObject>("PiFramework"));
+            pi.name = "PiFramework";
         }
 
         /// <summary>
         /// các hàm Awake đã được chạy
+        /// Toàn bộ RuntimeInitializeOnLoadMethods chỉ được chạy 1 lần duy nhất
         /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void InitAfterSceneLoad()
         {
             systemEvents.initializeAfterSceneLoad.Invoke();
+            //Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: AfterSceneLoad"));
         }
 
         public static bool isQuitting

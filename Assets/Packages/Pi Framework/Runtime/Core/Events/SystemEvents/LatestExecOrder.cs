@@ -5,7 +5,7 @@ using PiFramework;
 namespace PiFramework
 {
     [ExecutionOrder(32000)]
-    internal class LatestExecOrder : MonoBehaviour
+    public class LatestExecOrder : MonoBehaviour
     {
         private void Awake()
         {

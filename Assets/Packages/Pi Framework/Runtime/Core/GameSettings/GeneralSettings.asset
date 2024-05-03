@@ -10,42 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e4a0caa1c7583546b87e5a5bf5aba60, type: 3}
-  m_Name: manifest1
+  m_Name: GeneralSettings
   m_EditorClassIdentifier: 
   basePath: 
   usingDirectives:
   - System;
   settingEntities:
   - fullPath: 
-    path: global1
+    path: runInBackground
     type: bool
     defaultValue: false
     readOnly: 1
-    tooltip: 
+    tooltip: Should the Player be running when the application is in the background?
     useRange: 0
     min: 0
     max: 0
     persistent: 0
     customKey: 
   - fullPath: 
-    path: global2
-    type: float
-    defaultValue: 
-    readOnly: 0
-    tooltip: 
+    path: targetFrameRate
+    type: int
+    defaultValue: -1
+    readOnly: 1
+    tooltip: The default value -1. In the default case, Unity uses the platform's
+      default target frame rate. \nNote that platform and device capabilities affect
+      the frame rate at runtime, so your game might not achieve the target frame
+      rate.
     useRange: 0
     min: 1
     max: 3
-    persistent: 1
-    customKey: 
-  - fullPath: 
-    path: global23
-    type: float
-    defaultValue: 
-    readOnly: 0
-    tooltip: 
-    useRange: 0
-    min: 1
-    max: 3
-    persistent: 1
+    persistent: 0
     customKey: 

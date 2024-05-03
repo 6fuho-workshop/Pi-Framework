@@ -1,82 +1,161 @@
 ﻿using UnityEngine;
 using UnityEditor;
-
 using PiEditor.Utils;
 using PiFramework;
-
 using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.IO;
-using UnityEditor.Callbacks;
-using System.Linq;
+using UnityEditor.VersionControl;
+using PiFramework.Settings;
+
 
 namespace PiEditor
 {
-
-    /// InitializeOnLoad: Allows you to initialize an Editor class when Unity loads, and when your scripts are recompiled.
-    /// Static constructors with this attribute are called when scripts in the project are recompiled 
-    /// (also known as a Domain Reload). This happens when Unity first loads your project, but also when Unity detects 
-    /// modifications to scripts (depending on your Auto Refresh preferences), 
-    /// and when you enter Play Mode (depending on your Play Mode configuration).
-    [InitializeOnLoad]
-    public class PiEditorBootstrap
+    internal class PiEditorBootstrap
     {
-        static bool _systemInitialized;
-        static PiEditorBootstrap()
+        internal static void Bootstrap()
         {
-            //Debug.Log("PiEditorBootstrap sctor");
+            if (!File.Exists(FileHelper.piPrefabPath))
+            {
+                SetupPrefab();
+            }
+
             ValidateFiles();
-            ValidateTags();
+            ValidateModulePrefabs();
             UpdateExecutionOrder();
+        }
+
+        static void SetupPrefab()
+        {
+            var go = new GameObject("PiFramework");
+            go.AddComponent<LatestExecOrder>();
+            go.AddComponent<PiRoot>();
+
+            var settingManager = new GameObject("Settings");
+            settingManager.transform.parent = go.transform;
+            settingManager.AddComponent<SettingManager>();
+
+            var settingLoader = new GameObject("Default").AddComponent<SettingsLoader>();
+            settingLoader.transform.parent = settingManager.transform;
+            settingLoader.settings = GetDefaultSettings();
+
+            var modules = new GameObject("Modules");
+            modules.transform.parent = go.transform;
+
+            PrefabUtility.SaveAsPrefabAsset(go, FileHelper.piPrefabPath);
+            GameObject.DestroyImmediate(go);
+
+            static GameSettings GetDefaultSettings()
+            {
+                var paths = FileHelper.FindScriptableObjects<GameSettings>();
+                if (paths.Length > 0)
+                {
+                    return AssetDatabase.LoadAssetAtPath<GameSettings>(paths[0]);
+                }
+                else
+                {
+
+                }
+                return null;
+            }
+        }
+
+        static void ValidateModulePrefabs()
+        {
+            var allModules = GetAllModules();
+            var prefab = PrefabUtility.LoadPrefabContents(FileHelper.piPrefabPath);
+            var moduleContainer = prefab.transform.Find("Modules");
+            //var settings = prefab.transform.Find("Settings");
+            var addedModules = GetAddedModules(moduleContainer);
+            bool dirty = false;
+
+            foreach (var module in allModules)
+            {
+                if (!addedModules.Contains(module))
+                {
+                    var mInstance = GetModulePrefabInstance(module);
+                    if (mInstance == null)
+                        Debug.LogError("Something wrong: GetModulePrefabInstance return null");
+                    else
+                        mInstance.transform.parent = moduleContainer.transform;
+
+                    dirty = true;
+                }
+            }
+
+            if (dirty)
+                PrefabUtility.SaveAsPrefabAsset(prefab, FileHelper.piPrefabPath);
+
+            PrefabUtility.UnloadPrefabContents(prefab);
+
+            #region helpers
+
+            static List<Type> GetAddedModules(Transform container)
+            {
+                var components = container.transform.GetComponentsInChildren<PiModule>(true);
+                var addedModules = new List<Type>();
+                foreach (var module in components)
+                    addedModules.Add(module.GetType());
+                return addedModules;
+            }
+
+            static List<Type> GetAllModules()
+            {
+                var moduleClasses = new List<Type>();
+
+                foreach (MonoScript monoScript in MonoImporter.GetAllRuntimeMonoScripts())
+                {
+                    var type = monoScript.GetClass();
+                    if (type != null && type.IsSubclassOf(typeof(PiModule)))
+                    {
+                        moduleClasses.Add(type);
+                    }
+                }
+                return moduleClasses;
+            }
+
+            static GameObject GetModulePrefabInstance(Type moduleType)
+            {
+                var ds = Path.DirectorySeparatorChar;
+                var assetPath = FileHelper.moduleDirectory + ds + moduleType.Name + ".prefab";
+                if (!File.Exists(assetPath))
+                {
+                    var m = new GameObject(moduleType.Name);
+                    m.AddComponent(moduleType);
+                    PrefabUtility.SaveAsPrefabAssetAndConnect(m, assetPath, InteractionMode.AutomatedAction);
+                    return m;
+                }
+                else
+                {
+                    var localAssetPath = "Assets" + ds + "PiModules" + ds + moduleType.Name + ".prefab";
+                    var go = (GameObject)AssetDatabase.LoadMainAssetAtPath(localAssetPath);
+                    return (GameObject)PrefabUtility.InstantiatePrefab(go);
+
+                }
+            }
+
+            #endregion helpers
         }
 
         static void ValidateFiles()
         {
             var ds = Path.DirectorySeparatorChar;
-            var path = FileHelper.GetPiDataPath() + ds;
+            var path = FileHelper.dataDirectory + ds;
 
-            Directory.CreateDirectory(path + "Resources");
-            Directory.CreateDirectory(path + "Settings");
+            Directory.CreateDirectory(FileHelper.piResourcesDirectory);
+            Directory.CreateDirectory(FileHelper.settingDirectory);
+            Directory.CreateDirectory(FileHelper.moduleDirectory);
             Directory.CreateDirectory(path + "PiClass");
 
-            var piclass = path + "PiClass" + ds + "Pi.cs";
-            if (!File.Exists(piclass))
-                CopyPiClassFile(piclass);
+            FileHelper.CopyAssetWithFullName("Pi.cs.txt", path + "PiClass" + ds + "Pi.cs");
+            FileHelper.CopyAssetWithFullName("Settings.cs.txt", path + "Settings" + ds + "Settings.cs");
+            
         }
 
-        static void ValidateTags()
-        {
 
-        }
 
-        /// <summary>
-        /// Copy file mẫu Pi.cs.txt vào thư mục _PiProjectData/Code
-        /// </summary>
-        /// <param name="desPath"></param>
-        static void CopyPiClassFile(string desPath)
-        {
-            var files = FileHelper.FindAssetsWithFullName("Pi.cs.txt");
-            if (files.Length == 0)
-            {
-                Debug.LogError("Not found Pi.cs.txt");
-            }
-            else
-            {
-                var path = files[0];
-                FileUtil.CopyFileOrDirectory(path, desPath);
-            }
-        }
 
-        /// <summary>
-        /// Dùng CompilationPipeline.assemblyCompilationFinished và
-        /// CompilationPipeline.compilationFinished đều không ổn
-        /// </summary>
-        [DidReloadScripts()]
-        static void OnScriptReloaded()
-        {
-            PinServicesGenerator.Generate();
-        }
 
         /// <summary>
         /// Todo: khi remove attribute ở code thì trong project settings vẫn còn
