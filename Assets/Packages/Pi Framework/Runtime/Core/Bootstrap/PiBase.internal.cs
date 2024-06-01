@@ -141,7 +141,7 @@ namespace PiFramework
 
         static void LoadSettings(PiRoot root)
         {
-            var sm = root.GetComponentInChildren<SettingManager>();
+            var sm = root.GetComponentInChildren<SettingLoaderer>();
             sm.LoadSettings();
         }
 

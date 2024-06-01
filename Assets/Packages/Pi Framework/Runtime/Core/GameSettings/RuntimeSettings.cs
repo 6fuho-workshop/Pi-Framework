@@ -12,7 +12,7 @@ namespace PiFramework.Settings
     /// Cần thiết phải có abstract class GameSettings ở PiFramework Assembly 
     /// thay vì dùng Interface để có thể gán Settings Asset vào SettingsLoader.
     /// </summary>
-    public abstract class GameSettings : ScriptableObject, ISettingNode
+    public abstract class RuntimeSettings : ScriptableObject, ISettingNode
     {
 
         #region ISettingNode
@@ -29,7 +29,7 @@ namespace PiFramework.Settings
 
         
         public ISavableKeyValueStore dataStore { get; set; }
-        public void Save() => SettingManager.SaveSettings();
+        public void Save() => SettingLoaderer.SaveSettings();
 
         internal void LoadAllPersistents()
         {

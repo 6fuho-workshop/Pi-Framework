@@ -1,7 +1,7 @@
 using PiFramework.Settings;
 using System;
 
-public partial class Settings : GameSettings
+public partial class Settings : RuntimeSettings
 {
     static Settings _instance;
 
@@ -16,7 +16,7 @@ public partial class Settings : GameSettings
     public override void Initialize()
     {
         Pi.systemEvents.AppQuitPhase1.Register(() => _instance = null);
-        _instance = SettingManager.settings as Settings;
+        _instance = SettingLoaderer.settings as Settings;
         BuildNodeDict();
         _nodeDict.Add(string.Empty, this); //add root node
     }

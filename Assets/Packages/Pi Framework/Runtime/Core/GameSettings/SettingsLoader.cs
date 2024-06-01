@@ -6,6 +6,6 @@ namespace PiFramework.Settings
 {
     public class SettingsLoader : MonoBehaviour
     {
-        public GameSettings settings;
+        public RuntimeSettings settings;
     }
 }

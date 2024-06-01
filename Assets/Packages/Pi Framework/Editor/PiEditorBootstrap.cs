@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.IO;
-using UnityEditor.VersionControl;
 using PiFramework.Settings;
 
 
@@ -34,7 +33,7 @@ namespace PiEditor
 
             var settingManager = new GameObject("Settings");
             settingManager.transform.parent = go.transform;
-            settingManager.AddComponent<SettingManager>();
+            settingManager.AddComponent<SettingLoaderer>();
 
             var settingLoader = new GameObject("Default").AddComponent<SettingsLoader>();
             settingLoader.transform.parent = settingManager.transform;
@@ -46,12 +45,12 @@ namespace PiEditor
             PrefabUtility.SaveAsPrefabAsset(go, FileHelper.piPrefabPath);
             GameObject.DestroyImmediate(go);
 
-            static GameSettings GetDefaultSettings()
+            static RuntimeSettings GetDefaultSettings()
             {
-                var paths = FileHelper.FindScriptableObjects<GameSettings>();
+                var paths = FileHelper.FindScriptableObjects<RuntimeSettings>();
                 if (paths.Length > 0)
                 {
-                    return AssetDatabase.LoadAssetAtPath<GameSettings>(paths[0]);
+                    return AssetDatabase.LoadAssetAtPath<RuntimeSettings>(paths[0]);
                 }
                 else
                 {

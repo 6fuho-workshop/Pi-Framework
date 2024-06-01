@@ -5,7 +5,7 @@ using PiFramework.Settings;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using PiExtension.SimpleSound;
-public partial class Settings : GameSettings, IPersistentSetting
+public partial class Settings : RuntimeSettings, IPersistentSetting
 {
     [SerializeField]
     private bool _global1 = false;

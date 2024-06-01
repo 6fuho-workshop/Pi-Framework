@@ -8,19 +8,19 @@ using UnityEngine.Rendering;
 
 namespace PiFramework.Settings
 {
-    public sealed class SettingManager : MonoBehaviour
+    public sealed class SettingLoaderer : MonoBehaviour
     {
-        public static GameSettings settings { get; internal set; }
+        public static RuntimeSettings settings { get; internal set; }
 
         public static ISavableKeyValueStore defaultDataStore { get; set; }
         internal void LoadSettings()
         {
             var loader = GetComponentInChildren<SettingsLoader>();
-            GameSettings settingsObj = loader.settings;
+            RuntimeSettings settingsObj = loader.settings;
 #if UNITY_EDITOR
             //phải duplicate vì ở Editor Play Mode thì ScriptableObject sẽ thay đổi tạm thời
             //trong session nên dễ nhầm lẫn không biết việc modify có được save thật sự hay ko
-            settingsObj = GameObject.Instantiate<GameSettings>(settingsObj);
+            settingsObj = GameObject.Instantiate<RuntimeSettings>(settingsObj);
 #endif
             settings = settingsObj;
             CreateSettingsContainer();
@@ -29,7 +29,7 @@ namespace PiFramework.Settings
             //todo: patch settings go here
 
             //todo: Config Default and Custom KeyValueStore for Nodes and SettingsProviders
-            SettingManager.defaultDataStore = new KeyValueStore.PiPlayerPref() as ISavableKeyValueStore;
+            SettingLoaderer.defaultDataStore = new KeyValueStore.PiPlayerPref() as ISavableKeyValueStore;
             var nodes = settings.GetNodeDict();
             foreach(var node in nodes)
             {
