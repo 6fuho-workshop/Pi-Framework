@@ -57,7 +57,7 @@ namespace PiEditor.Settings
 
                 ClassModel settingsClass = CreateNodeClass(root);
                 var baseClass = settingsClass.BaseClass;
-                settingsClass.BaseClass = "GameSettings";
+                settingsClass.BaseClass = "RuntimeSettings";
                 if (baseClass.Contains("IPersistentSetting"))
                     settingsClass.BaseClass += ", IPersistentSetting";
                 settingsClass.IndentSize = 0;

@@ -1,7 +1,7 @@
 using PiFramework.Settings;
 using System;
 
-public partial class Settings : GameSettings
+public partial class Settings : RuntimeSettings
 {
     static Settings _instance;
 

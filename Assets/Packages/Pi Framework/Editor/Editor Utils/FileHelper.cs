@@ -102,6 +102,9 @@ namespace PiEditor.Utils
             if (File.Exists(desPath))
                 return;
 
+            var dir = Path.GetDirectoryName(desPath);
+            Directory.CreateDirectory(dir);
+
             var files = FileHelper.FindAssetsWithFullName(uniqueName);
             if (files.Length == 0)
             {

@@ -15,12 +15,14 @@ namespace PiEditor
     {
         internal static void Bootstrap()
         {
+            ValidateFiles();
+
             if (!File.Exists(FileHelper.piPrefabPath))
             {
+                Debug.Log("piPrefabPath does not exsit");
                 SetupPrefab();
             }
 
-            ValidateFiles();
             ValidateModulePrefabs();
             UpdateExecutionOrder();
         }
@@ -149,7 +151,7 @@ namespace PiEditor
 
             FileHelper.CopyAssetWithFullName("Pi.cs.txt", path + "PiClass" + ds + "Pi.cs");
             FileHelper.CopyAssetWithFullName("Settings.cs.txt", path + "Settings" + ds + "Settings.cs");
-            
+
         }
 
 
