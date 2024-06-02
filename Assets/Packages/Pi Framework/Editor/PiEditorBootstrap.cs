@@ -35,7 +35,7 @@ namespace PiEditor
 
             var settingManager = new GameObject("Settings");
             settingManager.transform.parent = go.transform;
-            settingManager.AddComponent<SettingLoaderer>();
+            settingManager.AddComponent<RuntimeSettingsManager>();
 
             var settingLoader = new GameObject("Default").AddComponent<SettingsLoader>();
             settingLoader.transform.parent = settingManager.transform;

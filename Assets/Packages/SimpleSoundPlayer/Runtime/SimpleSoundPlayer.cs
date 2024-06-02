@@ -33,13 +33,13 @@ namespace PiExtension.SimpleSound
 
         protected override void Initialize()
         {
-            var sspSettings = SettingLoaderer.GetNode("simpleSoundPlayer");
+            var sspSettings = RuntimeSettingsManager.GetNode("simpleSoundPlayer");
             _audioMixer = sspSettings.GetValue<AudioMixer>("audioMixer");
             _unmuteFadeLength = sspSettings.GetValue<float>("unmuteFadeLength");
             _pauseFadeLength = sspSettings.GetValue<float>("pauseFadeLength");
             _stopFadeLength = sspSettings.GetValue<float>("stopFadeLength");
 
-            _volSettings = SettingLoaderer.GetValue<VolumeSettings>("options.sound.volume");
+            _volSettings = RuntimeSettingsManager.GetValue<VolumeSettings>("options.sound.volume");
             _volSettings.changed += SettingsChangedHandler;
             _enableSound = _volSettings.enableSound;
         }

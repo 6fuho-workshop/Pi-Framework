@@ -21,7 +21,7 @@ namespace PiFramework.Settings
         {
             get
             {
-                _dataStore ??= SettingLoaderer.defaultDataStore;
+                _dataStore ??= RuntimeSettingsManager.defaultDataStore;
                 return _dataStore;
             }
             set

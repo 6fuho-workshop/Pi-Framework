@@ -29,7 +29,7 @@ namespace PiFramework.Settings
 
         
         public ISavableKeyValueStore dataStore { get; set; }
-        public void Save() => SettingLoaderer.SaveSettings();
+        public void Save() => RuntimeSettingsManager.SaveSettings();
 
         internal void LoadAllPersistents()
         {
