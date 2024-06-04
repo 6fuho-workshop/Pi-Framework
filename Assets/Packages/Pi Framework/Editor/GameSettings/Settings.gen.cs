@@ -22,7 +22,7 @@ namespace PiEditor.Settings
         const string classSuffix = "Settings";
         SettingsGenerator()
         {
-            sourceFile = FileHelper.dataDirectory + "/Settings/Settings.main.cs";
+            sourceFile = FileHelper.scriptDirectory + "/Settings.main.cs";
         }
 
         [MenuItem("Pi/Force Generate Code/Settings")]

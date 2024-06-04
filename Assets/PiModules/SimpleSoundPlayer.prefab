@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2377294083708292726
+--- !u!1 &8396630465982337582
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5070138751122808145}
-  - component: {fileID: 1796682253979669544}
-  - component: {fileID: 6093347247438234494}
+  - component: {fileID: 5974308929424743946}
+  - component: {fileID: 3323033044087126013}
+  - component: {fileID: -2550289317589189342}
   m_Layer: 0
   m_Name: SimpleSoundPlayer
   m_TagString: Untagged
@@ -18,13 +18,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5070138751122808145
+--- !u!4 &5974308929424743946
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2377294083708292726}
+  m_GameObject: {fileID: 8396630465982337582}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -33,25 +33,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1796682253979669544
+--- !u!114 &3323033044087126013
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2377294083708292726}
+  m_GameObject: {fileID: 8396630465982337582}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93ee2d3633c874d4da1c8460d63765ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6093347247438234494
+--- !u!114 &-2550289317589189342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2377294083708292726}
+  m_GameObject: {fileID: 8396630465982337582}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02a8639f099c62d4d89c192c5e0c5e5a, type: 3}

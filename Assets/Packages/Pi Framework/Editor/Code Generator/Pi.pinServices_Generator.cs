@@ -27,7 +27,7 @@ namespace PiEditor
         //public List<PinServiceAttribute> IndexServiceAttributes;
         PinServicesGenerator()
         {
-            sourceFile = FileHelper.dataDirectory + "/PiClass/Pi.pinService.cs";
+            sourceFile = FileHelper.scriptDirectory + "/Pi.pinService.cs";
             compileUnit = new CodeCompileUnit();
         }
 
@@ -91,14 +91,14 @@ namespace PiEditor
 
 
                     //CodeBinaryOperatorExpression condition = new CodeBinaryOperatorExpression(new CodeVariableReferenceExpression(fieldName),
-                        //CodeBinaryOperatorType.ValueEquality, new CodePrimitiveExpression(null));
+                    //CodeBinaryOperatorType.ValueEquality, new CodePrimitiveExpression(null));
 
                     CodeMethodReferenceExpression method = new CodeMethodReferenceExpression(
                                     new CodeVariableReferenceExpression("services"), "GetService", new CodeTypeReference(pin.fullType));
                     CodeMethodInvokeExpression invoke = new CodeMethodInvokeExpression(method, new CodeParameterDeclarationExpression[] { });
 
                     //CodeConditionStatement conditionalStatement = new CodeConditionStatement(condition,
-                      //  new CodeStatement[] { new CodeAssignStatement(new CodeVariableReferenceExpression(fieldName), invoke) });
+                    //  new CodeStatement[] { new CodeAssignStatement(new CodeVariableReferenceExpression(fieldName), invoke) });
                     //serviceProperty.GetStatements.Add(conditionalStatement);
 
                     serviceProperty.GetStatements.Add(new CodeMethodReturnStatement(invoke));

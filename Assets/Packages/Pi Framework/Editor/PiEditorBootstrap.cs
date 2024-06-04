@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using PiFramework.Settings;
+using PiEditor.Settings;
+using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 
 
 namespace PiEditor
@@ -15,51 +17,8 @@ namespace PiEditor
     {
         internal static void Bootstrap()
         {
-            ValidateFiles();
-
-            if (!File.Exists(FileHelper.piPrefabPath))
-            {
-                Debug.Log("piPrefabPath does not exsit");
-                SetupPrefab();
-            }
-
             ValidateModulePrefabs();
             UpdateExecutionOrder();
-        }
-
-        static void SetupPrefab()
-        {
-            var go = new GameObject("PiFramework");
-            go.AddComponent<LatestExecOrder>();
-            go.AddComponent<PiRoot>();
-
-            var settingManager = new GameObject("Settings");
-            settingManager.transform.parent = go.transform;
-            settingManager.AddComponent<RuntimeSettingsManager>();
-
-            var settingLoader = new GameObject("Default").AddComponent<SettingsLoader>();
-            settingLoader.transform.parent = settingManager.transform;
-            settingLoader.settings = GetDefaultSettings();
-
-            var modules = new GameObject("Modules");
-            modules.transform.parent = go.transform;
-
-            PrefabUtility.SaveAsPrefabAsset(go, FileHelper.piPrefabPath);
-            GameObject.DestroyImmediate(go);
-
-            static RuntimeSettings GetDefaultSettings()
-            {
-                var paths = FileHelper.FindScriptableObjects<RuntimeSettings>();
-                if (paths.Length > 0)
-                {
-                    return AssetDatabase.LoadAssetAtPath<RuntimeSettings>(paths[0]);
-                }
-                else
-                {
-
-                }
-                return null;
-            }
         }
 
         static void ValidateModulePrefabs()
@@ -138,24 +97,6 @@ namespace PiEditor
 
             #endregion helpers
         }
-
-        static void ValidateFiles()
-        {
-            var ds = Path.DirectorySeparatorChar;
-            var path = FileHelper.dataDirectory + ds;
-
-            Directory.CreateDirectory(FileHelper.piResourcesDirectory);
-            Directory.CreateDirectory(FileHelper.settingDirectory);
-            Directory.CreateDirectory(FileHelper.moduleDirectory);
-            Directory.CreateDirectory(path + "PiClass");
-
-            FileHelper.CopyAssetWithFullName("Pi.cs.txt", path + "PiClass" + ds + "Pi.cs");
-            FileHelper.CopyAssetWithFullName("Settings.cs.txt", path + "Settings" + ds + "Settings.cs");
-
-        }
-
-
-
 
 
         /// <summary>

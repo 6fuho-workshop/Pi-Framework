@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ad9c9e0125b2884bb67d0799971b843, type: 3}
+  m_Name: Default
+  m_EditorClassIdentifier: 
+  _global1: 0
+  _global2: 0
+  _global23: 0
+  _runInBackground: 0
+  _targetFrameRate: -1
+  _dev:
+    _logPiMessages: 0
+  _simpleSoundPlayer:
+    _audioMixer: {fileID: 24100000, guid: 1268f99de93f1b64688d12671e56ce45, type: 2}
+    _unmuteFadeLength: 1
+    _pauseFadeLength: 1
+    _stopFadeLength: 1
+  _options:
+    _sound:
+      _volume:
+        _enableSound: 1
+        _masterVolume: 1
+        _musicVolume: 1
+        _sfxVolume: 1
+        _ambienceVolume: 1
+        _voiceVolume: 1
+        _mute: 0
+        _musicMute: 0
+        _sfxMute: 0
+        _voiceMute: 0
+        _ambienceMute: 0

@@ -11,23 +11,18 @@ namespace PiEditor.Utils
 {
     public class FileHelper
     {
+        static readonly char ds = Path.DirectorySeparatorChar;
+        static readonly string dataPath = Application.dataPath + Path.DirectorySeparatorChar;
+
         /// <summary>
         /// full path of _PiProjectData folder
         /// </summary>
-        public static readonly string dataDirectory;
-        public static readonly string piResourcesDirectory;
-        public static readonly string piPrefabPath;
-        public static readonly string moduleDirectory;
-        public static readonly string settingDirectory;
-        static FileHelper()
-        {
-            var ds = Path.DirectorySeparatorChar;
-            dataDirectory = Application.dataPath + ds + PiEditorParams.PiProjectDataFolder;
-            piResourcesDirectory = dataDirectory + ds + "Resources";
-            piPrefabPath = piResourcesDirectory + ds + "PiFramework.prefab";
-            moduleDirectory = Application.dataPath + ds + "PiModules";
-            settingDirectory = Application.dataPath + ds + "Settings";
-        }
+        public static string dataDirectory => dataPath + PiEditorParams.PiProjectDataFolder;
+        public static string piResourcesDirectory => dataDirectory + ds + "Resources";
+        public static string piPrefabPath => piResourcesDirectory + ds + "PiFramework.prefab";
+        public static string moduleDirectory => dataPath + "PiModules";
+        public static string settingDirectory => dataPath + "Settings";
+        public static string scriptDirectory => dataDirectory + ds + "Scripts";
 
         /// <summary>
         /// Get full path of _PiProjectData folder
@@ -94,10 +89,11 @@ namespace PiEditor.Utils
 
         /// <summary>
         /// Ignore if dest already existed
+        /// Auto create directory
         /// </summary>
         /// <param name="uniqueName"></param>
         /// <param name="desPath"></param>
-        public static void CopyAssetWithFullName(string uniqueName, string desPath)
+        public static void FineAndCopyAsset(string uniqueName, string desPath)
         {
             if (File.Exists(desPath))
                 return;

@@ -1,9 +1,13 @@
 ﻿using PiEditor.Callbacks;
+using PiEditor.Settings;
+using PiEditor.Utils;
+using PiFramework.Settings;
+using PiFramework;
+using System;
+using System.IO;
 using UnityEditor;
-using UnityEditor.Callbacks;
-using UnityEditor.Compilation;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEditor.Compilation;
 
 namespace PiEditor
 {
@@ -24,16 +28,105 @@ namespace PiEditor
             EditorApplication.update -= Update;
             EditorApplication.update += Update;
 
-            PiEditorBootstrap.Bootstrap();
-            InvokeOnLoadCallbacks();
+            if (!IsPiImported())
+            {
+                Import();
+                InvokeOnLoadCallbacks(typeof(OnPiImportAttribute));
+            }
+            else
+            {
+                if (!IsPiActivated())
+                {
+                    SetupFramework();
+                    InvokeOnLoadCallbacks(typeof(OnPiSetupAttribute));
+                }
+
+                PiEditorBootstrap.Bootstrap();
+                InvokeOnLoadCallbacks(typeof(OnLoadPiEditorAttribute));
+            }
 
             t = EditorApplication.timeSinceStartup - t;
             //Debug.Log("Pi Editor ctor: " + t + "s");
         }
 
-        static void InvokeOnLoadCallbacks()
+        /// <summary>
+        /// Check files existed thay vi check class exist vi class co the bi loi compile
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsPiImported()
         {
-            var callbacks = TypeCache.GetMethodsWithAttribute<OnLoadPiEditorAttribute>();
+            return Directory.Exists(FileHelper.dataDirectory);
+        }
+
+        public static bool IsPiActivated()
+        {
+            return File.Exists(FileHelper.piPrefabPath);
+        }
+
+
+        /// <summary>
+        /// Importing process is for internal framework only
+        /// </summary>
+        public static void Import()
+        {
+            var ds = Path.DirectorySeparatorChar;
+            var scriptDirectory = FileHelper.scriptDirectory + ds;
+
+            FileHelper.FineAndCopyAsset("Pi.cs.txt", scriptDirectory + "Pi.cs");
+            FileHelper.FineAndCopyAsset("Settings.cs.txt", scriptDirectory + "Settings.cs");
+
+            SettingsGenerator.Generate();
+            PinServicesGenerator.Generate();
+        }
+
+        public static void SetupFramework()
+        {
+            Directory.CreateDirectory(FileHelper.piResourcesDirectory);
+            Directory.CreateDirectory(FileHelper.settingDirectory);
+            Directory.CreateDirectory(FileHelper.moduleDirectory);
+            SetupPiPrefab();
+        }
+
+        static void SetupPiPrefab()
+        {
+            var go = new GameObject("PiFramework");
+            go.AddComponent<LatestExecOrder>();
+            go.AddComponent<PiRoot>();
+
+            var settingManager = new GameObject("Settings");
+            settingManager.transform.parent = go.transform;
+            settingManager.AddComponent<RuntimeSettingsManager>();
+
+            var settingLoader = new GameObject("Default").AddComponent<SettingsLoader>();
+            settingLoader.transform.parent = settingManager.transform;
+            settingLoader.settings = GetDefaultSettings();
+
+            var modules = new GameObject("Modules");
+            modules.transform.parent = go.transform;
+
+            PrefabUtility.SaveAsPrefabAsset(go, FileHelper.piPrefabPath);
+            GameObject.DestroyImmediate(go);
+
+            static RuntimeSettings GetDefaultSettings()
+            {
+                var paths = FileHelper.FindScriptableObjects<RuntimeSettings>();
+                if (paths.Length > 0)
+                {
+                    return AssetDatabase.LoadAssetAtPath<RuntimeSettings>(paths[0]);
+                }
+                else
+                {
+                    var settings = ScriptableObject.CreateInstance("Settings");
+                    AssetDatabase.CreateAsset(settings, "Assets/Settings/Default.asset");
+                    AssetDatabase.SaveAssets();
+                    return settings as RuntimeSettings;
+                }
+            }
+        }
+
+        static void InvokeOnLoadCallbacks(Type type)
+        {
+            var callbacks = TypeCache.GetMethodsWithAttribute(type);
             foreach (var callback in callbacks)
             {
                 callback.Invoke(null, null);
