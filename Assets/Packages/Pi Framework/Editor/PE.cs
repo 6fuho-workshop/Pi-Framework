@@ -91,7 +91,7 @@ namespace PiEditor
             Directory.CreateDirectory(FileHelper.settingDirectory);
             Directory.CreateDirectory(FileHelper.moduleDirectory);
             SetupPiPrefab();
-            AssetDatabase.Refresh();
+            SettingsGenerator.Generate();
         }
 
         static void SetupPiPrefab()
