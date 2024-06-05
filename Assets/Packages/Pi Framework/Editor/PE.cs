@@ -23,7 +23,6 @@ namespace PiEditor
         static bool _recompile;
         static PE()
         {
-            Debug.Log("PE static ctor");
             var t = EditorApplication.timeSinceStartup;
 
             EditorApplication.update -= Update;
@@ -40,12 +39,7 @@ namespace PiEditor
                 {
                     PiEditorBootstrap.Bootstrap();
                     InvokeOnLoadCallbacks(typeof(OnLoadPiEditorAttribute));
-                    //SetupFramework();
-                    //InvokeOnLoadCallbacks(typeof(OnPiSetupAttribute));
                 }
-
-                //PiEditorBootstrap.Bootstrap();
-                //InvokeOnLoadCallbacks(typeof(OnLoadPiEditorAttribute));
             }
 
             t = EditorApplication.timeSinceStartup - t;
@@ -73,29 +67,29 @@ namespace PiEditor
         /// </summary>
         public static void Import()
         {
-            Debug.Log("Call Import");
             var ds = Path.DirectorySeparatorChar;
             var scriptDirectory = FileHelper.scriptDirectory + ds;
 
             FileHelper.FineAndCopyAsset("Pi.cs.txt", scriptDirectory + "Pi.cs");
             FileHelper.FineAndCopyAsset("Settings.cs.txt", scriptDirectory + "Settings.cs");
 
-            Debug.Log("begin call SettingsGenerator");
             SettingsGenerator.Generate();
-            Debug.Log("begin call PinServicesGenerator");
+
+            //buoc nay generate k nhu mong muon vi setting manifest chua duoc load
             PinServicesGenerator.Generate();
-            //RecompileImmediate();
         }
 
+        /// <summary>
+        /// Phuong an Auto setup pha san vi settings manifest khong duoc load luc import
+        /// </summary>
         [MenuItem("Pi/Setup Framework")]
         public static void SetupFramework()
         {
-            Debug.Log("Call SetupFramework");
             Directory.CreateDirectory(FileHelper.piResourcesDirectory);
             Directory.CreateDirectory(FileHelper.settingDirectory);
             Directory.CreateDirectory(FileHelper.moduleDirectory);
             SetupPiPrefab();
-            SettingsGenerator.Generate();
+            SettingsGenerator.Generate(); //can phai update lai setting do luc import generate sai
         }
 
         static void SetupPiPrefab()
@@ -115,9 +109,7 @@ namespace PiEditor
             var modules = new GameObject("Modules");
             modules.transform.parent = go.transform;
 
-            Debug.Log("begin call SaveAsPrefabAsset");
             PrefabUtility.SaveAsPrefabAsset(go, FileHelper.piPrefabPath);
-            Debug.Log("After call SaveAsPrefabAsset");
             GameObject.DestroyImmediate(go);
 
             static RuntimeSettings GetDefaultSettings()
@@ -131,9 +123,7 @@ namespace PiEditor
                 {
                     var settings = ScriptableObject.CreateInstance("Settings");
                     AssetDatabase.CreateAsset(settings, "Assets/Settings/Default.asset");
-                    Debug.Log("begin call SaveAssets");
                     AssetDatabase.SaveAssets();
-                    Debug.Log("After call SaveAssets");
                     return settings as RuntimeSettings;
                 }
             }
@@ -155,7 +145,6 @@ namespace PiEditor
 
         static void RecompileImmediate()
         {
-            Debug.Log("PiEditor Recompile");
             _recompile = false;
             //Dùng EditorUtility.RequestScriptReload() không thích hợp vì nó không compile changed scripts
             CompilationPipeline.RequestScriptCompilation();
