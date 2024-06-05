@@ -81,6 +81,7 @@ namespace PiEditor
             SettingsGenerator.Generate();
             Debug.Log("begin call PinServicesGenerator");
             PinServicesGenerator.Generate();
+            AssetDatabase.Refresh();
         }
 
         public static void SetupFramework()
