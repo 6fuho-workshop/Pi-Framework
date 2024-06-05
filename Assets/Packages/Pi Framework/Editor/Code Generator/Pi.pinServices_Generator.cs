@@ -53,6 +53,10 @@ namespace PiEditor
             string newCode = sw.ToString();
             if (!oldCode.Equals(newCode))
             {
+                Debug.Log("oldCode:" + oldCode);
+                Debug.Log("oldCodeLen:" + oldCode.Length);
+                Debug.Log("newCode:" + newCode);
+                Debug.Log("newCodeLen:" + newCode.Length);
                 File.WriteAllText(sourceFile, newCode);
                 Debug.Log(sourceFile + " file generated!");
                 PE.Recompile();
