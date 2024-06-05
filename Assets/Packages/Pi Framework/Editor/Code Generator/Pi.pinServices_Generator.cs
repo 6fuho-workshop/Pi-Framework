@@ -60,6 +60,9 @@ namespace PiEditor
                 File.WriteAllText(sourceFile, newCode);
                 AssetDatabase.SaveAssets();
                 Debug.Log(sourceFile + " file generated!");
+                
+                AssetDatabase.Refresh();
+                AssetDatabase.SaveAssets();
                 PE.Recompile();
             }
         }
