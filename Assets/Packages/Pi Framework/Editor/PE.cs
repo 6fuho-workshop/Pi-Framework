@@ -36,7 +36,7 @@ namespace PiEditor
             }
             else
             {
-                if (!IsPiActivated())
+                if (IsPiActivated())
                 {
                     PiEditorBootstrap.Bootstrap();
                     InvokeOnLoadCallbacks(typeof(OnLoadPiEditorAttribute));
@@ -84,7 +84,7 @@ namespace PiEditor
             SettingsGenerator.Generate();
             Debug.Log("begin call PinServicesGenerator");
             PinServicesGenerator.Generate();
-            RecompileImmediate();
+            //RecompileImmediate();
         }
 
         [MenuItem("Pi/Setup Framework")]
