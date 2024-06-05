@@ -58,6 +58,7 @@ namespace PiEditor
                 Debug.Log("newCode:" + newCode);
                 Debug.Log("newCodeLen:" + newCode.Length);
                 File.WriteAllText(sourceFile, newCode);
+                AssetDatabase.SaveAssets();
                 Debug.Log(sourceFile + " file generated!");
                 PE.Recompile();
             }
