@@ -38,17 +38,20 @@ namespace PiEditor
             {
                 if (!IsPiActivated())
                 {
-                    SetupFramework();
-                    InvokeOnLoadCallbacks(typeof(OnPiSetupAttribute));
+                    PiEditorBootstrap.Bootstrap();
+                    InvokeOnLoadCallbacks(typeof(OnLoadPiEditorAttribute));
+                    //SetupFramework();
+                    //InvokeOnLoadCallbacks(typeof(OnPiSetupAttribute));
                 }
 
-                PiEditorBootstrap.Bootstrap();
-                InvokeOnLoadCallbacks(typeof(OnLoadPiEditorAttribute));
+                //PiEditorBootstrap.Bootstrap();
+                //InvokeOnLoadCallbacks(typeof(OnLoadPiEditorAttribute));
             }
 
             t = EditorApplication.timeSinceStartup - t;
             //Debug.Log("Pi Editor ctor: " + t + "s");
         }
+
 
         /// <summary>
         /// Check files existed thay vi check class exist vi class co the bi loi compile
@@ -84,6 +87,7 @@ namespace PiEditor
             RecompileImmediate();
         }
 
+        [MenuItem("Pi/Setup Framework")]
         public static void SetupFramework()
         {
             Debug.Log("Call SetupFramework");
