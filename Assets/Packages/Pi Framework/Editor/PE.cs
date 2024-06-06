@@ -23,11 +23,13 @@ namespace PiEditor
         static bool _recompile;
         static PE()
         {
-            var t = EditorApplication.timeSinceStartup;
-
             EditorApplication.update -= Update;
             EditorApplication.update += Update;
+            EditorApplication.delayCall += DelayCall;
+        }
 
+        static void DelayCall()
+        {
             if (!IsPiImported())
             {
                 Import();
@@ -41,11 +43,7 @@ namespace PiEditor
                     InvokeOnLoadCallbacks(typeof(OnLoadPiEditorAttribute));
                 }
             }
-
-            t = EditorApplication.timeSinceStartup - t;
-            //Debug.Log("Pi Editor ctor: " + t + "s");
         }
-
 
         /// <summary>
         /// Check files existed thay vi check class exist vi class co the bi loi compile
@@ -89,7 +87,8 @@ namespace PiEditor
             Directory.CreateDirectory(FileHelper.settingDirectory);
             Directory.CreateDirectory(FileHelper.moduleDirectory);
             SetupPiPrefab();
-            SettingsGenerator.Generate(); //can phai update lai setting do luc import generate sai
+            //SettingsGenerator.Generate(); //can phai update lai setting do luc import generate sai
+            AssetDatabase.SaveAssets();
         }
 
         static void SetupPiPrefab()
@@ -123,7 +122,6 @@ namespace PiEditor
                 {
                     var settings = ScriptableObject.CreateInstance("Settings");
                     AssetDatabase.CreateAsset(settings, "Assets/Settings/Default.asset");
-                    AssetDatabase.SaveAssets();
                     return settings as RuntimeSettings;
                 }
             }
