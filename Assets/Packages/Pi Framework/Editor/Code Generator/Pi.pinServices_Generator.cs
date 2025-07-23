@@ -46,7 +46,7 @@ namespace PiEditor
             var options = new CodeGeneratorOptions();
             options.VerbatimOrder = true;
 
-            StringWriter sw = new StringWriter();
+            StringWriter sw = new();
 
             new CSharpCodeProvider().GenerateCodeFromCompileUnit(compileUnit, sw, options);
             string oldCode = File.Exists(sourceFile) ? File.ReadAllText(sourceFile) : "";

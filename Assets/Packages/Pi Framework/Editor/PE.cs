@@ -28,6 +28,9 @@ namespace PiEditor
             EditorApplication.delayCall += DelayCall;
         }
 
+        /// <summary>
+        /// DelayCall make sure all assets are loaded and safe to use AssetDatabase methods
+        /// </summary>
         static void DelayCall()
         {
             if (!IsPiImported())
@@ -72,8 +75,6 @@ namespace PiEditor
             FileHelper.FineAndCopyAsset("Settings.cs.txt", scriptDirectory + "Settings.cs");
 
             SettingsGenerator.Generate();
-
-            //buoc nay generate k nhu mong muon vi setting manifest chua duoc load
             PinServicesGenerator.Generate();
         }
 
@@ -87,7 +88,6 @@ namespace PiEditor
             Directory.CreateDirectory(FileHelper.settingDirectory);
             Directory.CreateDirectory(FileHelper.moduleDirectory);
             SetupPiPrefab();
-            //SettingsGenerator.Generate(); //can phai update lai setting do luc import generate sai
             AssetDatabase.SaveAssets();
         }
 
