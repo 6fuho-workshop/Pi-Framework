@@ -3,36 +3,56 @@ using PiEditor.Settings;
 using PiEditor.Utils;
 using PiFramework.Settings;
 using PiFramework;
+using PiFramework.Internal;
 using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEditor.Compilation;
+using System.Collections.Generic;
 
 namespace PiEditor
 {
+    /// <summary>
     /// InitializeOnLoad: Allows you to initialize an Editor class when Unity loads, and when your scripts are recompiled.
     /// Static constructors with this attribute are called when scripts in the project are recompiled 
     /// (also known as a Domain Reload). This happens when Unity first loads your project, but also when Unity detects 
     /// modifications to scripts (depending on your Auto Refresh preferences), 
-    /// and when you enter Play Mode (depending on your Play Mode configuration).
+    /// and when you enter Play Mode (depending on your Play Mode configuration).  
+    /// FLOW: 
+    /// Domain Reload 
+    /// => PE static ctor 
+    /// => OnPostprocessAllAssets 
+    /// => DelayCall 
+    /// => OnPostprocessAllAssets
+    /// </summary>
 
     [InitializeOnLoad]
     public class PE
     {
         static bool _recompile;
+        public static bool initialized { get; private set; } = false;
+        public static bool activated => File.Exists(PiPath.piPrefab);
+
         static PE()
         {
+            initialized = false;
             EditorApplication.update -= Update;
             EditorApplication.update += Update;
             EditorApplication.delayCall += DelayCall;
+            Debug.Log("PE static ctor");
+
+            List<string> somelist = new();
+            somelist.Add("hello");
+            //JsonSerialization.ToJson(somelist);
+
         }
 
-        /// <summary>
-        /// DelayCall make sure all assets are loaded and safe to use AssetDatabase methods
-        /// </summary>
-        static void DelayCall()
+        internal static void Initialize()
         {
+            if (initialized)
+                return;
+
             if (!IsPiImported())
             {
                 Import();
@@ -40,53 +60,63 @@ namespace PiEditor
             }
             else
             {
-                if (IsPiActivated())
+                if (activated)
                 {
                     PiEditorBootstrap.Bootstrap();
+                    initialized = true;
                     InvokeOnLoadCallbacks(typeof(OnLoadPiEditorAttribute));
                 }
             }
         }
 
         /// <summary>
+        /// DelayCall make sure all assets are loaded and safe to use AssetDatabase methods
+        /// </summary>
+        static void DelayCall()
+        {
+            Debug.Log("DelayCall");
+            Initialize();
+        }
+
+        /// <summary>
         /// Check files existed thay vi check class exist vi class co the bi loi compile
         /// </summary>
         /// <returns></returns>
-        public static bool IsPiImported()
+        static bool IsPiImported()
         {
-            return Directory.Exists(FileHelper.dataDirectory);
-        }
-
-        public static bool IsPiActivated()
-        {
-            return File.Exists(FileHelper.piPrefabPath);
+            return Directory.Exists(PiPath.piDataPath);
         }
 
 
         /// <summary>
         /// Importing process is for internal framework only
+        /// Import đảm bảo các asset sẵn sàng cho bước setup, script are generated
         /// </summary>
-        public static void Import()
+        static void Import()
         {
             var ds = Path.DirectorySeparatorChar;
-            var scriptDirectory = FileHelper.scriptDirectory + ds;
+            var scriptDirectory = PiPath.scriptPath + ds;
 
-            FileHelper.FineAndCopyAsset("Pi.cs.txt", scriptDirectory + "Pi.cs");
-            FileHelper.FineAndCopyAsset("Settings.cs.txt", scriptDirectory + "Settings.cs");
+            AssetUtility.FineAndCopyAsset("Pi.cs.txt", scriptDirectory + "Pi.cs");
+            AssetUtility.FineAndCopyAsset("Settings.cs.txt", scriptDirectory + "Settings.cs");
 
-            SettingsGenerator.Generate();
+            RebuildSettings();
             PinServicesGenerator.Generate();
+        }
+
+        [MenuItem("Pi/Force Generate Code/Settings")]
+        internal static void RebuildSettings()
+        {
+            SettingsGenerator.Generate();
         }
 
         /// <summary>
         /// Phuong an Auto setup pha san vi settings manifest khong duoc load luc import
         /// </summary>
         [MenuItem("Pi/Setup Framework")]
-        public static void SetupFramework()
+        static void SetupFramework()
         {
-            Directory.CreateDirectory(FileHelper.piResourcesDirectory);
-            Directory.CreateDirectory(FileHelper.settingDirectory);
-            Directory.CreateDirectory(FileHelper.moduleDirectory);
+            PiPath.CreateDirectories();
             SetupPiPrefab();
             AssetDatabase.SaveAssets();
         }
@@ -103,17 +133,17 @@ namespace PiEditor
 
             var settingLoader = new GameObject("Default").AddComponent<SettingsLoader>();
             settingLoader.transform.parent = settingManager.transform;
-            settingLoader.settings = GetDefaultSettings();
+            settingLoader.settings = GetOrCreateSettings();
 
             var modules = new GameObject("Modules");
             modules.transform.parent = go.transform;
 
-            PrefabUtility.SaveAsPrefabAsset(go, FileHelper.piPrefabPath);
+            PrefabUtility.SaveAsPrefabAsset(go, PiPath.piPrefab);
             GameObject.DestroyImmediate(go);
 
-            static RuntimeSettings GetDefaultSettings()
+            static RuntimeSettings GetOrCreateSettings()
             {
-                var paths = FileHelper.FindScriptableObjects<RuntimeSettings>();
+                var paths = AssetUtility.FindScriptableObjects<RuntimeSettings>();
                 if (paths.Length > 0)
                 {
                     return AssetDatabase.LoadAssetAtPath<RuntimeSettings>(paths[0]);
@@ -141,7 +171,7 @@ namespace PiEditor
             _recompile = true;
         }
 
-        static void RecompileImmediate()
+        public static void RecompileImmediate()
         {
             _recompile = false;
             //Dùng EditorUtility.RequestScriptReload() không thích hợp vì nó không compile changed scripts

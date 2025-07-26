@@ -96,7 +96,7 @@ namespace PiEditor.Settings
                 min.style.display = evt.changedProperty.boolValue ? DisplayStyle.Flex : DisplayStyle.None;
                 max.style.display = evt.changedProperty.boolValue ? DisplayStyle.Flex : DisplayStyle.None;
             });
-            
+
             persistent.RegisterValueChangeCallback(evt =>
             {
                 customKey.style.display = evt.changedProperty.boolValue ? DisplayStyle.Flex : DisplayStyle.None;

@@ -1,30 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using PiFramework.Internal;
-using PiFramework.Settings;
-using System.Runtime.InteropServices;
 using PiFramework.KeyValueStore;
+using PiFramework.Settings;
+using UnityEngine;
 
-namespace PiFramework
+namespace PiFramework.Internal
 {
-    public partial class PiBase
+    /// <summary>
+    /// Provides a set of initialization methods that are executed at various stages of the Unity runtime lifecycle.
+    /// </summary>
+    /// <remarks>The <see cref="PiBootstrapper"/> class contains static methods marked with <see
+    /// cref="RuntimeInitializeOnLoadMethodAttribute"/>  to perform specific initialization tasks at predefined points
+    /// during the Unity runtime startup process. These methods are  executed automatically by Unity and are used to set
+    /// up the Pi framework and related components.  Note that certain behaviors may vary depending on the platform. For
+    /// example, on Android devices, any GameObjects created  before <see
+    /// cref="RuntimeInitializeLoadType.BeforeSceneLoad"/> may be destroyed.</remarks>
+    public class PiBootstrapper
     {
-        internal PiModule[] modules;
-        public static bool initialized { get; private set; }
-
-        /// <summary>
-        /// static Constructor thực thi đầu tiên, tuy nhiên khi bỏ tính năng Reload Domain trong editor settings thì 
-        /// static Constructor lại không được gọi.
-        /// </summary>
-        //static PiBase()
-        //{
-        //Debug.Log("PiCore static ctor");
-        //}
-
-
-
         /// <summary>
         /// Ngay ở bước này thì Active Scene đã loaded nhưng chưa activate
         /// và đã có thể add/modify game object cho active scene.
@@ -68,7 +59,7 @@ namespace PiFramework
         static void InitBeforeSceneLoad()
         {
             //Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: BeforeSceneLoad"));
-            Bootstrap();
+            Initialize();
             var pi = GameObject.Instantiate(Resources.Load<GameObject>("PiFramework"));
             pi.name = "PiFramework";
         }
@@ -80,60 +71,70 @@ namespace PiFramework
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void InitAfterSceneLoad()
         {
-            systemEvents.initializeAfterSceneLoad.Invoke();
+            PiBase.systemEvents.initializeAfterSceneLoad.Invoke();
             //Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: AfterSceneLoad"));
         }
 
-        public static bool isQuitting
+        static void Initialize()
         {
-            get
-            {
-                return root == null || root.isQuitting;
-            }
-        }
+            PiBase.status = SystemStatus.CoreInit;
 
-        //RuntimeInitializeLoadType.BeforeSceneLoad
-        static void Bootstrap()
-        {
-            initialized = false;
+            var services = PiServiceRegistry.instance;
+            
             Application.quitting -= OnAppQuitting;
             Application.quitting += OnAppQuitting;
+            
+            services.Reset();
+            var systemEvents = new GameObject("Pi.systemEvents").AddComponent<PiSystemEvents>();
+            services.AddService(typeof(PiSystemEvents), systemEvents, systemEvents.gameObject);
+            PiBase.systemEvents = systemEvents;
 
-            _services = PiServiceRegistry.instance;
-            _services.Reset();
-            systemEvents = new GameObject("Pi.systemEvents").AddComponent<PiSystemEvents>();
-            _services.AddService(typeof(PiSystemEvents), systemEvents, systemEvents.gameObject);
+            var typeEvents = new TypeEventSystem();
+            services.AddService(typeof(TypeEventSystem), typeEvents);
+            PiBase.typeEvents = typeEvents;
 
-            typeEvents = new TypeEventSystem();
-            _services.AddService(typeof(TypeEventSystem), typeEvents);
+            var playerPrefs = new PiPlayerPref();
+            services.AddService<IPlayerPrefs>(playerPrefs);
+            PiBase.playerPrefs = playerPrefs;
 
-            playerPrefs = new PiPlayerPref();
-            _services.AddService<IPlayerPrefs>(playerPrefs);
-
-            console = new PiConsole();
-            _services.AddService<PiConsole>(console);
-
-            //Debug.Log(InternalUtil.PiMessage("Pi bootstrapped"));
+            var console = new PiConsole();
+            services.AddService<PiConsole>(console);
+            PiBase.console = console;
         }
 
-        /// <summary>
-        /// Bootstrap phase 2: Configuration
-        /// </summary>
-        /// <param name="piRoot">PiRoot</param>
-        internal static void SystemStartup(PiRoot piRoot)
+        static void OnAppQuitting()
         {
-            root = piRoot;
-            //gameObject = piRoot.gameObject;
-            Preload();
-            LoadSettings(piRoot);
-            InitModules();
-            initialized = true;
+            Application.quitting -= OnAppQuitting;
+            PiBase.systemEvents.AppQuitPhase2.Invoke();
+            PiBase.systemEvents.AppQuitPhase3.Register(SystemDestroy);
         }
 
         /// <summary>
-        /// Boostrap phase 3, thiết kế cho các bước tương tác 
-        /// sau khi đã xây dựng hầu hết các thành phần hệ thống
+        /// Những gì là gốc rễ và nhiều liên đới thì Destroy sau cùng
         /// </summary>
+        internal static void SystemDestroy()
+        {
+            Debug.Log("SystemDestroyed");
+            PiBase.root = null;
+            //gameObject = null;
+            PiBase.playerPrefs = null;
+            PiBase.console = null;
+            PiBase.systemEvents = null;
+            PiBase.typeEvents?.Clear();
+            PiBase.typeEvents = null;
+            PiBase.status = SystemStatus.None;
+        }
+
+        internal static void Bootstrap(PiRoot root)
+        {
+            // This method is called to bootstrap the Pi Framework.
+            PiBase.root = root;
+            Preload();//tạm thời đặt preload trước LoadSettings vì ta muốn phần LoadSettings có thể chạy batch commands.
+            LoadSettings(root);
+            InitModules();
+            PiBase.status = SystemStatus.Ready;
+        }
+
         static void Preload()
         {
             PreloadCommands();
@@ -148,9 +149,10 @@ namespace PiFramework
         static void InitModules()
         {
             var modules = Object.FindObjectsByType<PiModule>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            PiServiceRegistry services = PiServiceRegistry.instance;
             foreach (var m in modules)
             {
-                _services.AddService(m.GetType(), m);
+                services.AddService(m.GetType(), m);
             }
             //có thể cho settings push to modules chỗ này
 
@@ -161,45 +163,22 @@ namespace PiFramework
             //Debug.Log(InternalUtil.PiMessage("Modules Initialized"));
         }
 
+        static void PreloadCommands()
+        {
+            var console = PiBase.console;
+            console.RegisterCommand("exit", InternalCommands.TriggerExit);
+            console.RegisterCommand("restart", InternalCommands.TriggerRestart);
+        }
+
         //todo: hoàn chỉnh phần restart
         static internal void Reset()
         {
-            systemEvents.Reset();
+            PiBase.systemEvents.Reset();
             //Reset ServiceLocator ở bước cuối cùng
-            _services.Reset();
+            PiServiceRegistry.instance.Reset();
 
             //re Initialize => sẽ gọi vào chỗ khác
-            Bootstrap();
-        }
-
-        static void PreloadCommands()
-        {
-            console.RegisterCommand("Exit", InternalCommands.TriggerExit);
-            console.RegisterCommand("Restart", InternalCommands.TriggerRestart);
-        }
-
-        static void OnAppQuitting()
-        {
-            Application.quitting -= OnAppQuitting;
-            systemEvents.AppQuitPhase2.Invoke();
-            systemEvents.AppQuitPhase3.Register(SystemDestroy);
-        }
-
-        /// <summary>
-        /// Những gì là gốc rễ và nhiều liên đới thì Destroy sau cùng
-        /// </summary>
-        internal static void SystemDestroy()
-        {
-            Debug.Log("SystemDestroyed");
-            root = null;
-            //gameObject = null;
-            playerPrefs = null;
-            console = null;
-            systemEvents = null;
-            _services = null;
-            typeEvents?.Clear();
-            typeEvents = null;
-            initialized = false;
+            //Bootstrap();
         }
     }
 }

@@ -21,20 +21,20 @@ namespace PiFramework
         readonly Dictionary<Type, GameObject> serviceGoDict;
 
         private static PiServiceRegistry _instance;
-        internal GameObject viewContainer;
+        internal GameObject objectContainer;
 
         //The service locator itself might be a singleton.There usually is no need to have two instances of a service locator.
         internal PiServiceRegistry()
         {
             services = new();
             serviceGoDict = new();
-            CreateViewContainer();
+            CreateObjectContainer();
         }
 
-        void CreateViewContainer()
+        void CreateObjectContainer()
         {
-            viewContainer = new GameObject("Services");
-            GameObject.DontDestroyOnLoad(viewContainer);
+            objectContainer = new GameObject("Services");
+            GameObject.DontDestroyOnLoad(objectContainer);
         }
 
         internal static PiServiceRegistry instance
@@ -131,7 +131,7 @@ namespace PiFramework
                 if (!typeof(MonoBehaviour).IsAssignableFrom(type) || (service as MonoBehaviour).gameObject == null)
                     throw new ArgumentException("The provider does not attached to GameObject!");
                 var transform = (service as MonoBehaviour).transform;
-                transform.SetParent(viewContainer.transform);
+                transform.SetParent(objectContainer.transform);
                 serviceGoDict[type] = transform.gameObject;
             }
         }
@@ -155,12 +155,12 @@ namespace PiFramework
             serviceRemoved = null;
             services.Clear();
             serviceGoDict.Clear();
-            if (viewContainer)
+            if (objectContainer)
             {
-                viewContainer.SetActive(false);
-                GameObject.Destroy(viewContainer);
+                objectContainer.SetActive(false);
+                GameObject.Destroy(objectContainer);
             }
-            CreateViewContainer();
+            CreateObjectContainer();
         }
     }
 }

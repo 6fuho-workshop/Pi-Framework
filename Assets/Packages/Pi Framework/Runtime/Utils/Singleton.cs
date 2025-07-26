@@ -31,7 +31,7 @@ namespace PiFramework
 				lock (_instanceLock)
 				{
 					
-					if (_instance == null && !PiBase.isQuitting)
+					if (_instance == null && PiBase.status != SystemStatus.Shutdown)
 					{
 						
 						_instance = GameObject.FindObjectOfType<T>();

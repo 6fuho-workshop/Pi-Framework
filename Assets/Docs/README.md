@@ -39,6 +39,7 @@
 - **Editor Integration**: Manage modules and project structure directly from the Unity Editor.
 - **Reusable Components**: Common game systems (UI, audio, save, analytics, etc.) are provided as plug-and-play modules.
 - **Console Commands**: Built-in developer console for runtime commands, debugging, and live tweaking.
+- **Abstraction for Package Replacement**: PF is designed with abstraction layers for core services and features. This allows you to swap out Unity packages or third-party solutions (e.g., for input, audio, analytics, etc.) without changing your game code or method signatures. By depending on interfaces and abstract classes, your project remains decoupled from specific implementations, making it easy to upgrade or replace packages as needed.
 
 ---
 

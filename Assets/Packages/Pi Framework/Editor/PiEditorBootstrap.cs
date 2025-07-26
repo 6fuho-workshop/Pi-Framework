@@ -24,7 +24,7 @@ namespace PiEditor
         static void ValidateModulePrefabs()
         {
             var allModules = GetAllModules();
-            var prefab = PrefabUtility.LoadPrefabContents(FileHelper.piPrefabPath);
+            var prefab = PrefabUtility.LoadPrefabContents(PiPath.piPrefab);
             var moduleContainer = prefab.transform.Find("Modules");
             //var settings = prefab.transform.Find("Settings");
             var addedModules = GetAddedModules(moduleContainer);
@@ -45,7 +45,7 @@ namespace PiEditor
             }
 
             if (dirty)
-                PrefabUtility.SaveAsPrefabAsset(prefab, FileHelper.piPrefabPath);
+                PrefabUtility.SaveAsPrefabAsset(prefab, PiPath.piPrefab);
 
             PrefabUtility.UnloadPrefabContents(prefab);
 
@@ -77,8 +77,7 @@ namespace PiEditor
 
             static GameObject GetModulePrefabInstance(Type moduleType)
             {
-                var ds = Path.DirectorySeparatorChar;
-                var assetPath = FileHelper.moduleDirectory + ds + moduleType.Name + ".prefab";
+                var assetPath = PiPath.modulePath + "/" + moduleType.Name + ".prefab";
                 if (!File.Exists(assetPath))
                 {
                     var m = new GameObject(moduleType.Name);
@@ -88,8 +87,7 @@ namespace PiEditor
                 }
                 else
                 {
-                    var localAssetPath = "Assets" + ds + "PiModules" + ds + moduleType.Name + ".prefab";
-                    var go = (GameObject)AssetDatabase.LoadMainAssetAtPath(localAssetPath);
+                    var go = (GameObject)AssetDatabase.LoadMainAssetAtPath(assetPath);
                     return (GameObject)PrefabUtility.InstantiatePrefab(go);
 
                 }

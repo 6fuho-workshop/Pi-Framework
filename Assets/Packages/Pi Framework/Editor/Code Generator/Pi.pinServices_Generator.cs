@@ -27,7 +27,7 @@ namespace PiEditor
         //public List<PinServiceAttribute> IndexServiceAttributes;
         PinServicesGenerator()
         {
-            sourceFile = FileHelper.scriptDirectory + "/Pi.pinService.cs";
+            sourceFile = PiPath.scriptPath + "/Pi.pinService.cs";
             compileUnit = new CodeCompileUnit();
         }
 
@@ -46,7 +46,7 @@ namespace PiEditor
             var options = new CodeGeneratorOptions();
             options.VerbatimOrder = true;
 
-            StringWriter sw = new();
+            StringWriter sw = new StringWriter();
 
             new CSharpCodeProvider().GenerateCodeFromCompileUnit(compileUnit, sw, options);
             string oldCode = File.Exists(sourceFile) ? File.ReadAllText(sourceFile) : "";
@@ -60,7 +60,7 @@ namespace PiEditor
                 File.WriteAllText(sourceFile, newCode);
                 AssetDatabase.ImportAsset("Assets" + sourceFile.Substring(Application.dataPath.Length));
                 Debug.Log(sourceFile + " file generated!");
-                
+
                 AssetDatabase.Refresh();
                 AssetDatabase.SaveAssets();
                 PE.Recompile();

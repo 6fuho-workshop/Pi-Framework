@@ -6,8 +6,6 @@ using System.IO;
 using CsCodeGenerator;
 using CsCodeGenerator.Enums;
 using System;
-using UnityEditor.Compilation;
-using System.Xml;
 
 
 namespace PiEditor.Settings
@@ -22,10 +20,34 @@ namespace PiEditor.Settings
         const string classSuffix = "Settings";
         SettingsGenerator()
         {
-            sourceFile = FileHelper.scriptDirectory + "/Settings.main.cs";
+            sourceFile = PiPath.scriptPath + "/Settings.main.cs";
         }
 
-        [MenuItem("Pi/Force Generate Code/Settings")]
+        [OnAssetModificationOfType(typeof(SettingsManifest))]
+        static void OnAssetModification(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths, bool didDomainReload)
+        {
+            Debug.Log("OnAssetModification");
+
+            foreach (string str in importedAssets)
+            {
+                Debug.Log("Reimported Asset: " + str);
+            }
+            foreach (string str in deletedAssets)
+            {
+                Debug.Log("Deleted Asset: " + str);
+            }
+
+            for (int i = 0; i < movedAssets.Length; i++)
+            {
+                Debug.Log("Moved Asset: " + movedAssets[i] + " from: " + movedFromAssetPaths[i]);
+            }
+
+            if (didDomainReload)
+            {
+                Debug.Log("Domain has been reloaded");
+            }
+        }
+
         public static void Generate()
         {
             var changed = new SettingsGenerator().GenerateCodeFile();
@@ -277,7 +299,7 @@ namespace PiEditor.Settings
 
         bool BuildSettingsTree(Node root, List<string> usingDirectives)
         {
-            string[] assetPaths = FileHelper.FindScriptableObjects<SettingsManifest>();
+            string[] assetPaths = AssetUtility.FindScriptableObjects<SettingsManifest>();
 
             foreach (var ap in assetPaths)
             {
