@@ -15,7 +15,7 @@ public partial class Settings : RuntimeSettings
 
     public override void Initialize()
     {
-        Pi.systemEvents.AppQuitPhase3.Register(() => _instance = null);
+        Pi.systemEvents.OnAppQuitPhase3.Register(() => _instance = null);
         _instance = RuntimeSettingsManager.settings as Settings;
         BuildNodeDict();
         _nodeDict.Add(string.Empty, this); //add root node

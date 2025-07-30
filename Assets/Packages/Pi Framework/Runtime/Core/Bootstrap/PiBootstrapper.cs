@@ -71,26 +71,30 @@ namespace PiFramework.Internal
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void InitAfterSceneLoad()
         {
-            PiBase.systemEvents.initializeAfterSceneLoad.Invoke();
+            PiBase.systemEvents.OnInitializeAfterSceneLoad.Invoke();
             //Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: AfterSceneLoad"));
         }
 
+        /// <summary>
+        /// Initializes the core components and services.
+        /// </summary>
         static void Initialize()
         {
             PiBase.status = SystemStatus.CoreInit;
 
             var services = PiServiceRegistry.instance;
-            
+
             Application.quitting -= OnAppQuitting;
             Application.quitting += OnAppQuitting;
             
             services.Reset();
+
             var systemEvents = new GameObject("Pi.systemEvents").AddComponent<PiSystemEvents>();
             services.AddService(typeof(PiSystemEvents), systemEvents, systemEvents.gameObject);
             PiBase.systemEvents = systemEvents;
 
-            var typeEvents = new TypeEventSystem();
-            services.AddService(typeof(TypeEventSystem), typeEvents);
+            var typeEvents = new EventBus();
+            services.AddService(typeof(EventBus), typeEvents);
             PiBase.typeEvents = typeEvents;
 
             var playerPrefs = new PiPlayerPref();
@@ -105,8 +109,8 @@ namespace PiFramework.Internal
         static void OnAppQuitting()
         {
             Application.quitting -= OnAppQuitting;
-            PiBase.systemEvents.AppQuitPhase2.Invoke();
-            PiBase.systemEvents.AppQuitPhase3.Register(SystemDestroy);
+            PiBase.systemEvents.OnAppQuitPhase2.Invoke();
+            PiBase.systemEvents.OnAppQuitPhase3.Register(SystemDestroy);
         }
 
         /// <summary>
@@ -114,9 +118,8 @@ namespace PiFramework.Internal
         /// </summary>
         internal static void SystemDestroy()
         {
-            Debug.Log("SystemDestroyed");
+            Debug.Log("System Destroyed");
             PiBase.root = null;
-            //gameObject = null;
             PiBase.playerPrefs = null;
             PiBase.console = null;
             PiBase.systemEvents = null;
@@ -129,9 +132,13 @@ namespace PiFramework.Internal
         {
             // This method is called to bootstrap the Pi Framework.
             PiBase.root = root;
+            PiBase.status = SystemStatus.Configuration;
             Preload();//tạm thời đặt preload trước LoadSettings vì ta muốn phần LoadSettings có thể chạy batch commands.
             LoadSettings(root);
-            InitModules();
+            RegisterAdditionServices();
+
+            PiBase.status = SystemStatus.ModulesInit;
+            RegisterModules();
             PiBase.status = SystemStatus.Ready;
         }
 
@@ -140,15 +147,27 @@ namespace PiFramework.Internal
             PreloadCommands();
         }
 
+        static void RegisterAdditionServices()
+        {
+            // Register additional services here if needed
+            // For example, you might want to register a custom logger or analytics service
+            var services = PiServiceRegistry.instance;
+
+            var opManager = new GameObject("Pi.operation").AddComponent<PiOperationManager>();
+            services.AddService(typeof(PiOperationManager), opManager, opManager.gameObject);
+            PiBase.operation = opManager;
+        }
+
         static void LoadSettings(PiRoot root)
         {
             var sm = root.GetComponentInChildren<RuntimeSettingsManager>();
             sm.LoadSettings();
         }
 
-        static void InitModules()
+        static void RegisterModules()
         {
-            var modules = Object.FindObjectsByType<PiModule>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            //var modules = Object.FindObjectsByType<PiModule>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            var modules = PiBase.root.gameObject.GetComponentsInChildren<PiModule>(true);
             PiServiceRegistry services = PiServiceRegistry.instance;
             foreach (var m in modules)
             {

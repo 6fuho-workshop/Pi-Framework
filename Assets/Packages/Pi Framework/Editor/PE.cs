@@ -124,7 +124,7 @@ namespace PiEditor
         static void SetupPiPrefab()
         {
             var go = new GameObject("PiFramework");
-            go.AddComponent<LatestExecOrder>();
+            go.AddComponent<PostPhaseEventRaiser>();
             go.AddComponent<PiRoot>();
 
             var settingManager = new GameObject("Settings");

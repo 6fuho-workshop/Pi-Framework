@@ -21,7 +21,7 @@ namespace PiFramework
         /// <param name="timer">If timer <= 0, Action will delay 1 frame</param>
         public PendingAction(object host, Action call, float timer = 0)
         {
-            PiBase.systemEvents.beginUpdate.Register(Update);
+            PiBase.systemEvents.OnFirstUpdate.Register(Update);
             callbacks += call;
             this.host = host;
             this.timer = timer;
@@ -65,7 +65,7 @@ namespace PiFramework
                 return;
             }
 
-            timer -= Time.deltaTime;
+            timer -= UnityEngine.Time.deltaTime;
             if (timer > 0f)
             {
                 return;
@@ -91,7 +91,7 @@ namespace PiFramework
 
         void Destroy()
         {
-            PiBase.systemEvents.beginUpdate.UnRegister(Update);
+            PiBase.systemEvents.OnFirstUpdate.UnRegister(Update);
             callbacks = null;
             keyList = null;
             host = null;

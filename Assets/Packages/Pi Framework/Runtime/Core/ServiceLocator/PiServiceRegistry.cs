@@ -50,10 +50,10 @@ namespace PiFramework
         }
 
         /// <inheritdoc />
-        public event EventHandler<ServiceEventArgs> serviceAdded;
+        public event EventHandler<ServiceEventArgs> ServiceAdded;
 
         /// <inheritdoc />
-        public event EventHandler<ServiceEventArgs> serviceRemoved;
+        public event EventHandler<ServiceEventArgs> ServiceRemoved;
 
 
         /// <inheritdoc />
@@ -96,12 +96,12 @@ namespace PiFramework
 
         private void OnServiceAdded(ServiceEventArgs e)
         {
-            serviceAdded?.Invoke(this, e);
+            ServiceAdded?.Invoke(this, e);
         }
 
         private void OnServiceRemoved(ServiceEventArgs e)
         {
-            serviceRemoved?.Invoke(this, e);
+            ServiceRemoved?.Invoke(this, e);
         }
 
         /// <inheritdoc />
@@ -119,14 +119,11 @@ namespace PiFramework
         /// </summary>
         /// <param name="type">service type, can be interface...</param>
         /// <param name="provider">service</param>
-        internal void AddService(Type type, object service, bool includeGamObject = false)
+        internal void AddService(Type type, object service, bool includeGameObject = false)
         {
-            if (!type.IsAssignableFrom(service.GetType()))
-                throw new ArgumentException("The provider does not match the specified service type!");
-
             AddService(type, service);
 
-            if (includeGamObject)
+            if (includeGameObject)
             {
                 if (!typeof(MonoBehaviour).IsAssignableFrom(type) || (service as MonoBehaviour).gameObject == null)
                     throw new ArgumentException("The provider does not attached to GameObject!");
@@ -138,7 +135,11 @@ namespace PiFramework
 
         void AddService(Type type, object service)
         {
+            if (!type.IsAssignableFrom(service.GetType()))
+                throw new ArgumentException("The provider does not match the specified service type!");
+
             if (service == null) throw new ArgumentNullException(nameof(service));
+
             lock (services)
             {
                 if (services.ContainsKey(type))
@@ -151,8 +152,8 @@ namespace PiFramework
 
         internal void Reset()
         {
-            serviceAdded = null;
-            serviceRemoved = null;
+            ServiceAdded = null;
+            ServiceRemoved = null;
             services.Clear();
             serviceGoDict.Clear();
             if (objectContainer)

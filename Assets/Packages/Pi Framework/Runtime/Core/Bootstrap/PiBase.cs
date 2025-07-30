@@ -22,9 +22,11 @@ namespace PiFramework
 
         public static PiSystemEvents systemEvents { get; internal set; }
 
-        public static TypeEventSystem typeEvents { get; internal set; }
+        public static EventBus typeEvents { get; internal set; }
 
         public static PiConsole console { get; internal set; }
+
+        public static PiOperationManager operation { get; internal set; }
 
         public static IPlayerPrefs playerPrefs { get; internal set; }
 

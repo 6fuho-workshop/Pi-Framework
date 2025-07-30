@@ -86,7 +86,7 @@ namespace PiFramework.Mediator
         static void InstantiateMediator()
         {
             _instance = new T();
-            PiBase.systemEvents.AppQuitPhase3.RegisterIfNotExists(OnAppQuit);
+            PiBase.systemEvents.OnAppQuitPhase3.RegisterIfNotExists(OnAppQuit);
             _instance.Init();
 
             oneTimePatch?.Invoke(_instance);
@@ -171,7 +171,7 @@ namespace PiFramework.Mediator
 
         public TUtility GetUtility<TUtility>() where TUtility : class, IUtility => container.Get<TUtility>();
 
-        private TypeEventSystem commandHandlers = new();
+        private EventBus commandHandlers = new();
 
         public virtual TResult SendCommand<TResult>(ICommand<TResult> command)
         {
@@ -223,7 +223,7 @@ namespace PiFramework.Mediator
             return query.Do();
         }
 
-        private TypeEventSystem typeEventSystem = new();
+        private EventBus typeEventSystem = new();
 
         public void SendEvent<TEvent>() where TEvent : new() => typeEventSystem.SendEvent<TEvent>();
 

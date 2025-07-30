@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,12 +13,12 @@ namespace PiFramework
         /// <summary>
         /// Occurs when a new service is added to the registry.
         /// </summary>
-        event EventHandler<ServiceEventArgs> serviceAdded;
+        event EventHandler<ServiceEventArgs> ServiceAdded;
 
         /// <summary>
         /// Occurs when a service is removed from the registry.
         /// </summary>
-        event EventHandler<ServiceEventArgs> serviceRemoved;
+        event EventHandler<ServiceEventArgs> ServiceRemoved;
 
         /// <summary>
         /// Adds a service to this <see cref="ServiceRegistry"/>.
@@ -28,14 +27,13 @@ namespace PiFramework
         /// <param name="service">The service to add.</param>
         /// <exception cref="ArgumentNullException">Thrown when the provided service is null.</exception>
         /// <exception cref="ArgumentException">Thrown when a service of the same type is already registered.</exception>
-        IUnRegister AddService<T>([NotNull] T service) where T : class;
+        IUnRegister AddService<T>(T service) where T : class;
 
         /// <summary>
         /// Gets the service object of the specified type.
         /// </summary>
         /// <typeparam name="T">The type of the service to retrieve.</typeparam>
         /// <returns>A service of the requested type, or [null] if not found.</returns>
-        [CanBeNull]
         T GetService<T>() where T : class;
 
         /// <summary>

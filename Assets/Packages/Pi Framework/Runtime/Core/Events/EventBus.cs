@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PiFramework
 {
-    public class TypeEventSystem
+    public class EventBus
     {
         private readonly Dictionary<Type, PiEventBase> typeEvents = new();
         public void SendEvent<T>() where T : new() => GetEvent<PiEvent<T>>()?.Invoke(new T());

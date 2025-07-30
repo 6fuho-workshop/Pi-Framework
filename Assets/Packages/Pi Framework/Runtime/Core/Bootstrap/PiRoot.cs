@@ -10,7 +10,7 @@ namespace PiFramework.Internal
     /// - Handles application quit and cleanup.
     /// - Attaches the service container to the root for hierarchy clarity.
     /// </summary>
-    [RequireComponent(typeof(LatestExecOrder))]
+    [RequireComponent(typeof(PostPhaseEventRaiser))]
 
     // [ExecutionOrder(-31000)] sets the execution order for PiRoot.
     // We choose -31000 to reserve the range -31001 to -32000 for tasks/scripts
@@ -50,7 +50,7 @@ namespace PiFramework.Internal
             AttachServiceContainer();
 
             // Dispatch the framework's beginAwake event for all listeners
-            PiBase.systemEvents.beginAwake.Invoke();
+            PiBase.systemEvents.OnFirstAwake.Invoke();
         }
 
         #region Dispatch System Events
@@ -58,22 +58,22 @@ namespace PiFramework.Internal
         /// <summary>
         /// Dispatches the beginStart event to notify all systems that Start has been called.
         /// </summary>
-        void Start() => PiBase.systemEvents.beginStart.Invoke();
+        void Start() => PiBase.systemEvents.OnFirstStart.Invoke();
 
         /// <summary>
         /// Dispatches the beginUpdate event every frame.
         /// </summary>
-        void Update() => PiBase.systemEvents.beginUpdate.Invoke();
+        void Update() => PiBase.systemEvents.OnFirstUpdate.Invoke();
 
         /// <summary>
         /// Dispatches the beginFixedUpdate event at fixed intervals.
         /// </summary>
-        void FixedUpdate() => PiBase.systemEvents.beginFixedUpdate.Invoke();
+        void FixedUpdate() => PiBase.systemEvents.OnFirstFixedUpdate.Invoke();
 
         /// <summary>
         /// Dispatches the beginLateUpdate event after all Update calls.
         /// </summary>
-        void LateUpdate() => PiBase.systemEvents.beginLateUpdate.Invoke();
+        void LateUpdate() => PiBase.systemEvents.OnFirstLateUpdate.Invoke();
 
         // Tracks if the application is quitting
         internal bool isQuitting { get; private set; }
@@ -85,7 +85,7 @@ namespace PiFramework.Internal
         {
             isQuitting = true;
             PiBase.status = SystemStatus.Shutdown;
-            PiBase.systemEvents.AppQuitPhase1.Invoke();
+            PiBase.systemEvents.OnAppQuitPhase1.Invoke();
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace PiFramework.Internal
         private void OnDestroy()
         {
             if(isSingleton)
-                PiBase.systemEvents.AppQuitPhase3.Invoke();
+                PiBase.systemEvents.OnAppQuitPhase3.Invoke();
         }
 
         #endregion
