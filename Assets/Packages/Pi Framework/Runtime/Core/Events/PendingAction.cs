@@ -21,7 +21,7 @@ namespace PiFramework
         /// <param name="timer">If timer <= 0, Action will delay 1 frame</param>
         public PendingAction(object host, Action call, float timer = 0)
         {
-            PiBase.systemEvents.OnFirstUpdate.Register(Update);
+            PiBase.SystemEvents.OnFirstUpdate.Register(Update);
             callbacks += call;
             this.host = host;
             this.timer = timer;
@@ -91,12 +91,12 @@ namespace PiFramework
 
         void Destroy()
         {
-            PiBase.systemEvents.OnFirstUpdate.UnRegister(Update);
+            PiBase.SystemEvents.OnFirstUpdate.Unregister(Update);
             callbacks = null;
             keyList = null;
             host = null;
         }
     }
 
-    public class InterruptableEvent : PiEvent<PendingAction> { }
+    public class HookableEvent : PiEvent<PendingAction> { }
 }

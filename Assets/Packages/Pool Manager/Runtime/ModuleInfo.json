@@ -3,7 +3,7 @@
     "name": "pool",
     "pinServices": [
         {
-            "name": "pool",
+            "name": "Pool",
             "fullType": "PiFramework.Pool.PoolManager"
         }
     ]

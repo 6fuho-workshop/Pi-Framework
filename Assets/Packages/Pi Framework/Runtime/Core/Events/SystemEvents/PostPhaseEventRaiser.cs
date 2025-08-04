@@ -18,7 +18,7 @@ namespace PiFramework.Internal
         /// </summary>
         private void Awake()
         {
-            PiBase.systemEvents.OnLastAwake?.Invoke();
+            PiBase.SystemEvents.OnLastAwake?.Invoke();
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace PiFramework.Internal
         /// </summary>
         private void Start()
         {
-            PiBase.systemEvents.OnLastStart?.Invoke();
+            PiBase.SystemEvents.OnLastStart?.Invoke();
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace PiFramework.Internal
         /// </summary>
         private void Update()
         {
-            PiBase.systemEvents.OnLastUpdate?.Invoke();
+            PiBase.SystemEvents.OnLastUpdate?.Invoke();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace PiFramework.Internal
         /// </summary>
         private void FixedUpdate()
         {
-            PiBase.systemEvents.OnLastFixedUpdate?.Invoke();
+            PiBase.SystemEvents.OnLastFixedUpdate?.Invoke();
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace PiFramework.Internal
         /// </summary>
         private void LateUpdate()
         {
-            PiBase.systemEvents.OnLastLateUpdate?.Invoke();
+            PiBase.SystemEvents.OnLastLateUpdate?.Invoke();
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace PiFramework.Internal
         /// </summary>
         private void OnApplicationQuit()
         {
-            PiBase.systemEvents.OnAppQuitPhase1?.Invoke();
+            PiBase.SystemEvents.OnAppQuitPhase1?.Invoke();
         }
     }
 }

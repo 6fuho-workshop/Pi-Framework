@@ -3,7 +3,7 @@
     "name": "ssplayer",
     "pinServices": [
         {
-            "name": "audio",
+            "name": "Audio",
             "fullType": "PiExtension.SimpleSound.SimpleSoundPlayer"
         }
     ]

@@ -15,7 +15,7 @@ namespace PiFramework
         /// <summary>
         /// Internal call
         /// </summary>
-        internal void _moduleInit()
+        internal void ModuleInitInternal()
         {
             Initialize();
         }

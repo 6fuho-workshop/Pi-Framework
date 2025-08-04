@@ -1,4 +1,4 @@
-using PiFramework.Mediator;
+﻿using PiFramework.Mediator;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +6,13 @@ using UnityEngine;
 
 namespace PiFramework
 {
+    /// <summary>
+    /// Represents a chainable event system that allows registering, invoking, and managing event listeners.
+    /// Đóng gói các sự kiện thành một nhóm, cho phép add và remove listener của tất cả các sự kiện trong nhóm đó.
+    /// </summary>
+    /// <remarks>The <see cref="PiEventChain"/> class provides functionality to chain events, add listeners,
+    /// and manage their lifecycle. It supports chaining multiple events together and ensures proper cleanup of
+    /// listeners when they are removed.</remarks>
     public class PiEventChain
     {
         public PiEventChain Chain(IPiEvent piEvent)
@@ -16,10 +23,10 @@ namespace PiFramework
 
         private Action mCalls;
 
-        public IUnRegister AddListener(Action call)
+        public IUnregister AddListener(Action call)
         {
             mCalls += call;
-            return new CustomUnRegister(() => { RemoveListener(call); });
+            return new CustomUnregister(() => { RemoveListener(call); });
         }
 
         public void RemoveListener(Action call)
@@ -30,11 +37,11 @@ namespace PiFramework
 
         private void Invoke() => mCalls?.Invoke();
 
-        private List<IUnRegister> unbinderList { get; } = new List<IUnRegister>();
+        private List<IUnregister> unbinderList { get; } = new List<IUnregister>();
 
         void ChainRemoveListener()
         {
-            unbinderList.ForEach(x => x.UnRegister());
+            unbinderList.ForEach(x => x.Unregister());
             unbinderList.Clear();
         }
     }

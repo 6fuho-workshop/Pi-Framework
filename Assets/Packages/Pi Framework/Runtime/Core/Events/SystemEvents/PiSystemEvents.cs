@@ -99,9 +99,9 @@ namespace PiFramework
         /// Occurs when user clicked exit or back button on menu screen.<br/>
         /// Can be interrupted for further processing.
         /// </summary>
-        public readonly InterruptableEvent OnShutdown = new();
+        public readonly HookableEvent OnShutdown = new();
 
-        public readonly InterruptableEvent OnRestart = new();
+        public readonly HookableEvent OnRestart = new();
 
         /// <summary>
         /// OnApplicationQuit
@@ -122,21 +122,21 @@ namespace PiFramework
 
         internal void Reset()
         {
-            OnFirstAwake.UnRegisterAll();
-            OnLastAwake.UnRegisterAll();
-            OnFirstStart.UnRegisterAll();
-            OnLastStart.UnRegisterAll();
-            OnFirstUpdate.UnRegisterAll();
-            OnLastUpdate.UnRegisterAll();
-            OnFirstFixedUpdate.UnRegisterAll();
-            OnLastFixedUpdate.UnRegisterAll();
-            OnFirstLateUpdate.UnRegisterAll();
-            OnLastLateUpdate.UnRegisterAll();
+            OnFirstAwake.UnregisterAll();
+            OnLastAwake.UnregisterAll();
+            OnFirstStart.UnregisterAll();
+            OnLastStart.UnregisterAll();
+            OnFirstUpdate.UnregisterAll();
+            OnLastUpdate.UnregisterAll();
+            OnFirstFixedUpdate.UnregisterAll();
+            OnLastFixedUpdate.UnregisterAll();
+            OnFirstLateUpdate.UnregisterAll();
+            OnLastLateUpdate.UnregisterAll();
             //BeginOnGUI.RemoveAllListeners();
 
-            OnShutdown.UnRegisterAll();
-            OnAppQuitPhase1.UnRegisterAll();
-            OnInitializeAfterSceneLoad.UnRegisterAll();
+            OnShutdown.UnregisterAll();
+            OnAppQuitPhase1.UnregisterAll();
+            OnInitializeAfterSceneLoad.UnregisterAll();
         }
     }
 }

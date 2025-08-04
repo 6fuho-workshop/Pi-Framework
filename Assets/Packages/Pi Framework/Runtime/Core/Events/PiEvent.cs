@@ -10,20 +10,20 @@ namespace PiFramework
         /// <summary>
         /// Register callback
         /// </summary>
-        IUnRegister Register(Action callback);
+        IUnregister Register(Action callback);
 
         /// <summary>
         /// Remove callback
         /// </summary>
         /// <param name="callback"></param>
-        void UnRegister(Action callback);
+        void Unregister(Action callback);
 
         /// <summary>
         /// Add event callback nhưng ignore nếu callback đã được Add.<br/>
-        /// Nếu bỏ qua thì IUnRegister return sẽ có thuộc tính isEmpty = true.
+        /// Nếu bỏ qua thì IUnregister return sẽ có thuộc tính isEmpty = true.
         /// </summary>
-        /// <returns>IUnRegister Instruction to remove callback</returns>
-        IUnRegister RegisterIfNotExists(Action callback);
+        /// <returns>IUnregister Instruction to remove callback</returns>
+        IUnregister RegisterIfNotExists(Action callback);
     }
 
     public abstract class PiEventBase : IPiEvent
@@ -36,25 +36,25 @@ namespace PiFramework
         /// </summary>
         private bool invoking;
 
-        public IUnRegister Register(Action callback)
+        public IUnregister Register(Action callback)
         {
             actions += callback;
-            return new CustomUnRegister(() => { UnRegister(callback); });
+            return new CustomUnregister(() => { Unregister(callback); });
         }
 
-        public IUnRegister RegisterIfNotExists(Action callback)
+        public IUnregister RegisterIfNotExists(Action callback)
         {
-            var unbinder = new CustomUnRegister(() => { UnRegister(callback); });
+            var unbinder = new CustomUnregister(() => { Unregister(callback); });
             if (Contains(actions, callback))
-                unbinder.isEmpty = true;
+                unbinder.IsEmpty = true;
             else
                 actions += callback;
             return unbinder;
         }
 
-        public void UnRegister(Action callback) => actions -= callback;
+        public void Unregister(Action callback) => actions -= callback;
 
-        public abstract void UnRegisterAll();
+        public abstract void UnregisterAll();
 
         protected bool CheckInvokable()
         {
@@ -97,30 +97,30 @@ namespace PiFramework
     {
         protected Action<T> calls;
 
-        public IUnRegister Register(Action<T> callback)
+        public IUnregister Register(Action<T> callback)
         {
             calls += callback;
-            return new CustomUnRegister(() => { UnRegister(callback); });
+            return new CustomUnregister(() => { Unregister(callback); });
         }
 
         /// <summary>
         /// Add event listener nhưng sẽ bỏ qua nếu listener đã được Add.<br/>
-        /// Nếu bỏ qua thì IUnRegister return sẽ có thuộc tính isEmpty = true.
+        /// Nếu bỏ qua thì IUnregister return sẽ có thuộc tính isEmpty = true.
         /// </summary>
         /// <returns>Instruction to remove listenter</returns>
-        public IUnRegister RegisterIfNotExists(Action<T> callback)
+        public IUnregister RegisterIfNotExists(Action<T> callback)
         {
-            var unbinder = new CustomUnRegister(() => { UnRegister(callback); });
+            var unbinder = new CustomUnregister(() => { Unregister(callback); });
             if (PiEvent.Contains(calls, callback))
-                unbinder.isEmpty = true;
+                unbinder.IsEmpty = true;
             else
                 calls += callback;
             return unbinder;
         }
 
-        public void UnRegister(Action<T> callback) => calls -= callback;
+        public void Unregister(Action<T> callback) => calls -= callback;
 
-        public override void UnRegisterAll()
+        public override void UnregisterAll()
         {
             actions = null;
             calls = null;
@@ -138,7 +138,7 @@ namespace PiFramework
             }
         }
 
-        public override void UnRegisterAll() => actions = null;
+        public override void UnregisterAll() => actions = null;
     }
 
     public class PiEvent<T> : PiEventBase<T>
@@ -158,28 +158,28 @@ namespace PiFramework
     {
         private Action<T, K> calls;
 
-        public IUnRegister Register(Action<T, K> callback)
+        public IUnregister Register(Action<T, K> callback)
         {
             calls += callback;
-            return new CustomUnRegister(() => { UnRegister(callback); });
+            return new CustomUnregister(() => { Unregister(callback); });
         }
 
         /// <summary>
         /// Add event listener nhưng sẽ bỏ qua nếu listener đã được Add.<br/>
-        /// Nếu bỏ qua thì IUnRegister return sẽ có thuộc tính isEmpty = true.
+        /// Nếu bỏ qua thì IUnregister return sẽ có thuộc tính isEmpty = true.
         /// </summary>
         /// <returns>Instruction to remove listenter</returns>
-        public IUnRegister RegisterIfNotExists(Action<T, K> callback)
+        public IUnregister RegisterIfNotExists(Action<T, K> callback)
         {
-            var unbinder = new CustomUnRegister(() => { UnRegister(callback); });
+            var unbinder = new CustomUnregister(() => { Unregister(callback); });
             if (PiEvent.Contains(calls, callback))
-                unbinder.isEmpty = true;
+                unbinder.IsEmpty = true;
             else
                 calls += callback;
             return unbinder;
         }
 
-        public void UnRegister(Action<T, K> callback) => calls -= callback;
+        public void Unregister(Action<T, K> callback) => calls -= callback;
 
         public void Invoke(T t, K k)
         {
@@ -191,7 +191,7 @@ namespace PiFramework
             }
         }
 
-        public override void UnRegisterAll()
+        public override void UnregisterAll()
         {
             actions = null;
             calls = null;
@@ -202,28 +202,28 @@ namespace PiFramework
     {
         private Action<T, K, S> calls;
 
-        public IUnRegister Register(Action<T, K, S> callback)
+        public IUnregister Register(Action<T, K, S> callback)
         {
             calls += callback;
-            return new CustomUnRegister(() => { UnRegister(callback); });
+            return new CustomUnregister(() => { Unregister(callback); });
         }
 
         /// <summary>
         /// Add event listener nhưng sẽ bỏ qua nếu listener đã được Add.<br/>
-        /// Nếu bỏ qua thì IUnRegister return sẽ có thuộc tính isEmpty = true.
+        /// Nếu bỏ qua thì IUnregister return sẽ có thuộc tính isEmpty = true.
         /// </summary>
         /// <returns>Instruction to remove listenter</returns>
-        public IUnRegister RegisterIfNotExists(Action<T, K, S> callback)
+        public IUnregister RegisterIfNotExists(Action<T, K, S> callback)
         {
-            var unbinder = new CustomUnRegister(() => { UnRegister(callback); });
+            var unbinder = new CustomUnregister(() => { Unregister(callback); });
             if (PiEvent.Contains(calls, callback))
-                unbinder.isEmpty = true;
+                unbinder.IsEmpty = true;
             else
                 calls += callback;
             return unbinder;
         }
 
-        public void UnRegister(Action<T, K, S> callback) => calls -= callback;
+        public void Unregister(Action<T, K, S> callback) => calls -= callback;
 
         public void Invoke(T t, K k, S s)
         {
@@ -235,7 +235,7 @@ namespace PiFramework
             }
         }
 
-        public override void UnRegisterAll()
+        public override void UnregisterAll()
         {
             actions = null;
             calls = null;

@@ -34,14 +34,14 @@ namespace PiFramework.Mediator
         void SendEvent<TEvent>() where TEvent : new();
         void SendEvent<TEvent>(TEvent e);
 
-        IUnRegister Subscribe<TEvent>(Action<TEvent> callback);
+        IUnregister Subscribe<TEvent>(Action<TEvent> callback);
         void Unsubscribe<TEvent>(Action<TEvent> callback);
 
-        public IUnRegister RegisterHandler<TCommand>(Action<TCommand> handler) where TCommand : ICommand;
+        public IUnregister RegisterHandler<TCommand>(Action<TCommand> handler) where TCommand : ICommand;
 
-        public IUnRegister RegisterHandler<TResult>(Action<ICommand<TResult>> handler);
+        public IUnregister RegisterHandler<TResult>(Action<ICommand<TResult>> handler);
 
-        public void UnRegisterHandler<TCommand>(Action<TCommand> handler);
+        public void UnregisterHandler<TCommand>(Action<TCommand> handler);
 
         void Destroy();
     }
@@ -69,7 +69,7 @@ namespace PiFramework.Mediator
                 persistentPatch += onRegister;
         }
 
-        public static IUnRegisterList unregisterList = new UnRegisterList();
+        public static IUnregisterList unregisterList = new UnregisterList();
 
         protected static T _instance;
 
@@ -86,7 +86,7 @@ namespace PiFramework.Mediator
         static void InstantiateMediator()
         {
             _instance = new T();
-            PiBase.systemEvents.OnAppQuitPhase3.RegisterIfNotExists(OnAppQuit);
+            PiBase.SystemEvents.OnAppQuitPhase3.RegisterIfNotExists(OnAppQuit);
             _instance.Init();
 
             oneTimePatch?.Invoke(_instance);
@@ -118,7 +118,7 @@ namespace PiFramework.Mediator
             typeEventSystem.Clear();
             commandHandlers.Clear();
             oneTimePatch = null;
-            unregisterList.UnRegisterAll();
+            unregisterList.UnregisterAll();
             _instance = null;
         }
 
@@ -190,15 +190,15 @@ namespace PiFramework.Mediator
                 commandHandlers.SendEvent<TCommand>(command);
         }
 
-        public IUnRegister RegisterHandler<TCommand>(Action<TCommand> handler) where TCommand : ICommand
-            => commandHandlers.SubscribeEvent<TCommand>(handler);
+        public IUnregister RegisterHandler<TCommand>(Action<TCommand> handler) where TCommand : ICommand
+            => commandHandlers.Subscribe<TCommand>(handler);
 
-        public IUnRegister RegisterHandler<TResult>(Action<ICommand<TResult>> handler)
+        public IUnregister RegisterHandler<TResult>(Action<ICommand<TResult>> handler)
         {
-            return commandHandlers.SubscribeEvent(handler);
+            return commandHandlers.Subscribe(handler);
         }
 
-        public void UnRegisterHandler<TCommand>(Action<TCommand> handler) => commandHandlers.Unsubscribe<TCommand>(handler);
+        public void UnregisterHandler<TCommand>(Action<TCommand> handler) => commandHandlers.Unsubscribe<TCommand>(handler);
 
 
         /*
@@ -229,7 +229,7 @@ namespace PiFramework.Mediator
 
         public void SendEvent<TEvent>(TEvent e) => typeEventSystem.SendEvent<TEvent>(e);
 
-        public IUnRegister Subscribe<TEvent>(Action<TEvent> callback) => typeEventSystem.SubscribeEvent<TEvent>(callback);
+        public IUnregister Subscribe<TEvent>(Action<TEvent> callback) => typeEventSystem.Subscribe<TEvent>(callback);
 
         public void Unsubscribe<TEvent>(Action<TEvent> callback) => typeEventSystem.Unsubscribe<TEvent>(callback);
     }
@@ -324,7 +324,7 @@ namespace PiFramework.Mediator
 
     public static class ICanSubscribeEventExtension
     {
-        public static IUnRegister Subscribe<T>(this ICanSubscribeEvent self, Action<T> callback) =>
+        public static IUnregister Subscribe<T>(this ICanSubscribeEvent self, Action<T> callback) =>
             self.GetMediator().Subscribe<T>(callback);
 
         public static void Unsubscribe<T>(this ICanSubscribeEvent self, Action<T> callback) =>
@@ -338,11 +338,11 @@ namespace PiFramework.Mediator
 
     public static class ICanHandleCommandExtension
     {
-        public static IUnRegister RegisterHandler<T>(this ICanHandleCommand self, Action<T> callback) where T : ICommand
+        public static IUnregister RegisterHandler<T>(this ICanHandleCommand self, Action<T> callback) where T : ICommand
             => self.GetMediator().RegisterHandler<T>(callback);
 
-        public static void UnRegisterHandler<T>(this ICanHandleCommand self, Action<T> callback) where T : ICommand
-            => self.GetMediator().UnRegisterHandler<T>(callback);
+        public static void UnregisterHandler<T>(this ICanHandleCommand self, Action<T> callback) where T : ICommand
+            => self.GetMediator().UnregisterHandler<T>(callback);
     }
 
 

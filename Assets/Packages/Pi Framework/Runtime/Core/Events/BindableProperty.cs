@@ -19,9 +19,9 @@ namespace PiFramework
         /// <summary>
         /// Pass current value to callback and Invoke callback to notify as changed event
         /// </summary>
-        IUnRegister RegisterNotifyBack(Action<T> changedHandler);
-        void UnRegister(Action<T> changedHandler);
-        IUnRegister Register(Action<T> changedHandler);
+        IUnregister RegisterNotifyBack(Action<T> changedHandler);
+        void Unregister(Action<T> changedHandler);
+        IUnregister Register(Action<T> changedHandler);
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ namespace PiFramework
 
         public void SetValueIgnoreEvent(T newValue) => _value = newValue;
 
-        public IUnRegister RegisterNotifyBack(Action<T> onValueChanged)
+        public IUnregister RegisterNotifyBack(Action<T> onValueChanged)
         {
             var unregister = Register(onValueChanged);
             onValueChanged(_value);
@@ -110,9 +110,9 @@ namespace PiFramework
     }
 
     /*
-    public class BindablePropertyUnRegister<T> : IUnRegister
+    public class BindablePropertyUnregister<T> : IUnregister
     {
-        public BindablePropertyUnRegister(BindableProperty<T> bindableProperty, Action<T> valueChanged)
+        public BindablePropertyUnregister(BindableProperty<T> bindableProperty, Action<T> valueChanged)
         {
             this.bindableProperty = bindableProperty;
             this.valueChanged = valueChanged;
@@ -123,9 +123,9 @@ namespace PiFramework
         public Action<T> valueChanged { get; set; }
         public bool isEmpty { get; set; }
 
-        public void UnRegister()
+        public void Unregister()
         {
-            bindableProperty.UnRegister(valueChanged);
+            bindableProperty.Unregister(valueChanged);
             bindableProperty = null;
             valueChanged = null;
         }

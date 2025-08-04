@@ -30,7 +30,7 @@ namespace PiFramework.Internal
         void Awake()
         {
             // Prevent duplicate PiRoot instances (singleton enforcement)
-            if (PiBase.root != null)
+            if (PiBase.Root != null)
             {
                 Debug.LogWarning("Duplicate PiRoot detected, destroying this instance.");
                 gameObject.SetActive(false);
@@ -50,7 +50,7 @@ namespace PiFramework.Internal
             AttachServiceContainer();
 
             // Dispatch the framework's beginAwake event for all listeners
-            PiBase.systemEvents.OnFirstAwake.Invoke();
+            PiBase.SystemEvents.OnFirstAwake.Invoke();
         }
 
         #region Dispatch System Events
@@ -58,34 +58,34 @@ namespace PiFramework.Internal
         /// <summary>
         /// Dispatches the beginStart event to notify all systems that Start has been called.
         /// </summary>
-        void Start() => PiBase.systemEvents.OnFirstStart.Invoke();
+        void Start() => PiBase.SystemEvents.OnFirstStart.Invoke();
 
         /// <summary>
         /// Dispatches the beginUpdate event every frame.
         /// </summary>
-        void Update() => PiBase.systemEvents.OnFirstUpdate.Invoke();
+        void Update() => PiBase.SystemEvents.OnFirstUpdate.Invoke();
 
         /// <summary>
         /// Dispatches the beginFixedUpdate event at fixed intervals.
         /// </summary>
-        void FixedUpdate() => PiBase.systemEvents.OnFirstFixedUpdate.Invoke();
+        void FixedUpdate() => PiBase.SystemEvents.OnFirstFixedUpdate.Invoke();
 
         /// <summary>
         /// Dispatches the beginLateUpdate event after all Update calls.
         /// </summary>
-        void LateUpdate() => PiBase.systemEvents.OnFirstLateUpdate.Invoke();
+        void LateUpdate() => PiBase.SystemEvents.OnFirstLateUpdate.Invoke();
 
         // Tracks if the application is quitting
-        internal bool isQuitting { get; private set; }
+        internal bool IsQuitting { get; private set; }
 
         /// <summary>
         /// Handles application quit logic and dispatches the AppQuitPhase1 event.
         /// </summary>
         private void OnApplicationQuit()
         {
-            isQuitting = true;
-            PiBase.status = SystemStatus.Shutdown;
-            PiBase.systemEvents.OnAppQuitPhase1.Invoke();
+            IsQuitting = true;
+            PiBase.Status = SystemStatus.Shutdown;
+            PiBase.SystemEvents.OnAppQuitPhase1.Invoke();
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace PiFramework.Internal
         private void OnDestroy()
         {
             if(isSingleton)
-                PiBase.systemEvents.OnAppQuitPhase3.Invoke();
+                PiBase.SystemEvents.OnAppQuitPhase3.Invoke();
         }
 
         #endregion
@@ -104,7 +104,7 @@ namespace PiFramework.Internal
         /// </summary>
         void AttachServiceContainer()
         {
-            PiServiceRegistry.instance.objectContainer.transform.parent = transform;
+            PiServiceRegistry.Instance.ServiceContainer.transform.parent = transform;
         }
     }
 }

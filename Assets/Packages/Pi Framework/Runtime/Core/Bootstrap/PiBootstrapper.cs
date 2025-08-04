@@ -71,7 +71,7 @@ namespace PiFramework.Internal
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void InitAfterSceneLoad()
         {
-            PiBase.systemEvents.OnInitializeAfterSceneLoad.Invoke();
+            PiBase.SystemEvents.OnInitializeAfterSceneLoad.Invoke();
             //Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: AfterSceneLoad"));
         }
 
@@ -80,37 +80,37 @@ namespace PiFramework.Internal
         /// </summary>
         static void Initialize()
         {
-            PiBase.status = SystemStatus.CoreInit;
+            PiBase.Status = SystemStatus.CoreInit;
 
-            var services = PiServiceRegistry.instance;
+            var services = PiServiceRegistry.Instance;
 
             Application.quitting -= OnAppQuitting;
             Application.quitting += OnAppQuitting;
             
-            services.Reset();
+            services.ResetRegistry();
 
             var systemEvents = new GameObject("Pi.systemEvents").AddComponent<PiSystemEvents>();
-            services.AddService(typeof(PiSystemEvents), systemEvents, systemEvents.gameObject);
-            PiBase.systemEvents = systemEvents;
+            services.AddServiceAndGameObject<PiSystemEvents>(systemEvents);
+            PiBase.SystemEvents = systemEvents;
 
             var typeEvents = new EventBus();
             services.AddService(typeof(EventBus), typeEvents);
-            PiBase.typeEvents = typeEvents;
+            PiBase.TypeEvents = typeEvents;
 
             var playerPrefs = new PiPlayerPref();
             services.AddService<IPlayerPrefs>(playerPrefs);
-            PiBase.playerPrefs = playerPrefs;
+            PiBase.PlayerPrefs = playerPrefs;
 
             var console = new PiConsole();
             services.AddService<PiConsole>(console);
-            PiBase.console = console;
+            PiBase.Console = console;
         }
 
         static void OnAppQuitting()
         {
             Application.quitting -= OnAppQuitting;
-            PiBase.systemEvents.OnAppQuitPhase2.Invoke();
-            PiBase.systemEvents.OnAppQuitPhase3.Register(SystemDestroy);
+            PiBase.SystemEvents.OnAppQuitPhase2.Invoke();
+            PiBase.SystemEvents.OnAppQuitPhase3.Register(SystemDestroy);
         }
 
         /// <summary>
@@ -119,27 +119,27 @@ namespace PiFramework.Internal
         internal static void SystemDestroy()
         {
             Debug.Log("System Destroyed");
-            PiBase.root = null;
-            PiBase.playerPrefs = null;
-            PiBase.console = null;
-            PiBase.systemEvents = null;
-            PiBase.typeEvents?.Clear();
-            PiBase.typeEvents = null;
-            PiBase.status = SystemStatus.None;
+            PiBase.Root = null;
+            PiBase.PlayerPrefs = null;
+            PiBase.Console = null;
+            PiBase.SystemEvents = null;
+            PiBase.TypeEvents?.Clear();
+            PiBase.TypeEvents = null;
+            PiBase.Status = SystemStatus.None;
         }
 
         internal static void Bootstrap(PiRoot root)
         {
             // This method is called to bootstrap the Pi Framework.
-            PiBase.root = root;
-            PiBase.status = SystemStatus.Configuration;
+            PiBase.Root = root;
+            PiBase.Status = SystemStatus.Configuration;
             Preload();//tạm thời đặt preload trước LoadSettings vì ta muốn phần LoadSettings có thể chạy batch commands.
             LoadSettings(root);
             RegisterAdditionServices();
 
-            PiBase.status = SystemStatus.ModulesInit;
+            PiBase.Status = SystemStatus.ModulesInit;
             RegisterModules();
-            PiBase.status = SystemStatus.Ready;
+            PiBase.Status = SystemStatus.Ready;
         }
 
         static void Preload()
@@ -151,11 +151,7 @@ namespace PiFramework.Internal
         {
             // Register additional services here if needed
             // For example, you might want to register a custom logger or analytics service
-            var services = PiServiceRegistry.instance;
-
-            var opManager = new GameObject("Pi.operation").AddComponent<PiOperationManager>();
-            services.AddService(typeof(PiOperationManager), opManager, opManager.gameObject);
-            PiBase.operation = opManager;
+            var services = PiServiceRegistry.Instance;
         }
 
         static void LoadSettings(PiRoot root)
@@ -167,8 +163,8 @@ namespace PiFramework.Internal
         static void RegisterModules()
         {
             //var modules = Object.FindObjectsByType<PiModule>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            var modules = PiBase.root.gameObject.GetComponentsInChildren<PiModule>(true);
-            PiServiceRegistry services = PiServiceRegistry.instance;
+            var modules = PiBase.Root.gameObject.GetComponentsInChildren<PiModule>(true);
+            PiServiceRegistry services = PiServiceRegistry.Instance;
             foreach (var m in modules)
             {
                 services.AddService(m.GetType(), m);
@@ -177,14 +173,14 @@ namespace PiFramework.Internal
 
             foreach (var m in modules)
             {
-                m._moduleInit();
+                m.ModuleInitInternal();
             }
             //Debug.Log(InternalUtil.PiMessage("Modules Initialized"));
         }
 
         static void PreloadCommands()
         {
-            var console = PiBase.console;
+            var console = PiBase.Console;
             console.RegisterCommand("exit", InternalCommands.TriggerExit);
             console.RegisterCommand("restart", InternalCommands.TriggerRestart);
         }
@@ -192,9 +188,9 @@ namespace PiFramework.Internal
         //todo: hoàn chỉnh phần restart
         static internal void Reset()
         {
-            PiBase.systemEvents.Reset();
+            PiBase.SystemEvents.Reset();
             //Reset ServiceLocator ở bước cuối cùng
-            PiServiceRegistry.instance.Reset();
+            PiServiceRegistry.Instance.ResetRegistry();
 
             //re Initialize => sẽ gọi vào chỗ khác
             //Bootstrap();

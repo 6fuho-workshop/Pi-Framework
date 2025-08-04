@@ -6,18 +6,18 @@ namespace PiFramework.Math
 {
     public static class MathExtension
     {
-        //Shuffle any (I)List with an extension method
+        private static readonly System.Random _random = new();
+
+        /// <summary>
+        /// Shuffles the elements of the list in-place using UnityEngine.Random for randomness.
+        /// </summary>
         public static void Shuffle<T>(this IList<T> list)
         {
             int n = list.Count;
-            T value;
             while (n > 1)
             {
-                int k = Random.Range(0, n);
-                n--;
-                value = list[k];
-                list[k] = list[n];
-                list[n] = value;
+                int k = _random.Next(0, n--);
+                (list[n], list[k]) = (list[k], list[n]);
             }
         }
     }

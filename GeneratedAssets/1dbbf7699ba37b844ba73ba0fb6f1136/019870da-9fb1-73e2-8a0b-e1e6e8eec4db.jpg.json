@@ -1,0 +1,20 @@
+{
+    "asset": "1dbbf7699ba37b844ba73ba0fb6f1136",
+    "fileName": "019870da-9fb1-73e2-8a0b-e1e6e8eec4db.jpg",
+    "prompt": "Create a UI texture for a loading scene interface based on the design principles outlined in GameOnetDesign.md, using a modern and clean style suitable for UI toolkit.",
+    "negativePrompt": "",
+    "model": "072fd6c7-1a92-4d41-b504-c46546b0dd28",
+    "modelName": "Game UI Essentials",
+    "customSeed": -1,
+    "w3CTraceId": "fb77c1b6353a3e5b3ccd3eb9c83e21ff",
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0
+}

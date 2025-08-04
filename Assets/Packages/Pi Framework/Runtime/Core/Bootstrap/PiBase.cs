@@ -18,27 +18,25 @@ namespace PiFramework
     public partial class PiBase
     {
         //internal static PiServiceRegistry _services;
-        public static IServiceRegistry services => PiServiceRegistry.instance;
+        public static IServiceRegistry Services => PiServiceRegistry.Instance;
 
-        public static PiSystemEvents systemEvents { get; internal set; }
+        public static PiSystemEvents SystemEvents { get; internal set; }
 
-        public static EventBus typeEvents { get; internal set; }
+        public static EventBus TypeEvents { get; internal set; }
 
-        public static PiConsole console { get; internal set; }
+        public static PiConsole Console { get; internal set; }
 
-        public static PiOperationManager operation { get; internal set; }
-
-        public static IPlayerPrefs playerPrefs { get; internal set; }
+        public static IPlayerPrefs PlayerPrefs { get; internal set; }
 
         /// <summary>
         /// the script attached to PiFramework GameObject
         /// </summary>
-        public static PiRoot root { get; internal set; }
+        public static PiRoot Root { get; internal set; }
 
         internal PiModule[] modules;
         /// <summary>
         /// Gets a value indicating whether the system has been initialized (Settings and modules loaded).
         /// </summary>
-        public static SystemStatus status { get; internal set; }
+        public static SystemStatus Status { get; internal set; }
     }
 }

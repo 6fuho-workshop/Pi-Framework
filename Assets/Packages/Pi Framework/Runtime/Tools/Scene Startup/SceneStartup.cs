@@ -26,7 +26,7 @@ namespace PiFramework
 
         List<AsyncOperation> asyncList;
 
-        public string redirect
+        public string Redirect
         {
             get
             {
@@ -38,7 +38,7 @@ namespace PiFramework
         static void OnAfterSceneLoad()
         {
             redirected = true;
-            PiBase.systemEvents.OnAppQuitPhase1.Register(() => { redirected = false; });
+            PiBase.SystemEvents.OnAppQuitPhase1.Register(() => { redirected = false; });
         }
 
         //Việc xử lý xóa object của scene ở các khâu InitializeOnLoad là không khả thi
@@ -51,7 +51,7 @@ namespace PiFramework
                 return;
             }
 
-            if (!string.IsNullOrWhiteSpace(redirect))
+            if (!string.IsNullOrWhiteSpace(Redirect))
             {
                 foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
                 {
@@ -63,7 +63,7 @@ namespace PiFramework
                 }
 
                 redirected = true;
-                SceneManager.LoadScene(redirect);
+                SceneManager.LoadScene(Redirect);
                 Destroy(gameObject);
             }
         }
