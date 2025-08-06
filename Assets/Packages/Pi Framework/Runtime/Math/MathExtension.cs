@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiFramework.Math
+namespace PiFramework.MathUtils
 {
-    public static class MathExtension
+    public static class MathExtensions
     {
         private static readonly System.Random _random = new();
 

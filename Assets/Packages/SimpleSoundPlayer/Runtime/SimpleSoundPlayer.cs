@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
 using PiFramework;
-using PiFramework.Math;
+using PiFramework.MathUtils;
 using System;
 using PiFramework.Settings;
 
