@@ -139,7 +139,7 @@ namespace PiFramework.Common
     /// Supports indexed access, insertion, removal, and traversal in both directions.
     /// </summary>
     /// <typeparam name="T">The type of elements in the sequence. Must be a reference type.</typeparam>
-    public class SimpleSequence<T> : ISequence<T> where T : class
+    public class BasicSequence<T> : ISequence<T> where T : class
     {
         /// <summary>
         /// The underlying list storing the sequence items.
@@ -173,7 +173,7 @@ namespace PiFramework.Common
         /// <inheritdoc/>
         public virtual ISequence<T> AsReadOnly()
         {
-            var copy = new SimpleSequence<T>();
+            var copy = new BasicSequence<T>();
             copy._items.AddRange(_items);
             copy.Lock();
             return copy;
@@ -356,7 +356,7 @@ namespace PiFramework.Common
         public static ISequence<T> Clone<T>(this ISequence<T> sequence) where T : class
         {
             if (sequence == null) throw new ArgumentNullException(nameof(sequence));
-            var copy = new SimpleSequence<T>();
+            var copy = new BasicSequence<T>();
             foreach (var item in sequence)
                 copy.Append(item);
             return copy;
