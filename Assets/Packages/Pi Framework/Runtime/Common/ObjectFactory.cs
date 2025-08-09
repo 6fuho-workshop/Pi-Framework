@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiFramework.Common
+namespace PF.Common
 {
     /// <summary>
     /// Defines a generic interface for object factories that can create instances of type T.

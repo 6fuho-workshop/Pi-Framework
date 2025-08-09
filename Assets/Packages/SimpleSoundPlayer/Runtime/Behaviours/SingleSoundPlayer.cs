@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
-using PiFramework;
+using PF;
 
 namespace PiExtension.SimpleSound
 {
@@ -98,7 +98,7 @@ namespace PiExtension.SimpleSound
 
         private void Awake()
         {
-            _audio = PiBase.Services.GetService<SimpleSoundPlayer>();
+            _audio = PiBase.Services.Resolve<SimpleSoundPlayer>();
         }
         // Start is called before the first frame update
         protected void Start()

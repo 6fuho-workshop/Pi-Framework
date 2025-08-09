@@ -15,23 +15,16 @@ using System;
 public partial class Pi {
     
     // Module: Pool Manager
-    public static PiFramework.Pool.PoolManager Pool {
+    public static PF.Pool.PoolManager Pool {
         get {
-            return Services.GetService<PiFramework.Pool.PoolManager>();
+            return Services.Resolve<PF.Pool.PoolManager>();
         }
     }
     
     // Module: Simple Sound Player
     public static PiExtension.SimpleSound.SimpleSoundPlayer Audio {
         get {
-            return Services.GetService<PiExtension.SimpleSound.SimpleSoundPlayer>();
-        }
-    }
-    
-    // Module: Pool Manager 2
-    public static PiFramework.Pool.PoolManager test {
-        get {
-            return Services.GetService<PiFramework.Pool.PoolManager>();
+            return Services.Resolve<PiExtension.SimpleSound.SimpleSoundPlayer>();
         }
     }
 }

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bb56638e347247f9b035f3afa69a9924
+timeCreated: 1453483625
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Samples/01_Move/Assets/Move.pbt
+  uploadId: 726748

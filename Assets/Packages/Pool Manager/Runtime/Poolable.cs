@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiFramework.Pool
+namespace PF.Pool
 {
     [AddComponentMenu("Pi/Poolable")]
     public class Poolable : MonoBehaviour

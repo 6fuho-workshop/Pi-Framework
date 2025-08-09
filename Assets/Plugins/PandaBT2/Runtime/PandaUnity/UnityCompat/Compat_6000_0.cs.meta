@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: dd45f1d882399484393207135478354b
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Runtime/PandaUnity/UnityCompat/Compat_6000_0.cs
+  uploadId: 726748

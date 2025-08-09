@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: f1388d56e61f0144c9c1434c2e64f616
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Runtime/Panda/PBTParser/SubstringLocation.cs
+  uploadId: 726748

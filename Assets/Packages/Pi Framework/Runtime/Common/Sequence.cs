@@ -3,152 +3,82 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiFramework.Common
+namespace PF.Common
 {
-    /// <summary>
-    /// Represents a read-only sequence of reference type elements, supporting indexed access and traversal in both directions.
-    /// </summary>
-    /// <typeparam name="T">The type of elements in the sequence. Must be a reference type.</typeparam>
+    /// <summary> Represents a read-only sequence of reference type elements, supporting indexed access and traversal in both directions.</summary>
+    /// <typeparam name="T">Reference type of elements in the sequence.</typeparam>
     public interface IReadOnlySequence<T> : IEnumerable<T> where T : class
     {
-        /// <summary>
-        /// Gets the number of elements contained in the sequence.
-        /// </summary>
+        /// <summary>Gets the number of elements in the sequence.</summary>
         int Count { get; }
 
-        /// <summary>
-        /// Gets the first element in the sequence, or <c>null</c> if the sequence is empty.
-        /// </summary>
+        /// <summary>Gets the first element, or <c>null</c> if empty.</summary>
         T First { get; }
 
-        /// <summary>
-        /// Gets the last element in the sequence, or <c>null</c> if the sequence is empty.
-        /// </summary>
+        /// <summary>Gets the last element, or <c>null</c> if empty.</summary>
         T Last { get; }
 
-        /// <summary>
-        /// Determines whether the sequence contains a specific element.
-        /// </summary>
-        /// <param name="item">The element to locate.</param>
-        /// <returns>True if the element is found; otherwise, false.</returns>
+        /// <summary>Returns true if the sequence contains the specified element.</summary>
         bool Contains(T item);
 
-        /// <summary>
-        /// Returns the zero-based index of the specified element in the sequence.
-        /// </summary>
-        /// <param name="item">The element to locate.</param>
-        /// <returns>The zero-based index if found; otherwise, -1.</returns>
+        /// <summary>Returns the zero-based index of the specified element, or -1 if not found.</summary>
         int IndexOf(T item);
 
-        /// <summary>
-        /// Gets the element at the specified zero-based index.
-        /// </summary>
-        /// <param name="index">The zero-based index of the element to retrieve.</param>
-        /// <returns>The element at the specified index.</returns>
+        /// <summary>Gets the element at the specified zero-based index.</summary>
         T GetAt(int index);
 
-        /// <summary>
-        /// Returns an enumerable for traversing the sequence from first to last.
-        /// </summary>
-        /// <returns>An enumerable of elements in forward order.</returns>
+        /// <summary>Returns an enumerable for traversing from first to last.</summary>
         IEnumerable<T> Traverse();
 
-        /// <summary>
-        /// Returns an enumerable for traversing the sequence from last to first.
-        /// </summary>
-        /// <returns>An enumerable of elements in reverse order.</returns>
+        /// <summary>Returns an enumerable for traversing from last to first.</summary>
         IEnumerable<T> TraverseBackward();
     }
 
-    /// <summary>
-    /// Represents a mutable sequence of reference type elements, supporting indexed access, insertion, removal, and traversal in both directions.
-    /// </summary>
-    /// <typeparam name="T">The type of elements in the sequence. Must be a reference type.</typeparam>
+    /// <summary> Represents a mutable sequence of reference type elements, supporting indexed access, 
+    /// insertion, removal, and traversal in both directions.</summary>
+    /// <typeparam name="T">Reference type of elements in the sequence.</typeparam>
     public interface ISequence<T> : IReadOnlySequence<T> where T : class
     {
-        /// <summary>
-        /// Adds an element to the beginning of the sequence.
-        /// </summary>
-        /// <param name="item">The element to add.</param>
-        /// <returns>The sequence itself for chaining.</returns>
+        /// <summary>Adds an element to the beginning of the sequence.</summary>
         ISequence<T> Prepend(T item);
 
-        /// <summary>
-        /// Adds an element to the end of the sequence.
-        /// </summary>
-        /// <param name="item">The element to add.</param>
-        /// <returns>The sequence itself for chaining.</returns>
+        /// <summary>Adds an element to the end of the sequence.</summary>
         ISequence<T> Append(T item);
 
-        /// <summary>
-        /// Inserts an element before the specified target element.
-        /// </summary>
-        /// <param name="target">The element before which to insert.</param>
-        /// <param name="item">The element to insert.</param>
-        /// <returns>The sequence itself for chaining.</returns>
+        /// <summary>Inserts an element before the specified target element.</summary>
         ISequence<T> InsertBefore(T target, T item);
 
-        /// <summary>
-        /// Inserts an element after the specified target element.
-        /// </summary>
-        /// <param name="target">The element after which to insert.</param>
-        /// <param name="item">The element to insert.</param>
-        /// <returns>The sequence itself for chaining.</returns>
+        /// <summary>Inserts an element after the specified target element.</summary>
         ISequence<T> InsertAfter(T target, T item);
 
         /// <summary>
-        /// Inserts an element at the specified zero-based index in the sequence.
-        /// If the index is equal to the number of elements, the item is appended at the end.
-        /// If the index is 0, the item is inserted at the beginning.
-        /// Throws an exception if the index is out of range (less than 0 or greater than Count).
-        /// Note: The index refers to the position of the item in the sequence after insertion.
+        /// Inserts an element at the specified zero-based index. If index equals the number of elements, appends at the end. 
+        /// If 0, inserts at the beginning. Throws if out of range.
         /// </summary>
-        /// <param name="index">The zero-based index at which to insert the element.</param>
-        /// <param name="item">The element to insert.</param>
-        /// <returns>The element that was inserted.</returns>
         T InsertAt(int index, T item);
 
-        /// <summary>
-        /// Removes the specified element from the sequence.
-        /// </summary>
-        /// <param name="item">The element to remove.</param>
-        /// <returns>The sequence itself for chaining.</returns>
+        /// <summary>Removes the specified element from the sequence.</summary>
         ISequence<T> Remove(T item);
 
-        /// <summary>
-        /// Removes all elements from the sequence.
-        /// </summary>
+        /// <summary>Removes all elements from the sequence.</summary>
         void Clear();
 
-        /// <summary>
-        /// Gets a value indicating whether the sequence is read-only.
-        /// </summary>
+        /// <summary>Gets a value indicating whether the sequence is read-only.</summary>
         bool IsReadOnly { get; }
 
-        /// <summary>
-        /// Returns a new read-only sequence that is a clone (shallow copy) of the current sequence.
-        /// The returned sequence contains the same elements as the original, but modifications to one will not affect the other.
-        /// This is useful for exposing a safe, immutable view of the sequence to consumers.
-        /// </summary>
-        /// <returns>A new <see cref="ISequence{T}"/> that is read-only and contains the same elements as this sequence.</returns>
+        /// <summary>Returns a new read-only sequence that is a shallow copy of the current sequence.</summary>
         ISequence<T> AsReadOnly();
     }
 
-    /// <summary>
-    /// A simple, mutable sequence implementation backed by a <see cref="List{T}"/>.
-    /// Supports indexed access, insertion, removal, and traversal in both directions.
-    /// </summary>
+    /// <summary> A simple, mutable sequence implementation backed by a <see cref="List{T}"/>.
+    /// Supports indexed access, insertion, removal, and traversal in both directions.</summary>
     /// <typeparam name="T">The type of elements in the sequence. Must be a reference type.</typeparam>
     public class BasicSequence<T> : ISequence<T> where T : class
     {
-        /// <summary>
-        /// The underlying list storing the sequence items.
-        /// </summary>
+        /// <summary> The underlying list storing the sequence items. </summary>
         protected readonly List<T> _items = new();
 
-        /// <summary>
-        /// Indicates whether the sequence is read-only.
-        /// </summary>
+        /// <summary> Indicates whether the sequence is read-only. </summary>
         protected bool _isReadOnly = false;
 
         /// <inheritdoc/>
@@ -179,17 +109,13 @@ namespace PiFramework.Common
             return copy;
         }
 
-        /// <summary>
-        /// Locks the sequence, making it read-only.
-        /// </summary>
+        /// <summary> Locks the sequence, making it read-only. </summary>
         protected virtual void Lock()
         {
             _isReadOnly = true;
         }
 
-        /// <summary>
-        /// Throws an exception if the sequence is read-only.
-        /// </summary>
+        /// <summary> Throws an exception if the sequence is read-only. </summary>
         protected void CheckReadOnly()
         {
             if (_isReadOnly)
@@ -302,14 +228,10 @@ namespace PiFramework.Common
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
-    /// <summary>
-    /// Provides extension methods for <see cref="IReadOnlySequence{T}"/> and <see cref="ISequence{T}"/> to enhance sequence manipulation and querying.
-    /// </summary>
+    /// <summary>Provides extension methods for <see cref="IReadOnlySequence{T}"/> and <see cref="ISequence{T}"/> to enhance sequence manipulation and querying.</summary>
     public static class SequenceExtensions
     {
-        /// <summary>
-        /// Gets the next element in the sequence after the specified current element, or <c>null</c> if there is none.
-        /// </summary>
+        /// <summary>Gets the next element in the sequence after the specified current element, or <c>null</c> if there is none.</summary>
         public static T GetNextOf<T>(this IReadOnlySequence<T> sequence, T current) where T : class
         {
             if (sequence == null) throw new ArgumentNullException(nameof(sequence));
@@ -320,9 +242,7 @@ namespace PiFramework.Common
             return sequence.GetAt(idx + 1);
         }
 
-        /// <summary>
-        /// Gets the previous element in the sequence before the specified current element, or <c>null</c> if there is none.
-        /// </summary>
+        /// <summary>Gets the previous element in the sequence before the specified current element, or <c>null</c> if there is none.</summary>
         public static T GetPreviousOf<T>(this IReadOnlySequence<T> sequence, T current) where T : class
         {
             if (sequence == null) throw new ArgumentNullException(nameof(sequence));
@@ -333,9 +253,7 @@ namespace PiFramework.Common
             return sequence.GetAt(idx - 1);
         }
 
-        /// <summary>
-        /// Removes all elements from the sequence that match the specified predicate.
-        /// </summary>
+        /// <summary>Removes all elements from the sequence that match the specified predicate.</summary>
         public static ISequence<T> RemoveWhere<T>(this ISequence<T> sequence, Func<T, bool> predicate) where T : class
         {
             if (sequence == null) throw new ArgumentNullException(nameof(sequence));
@@ -350,9 +268,7 @@ namespace PiFramework.Common
             return sequence;
         }
 
-        /// <summary>
-        /// Creates a shallow clone of the sequence.
-        /// </summary>
+        /// <summary>Creates a shallow clone of the sequence.</summary>
         public static ISequence<T> Clone<T>(this ISequence<T> sequence) where T : class
         {
             if (sequence == null) throw new ArgumentNullException(nameof(sequence));
@@ -362,9 +278,7 @@ namespace PiFramework.Common
             return copy;
         }
 
-        /// <summary>
-        /// Appends a range of items to the end of the sequence.
-        /// </summary>
+        /// <summary>Appends a range of items to the end of the sequence.</summary>
         public static ISequence<T> AddRange<T>(this ISequence<T> sequence, IEnumerable<T> items) where T : class
         {
             if (sequence == null) throw new ArgumentNullException(nameof(sequence));
@@ -374,9 +288,7 @@ namespace PiFramework.Common
             return sequence;
         }
 
-        /// <summary>
-        /// Determines whether the specified item is the first element in the sequence.
-        /// </summary>
+        /// <summary>Determines whether the specified item is the first element in the sequence.</summary>
         public static bool IsFirst<T>(this IReadOnlySequence<T> sequence, T item) where T : class
         {
             if (sequence == null) throw new ArgumentNullException(nameof(sequence));
@@ -384,9 +296,7 @@ namespace PiFramework.Common
             return sequence.First == item;
         }
 
-        /// <summary>
-        /// Determines whether the specified item is the last element in the sequence.
-        /// </summary>
+        /// <summary>Determines whether the specified item is the last element in the sequence.</summary>
         public static bool IsLast<T>(this IReadOnlySequence<T> sequence, T item) where T : class
         {
             if (sequence == null) throw new ArgumentNullException(nameof(sequence));
@@ -394,9 +304,7 @@ namespace PiFramework.Common
             return sequence.Last == item;
         }
 
-        /// <summary>
-        /// Finds the closest element forward from the specified starting element that matches the given predicate.
-        /// </summary>
+        /// <summary>Finds the closest element forward from the specified starting element that matches the given predicate.</summary>
         public static T FindClosestForward<T>(this IReadOnlySequence<T> sequence, T from, Func<T, bool> match) where T : class
         {
             if (sequence == null) throw new ArgumentNullException(nameof(sequence));
@@ -412,9 +320,7 @@ namespace PiFramework.Common
             return null;
         }
 
-        /// <summary>
-        /// Copies the elements of the sequence to a new array.
-        /// </summary>
+        /// <summary>Copies the elements of the sequence to a new array.</summary>
         public static T[] ToArray<T>(this IReadOnlySequence<T> sequence) where T : class
         {
             if (sequence == null) throw new ArgumentNullException(nameof(sequence));

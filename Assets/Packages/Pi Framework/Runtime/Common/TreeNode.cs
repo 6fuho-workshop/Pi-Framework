@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PiFramework.Common
+namespace PF.Common
 {
     /// <summary>
     /// Represents a recursive tree structure where each node is defined by its own type.

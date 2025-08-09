@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 72d25356029b420f9a7158774f3beb4f
+timeCreated: 1454714853
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Samples/03_Shooter/Assets/BTScripts/GameController.pbt
+  uploadId: 726748

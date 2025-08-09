@@ -56,7 +56,7 @@ using UnityEngine;
 /// </code>
 /// </example>
 /// 
-namespace PiFramework.MathUtils
+namespace PF.MathUtils
 {
     public static class Easing
     {

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 534a1b8075c64a35a14f82cbe20a7b1b
+timeCreated: 1454676301
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Samples/03_Shooter/Assets/Materials/hunter.mat
+  uploadId: 726748

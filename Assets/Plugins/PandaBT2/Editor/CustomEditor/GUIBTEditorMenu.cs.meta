@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 856c7a7db2f94aebb23069fab0c9de84
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Editor/CustomEditor/GUIBTEditorMenu.cs
+  uploadId: 726748

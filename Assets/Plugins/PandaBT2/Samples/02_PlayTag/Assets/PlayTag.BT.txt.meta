@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 80c69aeb07a7a974686cce20578e3ff4
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Samples/02_PlayTag/Assets/PlayTag.BT.txt
+  uploadId: 726748

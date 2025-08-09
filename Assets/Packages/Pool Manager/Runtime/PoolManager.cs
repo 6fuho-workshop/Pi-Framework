@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace PiFramework.Pool
+namespace PF.Pool
 {
     public class PoolManager : PiModule
     {

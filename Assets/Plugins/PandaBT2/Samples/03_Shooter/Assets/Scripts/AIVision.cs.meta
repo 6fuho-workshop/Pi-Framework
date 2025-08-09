@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 8853557170484c50b12dd3e8b462a888
+timeCreated: 1454409796
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Samples/03_Shooter/Assets/Scripts/AIVision.cs
+  uploadId: 726748

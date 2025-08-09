@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace PiFramework
+namespace PF
 {
 	/// <summary>
 	/// Singleton base class that will cause any inheriting class to create itself when referenced in any way at all.

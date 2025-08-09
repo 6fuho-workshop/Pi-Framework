@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiFramework
+namespace PF
 {
     /// <summary>
     /// Defines a registry system for managing and providing services. 
@@ -35,7 +35,7 @@ namespace PiFramework
         /// <returns>An <see cref="IUnregister"/> token that can be used to unregister the service.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the service is null.</exception>
         /// <exception cref="ArgumentException">Thrown if a service of the same type is already registered.</exception>
-        IUnregister AddService<T>(T service) where T : class;
+        IUnregister Register<T>(T service) where T : class;
 
         /// <summary>
         /// Registers a service instance for the specified type.
@@ -45,7 +45,7 @@ namespace PiFramework
         /// <returns>An <see cref="IUnregister"/> token that can be used to unregister the service.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the service or type is null.</exception>
         /// <exception cref="ArgumentException">Thrown if the service does not implement the type or is already registered.</exception>
-        IUnregister AddService(Type type, object service);
+        IUnregister Register(Type type, object service);
 
         #endregion
 
@@ -56,7 +56,7 @@ namespace PiFramework
         /// </summary>
         /// <typeparam name="T">The type of the service to retrieve.</typeparam>
         /// <returns>The service instance if found; otherwise, null.</returns>
-        T GetService<T>() where T : class;
+        T Resolve<T>() where T : class;
 
         /// <summary>
         /// Attempts to retrieve a registered service of the specified generic type.
@@ -64,7 +64,7 @@ namespace PiFramework
         /// <typeparam name="T">The type of the service to retrieve.</typeparam>
         /// <param name="service">When this method returns, contains the service instance if found; otherwise, null.</param>
         /// <returns>True if the service was found; otherwise, false.</returns>
-        bool TryGetService<T>(out T service) where T : class;
+        bool TryResolve<T>(out T service) where T : class;
 
         /// <summary>
         /// Attempts to retrieve a registered service by its type.
@@ -72,7 +72,7 @@ namespace PiFramework
         /// <param name="type">The type of the service to retrieve.</param>
         /// <param name="service">When this method returns, contains the service instance if found; otherwise, null.</param>
         /// <returns>True if the service was found; otherwise, false.</returns>
-        bool TryGetService(Type type, out object service);
+        bool TryResolve(Type type, out object service);
 
         #endregion
 
@@ -82,13 +82,13 @@ namespace PiFramework
         /// Removes the service registered under the specified generic type.
         /// </summary>
         /// <typeparam name="T">The type of the service to remove.</typeparam>
-        void RemoveService<T>() where T : class;
+        void Remove<T>() where T : class;
 
         /// <summary>
         /// Removes the service registered under the specified type.
         /// </summary>
         /// <param name="type">The type of the service to remove.</param>
-        void RemoveService(Type type);
+        void Remove(Type type);
 
         #endregion
     }
@@ -169,22 +169,22 @@ namespace PiFramework
         #region Service Registration
 
         /// <inheritdoc />
-        public IUnregister AddService<T>(T service) where T : class
+        public IUnregister Register<T>(T service) where T : class
         {
             if (service == null) throw new ArgumentNullException(nameof(service));
 
             AddServiceInternal(typeof(T), service);
-            return new CustomUnregister(() => RemoveService<T>());
+            return new CustomUnregister(() => Remove<T>());
         }
 
         /// <inheritdoc />
-        public IUnregister AddService(Type type, object service)
+        public IUnregister Register(Type type, object service)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
             if (service == null) throw new ArgumentNullException(nameof(service));
 
             AddServiceInternal(type, service);
-            return new CustomUnregister(() => RemoveService(type));
+            return new CustomUnregister(() => Remove(type));
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace PiFramework
         #region Service Retrieval
 
         /// <inheritdoc />
-        public T GetService<T>() where T : class
+        public T Resolve<T>() where T : class
         {
             return (T)GetService(typeof(T));
         }
@@ -234,7 +234,7 @@ namespace PiFramework
         }
 
         /// <inheritdoc />
-        public bool TryGetService<T>(out T service) where T : class
+        public bool TryResolve<T>(out T service) where T : class
         {
             var type = typeof(T);
             lock (_services)
@@ -251,7 +251,7 @@ namespace PiFramework
         }
 
         /// <inheritdoc />
-        public bool TryGetService(Type type, out object service)
+        public bool TryResolve(Type type, out object service)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
 
@@ -272,13 +272,13 @@ namespace PiFramework
         #region Service Removal
 
         /// <inheritdoc />
-        public void RemoveService<T>() where T : class
+        public void Remove<T>() where T : class
         {
-            RemoveService(typeof(T));
+            Remove(typeof(T));
         }
 
         /// <inheritdoc />
-        public void RemoveService(Type type)
+        public void Remove(Type type)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
 
@@ -390,7 +390,7 @@ namespace PiFramework
         /// <exception cref="ArgumentException">Thrown if the service is not a MonoBehaviour or has no GameObject.</exception>
         public IUnregister AddServiceAndGameObject(Type type, object service)
         {
-            var unregister = AddService(type, service);
+            var unregister = Register(type, service);
             var mono = service as MonoBehaviour;
 
             if (!typeof(MonoBehaviour).IsAssignableFrom(service.GetType()) || mono == null || mono.gameObject == null)

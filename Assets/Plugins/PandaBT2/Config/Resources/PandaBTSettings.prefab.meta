@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 5b882853b319c944cae494e4d39fef2e
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Config/Resources/PandaBTSettings.prefab
+  uploadId: 726748

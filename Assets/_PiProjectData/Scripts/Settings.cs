@@ -1,4 +1,4 @@
-using PiFramework.Settings;
+using PF.Settings;
 using System;
 
 public partial class Settings : RuntimeSettings

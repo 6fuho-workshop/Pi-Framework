@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 4bc18dc3bbc3caa4a83dd4d2e82dbbba
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Runtime/Panda/PBTParser/Expression/ExpressionParser.cs
+  uploadId: 726748

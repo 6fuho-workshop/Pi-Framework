@@ -1,4 +1,4 @@
-using PiFramework;
+using PF;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,12 +27,12 @@ namespace PiExtension.SimpleSound
         PlaybackAction onDestroy = PlaybackAction.None;
         public void Play()
         {
-            PiBase.Services.GetService<SimpleSoundPlayer>().PlayMusicPlaylist(playListName);
+            PiBase.Services.Resolve<SimpleSoundPlayer>().PlayMusicPlaylist(playListName);
         }
 
         public void Stop()
         {
-            PiBase.Services.GetService<SimpleSoundPlayer>().StopPlaylist();
+            PiBase.Services.Resolve<SimpleSoundPlayer>().StopPlaylist();
         }
 
         private void Start()

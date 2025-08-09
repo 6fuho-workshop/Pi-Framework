@@ -1,9 +1,9 @@
 ﻿using PiEditor.Callbacks;
 using PiEditor.Settings;
 using PiEditor.Utils;
-using PiFramework.Settings;
-using PiFramework;
-using PiFramework.Internal;
+using PF.Settings;
+using PF;
+using PF.Internal;
 using System;
 using System.IO;
 using UnityEditor;

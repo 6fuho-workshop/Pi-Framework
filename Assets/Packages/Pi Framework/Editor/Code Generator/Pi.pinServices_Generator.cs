@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 
 using PiEditor.Utils;
-using PiFramework;
+using PF;
 
 using System.Collections;
 using System.Collections.Generic;
@@ -102,7 +102,7 @@ namespace PiEditor
                     //CodeBinaryOperatorType.ValueEquality, new CodePrimitiveExpression(null));
 
                     CodeMethodReferenceExpression method = new CodeMethodReferenceExpression(
-                                    new CodeVariableReferenceExpression("Services"), "GetService", new CodeTypeReference(pin.fullType));
+                                    new CodeVariableReferenceExpression("Services"), "Resolve", new CodeTypeReference(pin.fullType));
                     CodeMethodInvokeExpression invoke = new CodeMethodInvokeExpression(method, new CodeParameterDeclarationExpression[] { });
 
                     //CodeConditionStatement conditionalStatement = new CodeConditionStatement(condition,

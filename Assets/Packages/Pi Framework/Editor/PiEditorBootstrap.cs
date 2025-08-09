@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using PiEditor.Utils;
-using PiFramework;
+using PF;
 using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.IO;
-using PiFramework.Settings;
+using PF.Settings;
 using PiEditor.Settings;
 using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 

@@ -4,7 +4,7 @@
     "pinServices": [
         {
             "name": "Pool",
-            "fullType": "PiFramework.Pool.PoolManager"
+            "fullType": "PF.Pool.PoolManager"
         }
     ]
 }

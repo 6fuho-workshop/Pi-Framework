@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
-using PiFramework;
-using PiFramework.Settings;
+using PF;
+using PF.Settings;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using PiExtension.SimpleSound;

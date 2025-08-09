@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7bc2046518c047a989063969dcd58dbd
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Editor/CreatePandaScriptMenu.cs
+  uploadId: 726748

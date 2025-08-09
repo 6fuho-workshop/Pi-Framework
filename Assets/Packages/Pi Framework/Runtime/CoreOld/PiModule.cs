@@ -1,0 +1,23 @@
+﻿using UnityEngine;
+using System.Collections;
+namespace PF
+{
+    public abstract class PiModule : MonoBehaviour
+    {
+        /// <summary>
+        /// Được gọi tự động sau PiRoot.Awake và trước các method Awake khác
+        /// </summary>
+        protected virtual void Initialize()
+        {
+
+        }
+
+        /// <summary>
+        /// Internal call
+        /// </summary>
+        internal void ModuleInitInternal()
+        {
+            Initialize();
+        }
+    }
+}

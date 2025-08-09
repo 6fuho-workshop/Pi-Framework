@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiFramework.MathUtils
+namespace PF.MathUtils
 {
     public static class MathExtensions
     {

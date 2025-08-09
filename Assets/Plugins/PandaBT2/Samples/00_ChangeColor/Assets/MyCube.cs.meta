@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 3224dc3ef6e44e0295666acb878d6cfd
+timeCreated: 1453189304
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Samples/00_ChangeColor/Assets/MyCube.cs
+  uploadId: 726748

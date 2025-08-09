@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2e164698e5e44a93813172b38c3317ea
+timeCreated: 1454315395
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Samples/02_PlayTag/Assets/Computer.pbt
+  uploadId: 726748

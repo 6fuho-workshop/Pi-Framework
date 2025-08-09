@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace PiFramework.Internal
+namespace PF.Internal
 {
     internal class InternalUtil
     {

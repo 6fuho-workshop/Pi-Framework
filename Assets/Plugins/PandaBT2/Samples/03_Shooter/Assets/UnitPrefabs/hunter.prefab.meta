@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 458285b12f6346189eedc68f3fb76745
+timeCreated: 1454676203
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Samples/03_Shooter/Assets/UnitPrefabs/hunter.prefab
+  uploadId: 726748

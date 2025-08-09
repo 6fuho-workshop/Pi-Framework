@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ac556c8843934fe1b430621be89d8b68
+timeCreated: 1454918281
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Samples/03_Shooter/Assets/BTScripts/Sniper.pbt
+  uploadId: 726748

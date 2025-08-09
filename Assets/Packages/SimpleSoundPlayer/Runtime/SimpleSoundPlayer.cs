@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
-using PiFramework;
-using PiFramework.MathUtils;
+using PF;
+using PF.MathUtils;
 using System;
-using PiFramework.Settings;
+using PF.Settings;
 
 namespace PiExtension.SimpleSound
 {

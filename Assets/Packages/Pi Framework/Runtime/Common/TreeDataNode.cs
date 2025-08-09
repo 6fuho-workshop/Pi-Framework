@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace PiFramework.Common
+namespace PF.Common
 {
     /// <summary>
     /// Represents a generic tree node that stores a data object and maintains parent-child relationships.

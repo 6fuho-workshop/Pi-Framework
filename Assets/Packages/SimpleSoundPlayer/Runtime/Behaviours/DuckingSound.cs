@@ -1,4 +1,4 @@
-using PiFramework;
+using PF;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +21,7 @@ namespace PiExtension.SimpleSound
         
         private void Awake()
         {
-            _audio = PiBase.Services.GetService<SimpleSoundPlayer>();
+            _audio = PiBase.Services.Resolve<SimpleSoundPlayer>();
             var ssp = GetComponent<SingleSoundPlayer>();
             _audioID = ssp.audioID;
             ssp.onPlaySound += OnStartPlay;

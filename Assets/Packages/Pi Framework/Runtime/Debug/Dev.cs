@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-namespace PiFramework
+namespace PF
 {
     /// <summary>
     /// Provides utility methods for development-time debugging and validation.

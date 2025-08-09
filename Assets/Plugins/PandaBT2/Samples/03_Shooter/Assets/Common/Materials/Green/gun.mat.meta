@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 80135999a0094824f8e9be56494714b0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Samples/03_Shooter/Assets/Common/Materials/Green/gun.mat
+  uploadId: 726748

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b375fd6b1ba64e67be21ee92cfdcff13
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Runtime/Panda/PBT2Core.asmdef
+  uploadId: 726748

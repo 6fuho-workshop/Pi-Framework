@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 659a96795cf4469db0b55308cee566d9
+timeCreated: 1453483056
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Samples/01_Move/Assets/Move.cs
+  uploadId: 726748

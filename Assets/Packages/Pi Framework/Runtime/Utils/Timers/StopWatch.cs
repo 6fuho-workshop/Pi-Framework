@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiFramework.Timing
+namespace PF.Timing
 {
     public enum TimeType     {
         Scaled,

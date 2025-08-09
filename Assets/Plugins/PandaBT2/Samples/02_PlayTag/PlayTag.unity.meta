@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ae9bdd9a9fac444cbfaea01a5d4afa2e
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Samples/02_PlayTag/PlayTag.unity
+  uploadId: 726748

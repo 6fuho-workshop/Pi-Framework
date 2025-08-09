@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: f16f70b1ff6cf0543948c57210bed96b
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/README.md
+  uploadId: 726748
