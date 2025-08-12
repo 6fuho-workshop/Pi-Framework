@@ -1,3 +1,4 @@
+using PF.Core.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace PF.Settings
         ISettingNode root;
         void Awake()
         {
+            PiLog.Core.Verbose("CommonSettingsHandler Awake");
             root = RuntimeSettingsManager.GetRootNode();
             ApplyFrameRate();
             RunInBackground();

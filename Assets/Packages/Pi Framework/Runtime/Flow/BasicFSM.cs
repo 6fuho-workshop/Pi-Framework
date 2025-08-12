@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 namespace PF.FlowNode
 {
     /// <summary>
@@ -199,7 +200,7 @@ namespace PF.FlowNode
             }
         }
 
-        public new void Update()
+        public override void Tick()
         {
             base.Tick();
             if (CurrentState != null)

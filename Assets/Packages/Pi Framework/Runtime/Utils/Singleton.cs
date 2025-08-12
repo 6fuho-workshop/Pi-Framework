@@ -31,7 +31,7 @@ namespace PF
 				lock (_instanceLock)
 				{
 					
-					if (_instance == null && PiBase.Status != SystemStatus.Shutdown)
+					if (_instance == null && P.Status != SystemStatus.Shutdown)
 					{
 						
 						_instance = GameObject.FindObjectOfType<T>();
@@ -39,7 +39,7 @@ namespace PF
 						{
 							GameObject go = new(typeof(T).ToString());
 							_instance = go.AddComponent<T>();
-							PiBase.SystemEvents.OnAppQuitPhase1.Register(Destroy);
+							P.SystemEvents.OnAppQuitPhase1.Register(Destroy);
 
 							DontDestroyOnLoad(_instance.gameObject);
 						}
@@ -61,7 +61,7 @@ namespace PF
 			if (_instance == null)
 			{
 				_instance = gameObject.GetComponent<T>();
-				PiBase.SystemEvents.OnAppQuitPhase1.Register(Destroy);
+				P.SystemEvents.OnAppQuitPhase1.Register(Destroy);
 			}
 			else if (_instance.GetInstanceID() != GetInstanceID())
 			{

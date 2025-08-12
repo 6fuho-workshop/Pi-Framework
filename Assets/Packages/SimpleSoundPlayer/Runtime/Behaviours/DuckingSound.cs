@@ -21,7 +21,7 @@ namespace PiExtension.SimpleSound
         
         private void Awake()
         {
-            _audio = PiBase.Services.Resolve<SimpleSoundPlayer>();
+            _audio = P.Services.Resolve<SimpleSoundPlayer>();
             var ssp = GetComponent<SingleSoundPlayer>();
             _audioID = ssp.audioID;
             ssp.onPlaySound += OnStartPlay;

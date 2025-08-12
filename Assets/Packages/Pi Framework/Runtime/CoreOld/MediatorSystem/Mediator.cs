@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEditor;
 using UnityEngine;
-
+using PF.Core.Common;
 
 namespace PF.Mediator
 {
@@ -86,7 +86,7 @@ namespace PF.Mediator
         static void InstantiateMediator()
         {
             _instance = new T();
-            PiBase.SystemEvents.OnAppQuitPhase3.RegisterIfNotExists(OnAppQuit);
+            P.SystemEvents.OnAppQuitPhase3.RegisterIfNotExists(OnAppQuit);
             _instance.Init();
 
             oneTimePatch?.Invoke(_instance);

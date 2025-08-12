@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using PF.Core.Diagnostics;
+using PF.Core.Services.Unity;
+using UnityEngine;
 
 namespace PF.Internal
 {
@@ -22,6 +24,7 @@ namespace PF.Internal
     {
         // Indicates if this instance is the active singleton
         bool isSingleton;
+        ILog logger;
 
         /// <summary>
         /// Awake is called when the script instance is being loaded.
@@ -29,8 +32,10 @@ namespace PF.Internal
         /// </summary>
         void Awake()
         {
+            logger = PiLog.Get("Boostrap");
+            logger.Verbose("PiRoot Awake");
             // Prevent duplicate PiRoot instances (singleton enforcement)
-            if (PiBase.Root != null)
+            if (P.Root != null)
             {
                 Debug.LogWarning("Duplicate PiRoot detected, destroying this instance.");
                 gameObject.SetActive(false);
@@ -50,7 +55,8 @@ namespace PF.Internal
             AttachServiceContainer();
 
             // Dispatch the framework's beginAwake event for all listeners
-            PiBase.SystemEvents.OnFirstAwake.Invoke();
+            P.SystemEvents.OnFirstAwake.Invoke();
+            logger = null; // Clear logger reference to avoid memory leaks
         }
 
         #region Dispatch System Events
@@ -58,22 +64,22 @@ namespace PF.Internal
         /// <summary>
         /// Dispatches the beginStart event to notify all systems that Start has been called.
         /// </summary>
-        void Start() => PiBase.SystemEvents.OnFirstStart.Invoke();
+        void Start() => P.SystemEvents.OnFirstStart.Invoke();
 
         /// <summary>
         /// Dispatches the beginUpdate event every frame.
         /// </summary>
-        void Update() => PiBase.SystemEvents.OnFirstUpdate.Invoke();
+        void Update() => P.SystemEvents.OnFirstUpdate.Invoke();
 
         /// <summary>
         /// Dispatches the beginFixedUpdate event at fixed intervals.
         /// </summary>
-        void FixedUpdate() => PiBase.SystemEvents.OnFirstFixedUpdate.Invoke();
+        void FixedUpdate() => P.SystemEvents.OnFirstFixedUpdate.Invoke();
 
         /// <summary>
         /// Dispatches the beginLateUpdate event after all Update calls.
         /// </summary>
-        void LateUpdate() => PiBase.SystemEvents.OnFirstLateUpdate.Invoke();
+        void LateUpdate() => P.SystemEvents.OnFirstLateUpdate.Invoke();
 
         // Tracks if the application is quitting
         internal bool IsQuitting { get; private set; }
@@ -84,8 +90,8 @@ namespace PF.Internal
         private void OnApplicationQuit()
         {
             IsQuitting = true;
-            PiBase.Status = SystemStatus.Shutdown;
-            PiBase.SystemEvents.OnAppQuitPhase1.Invoke();
+            P.Status = SystemStatus.Shutdown;
+            P.SystemEvents.OnAppQuitPhase1.Invoke();
         }
 
         /// <summary>
@@ -94,7 +100,7 @@ namespace PF.Internal
         private void OnDestroy()
         {
             if(isSingleton)
-                PiBase.SystemEvents.OnAppQuitPhase3.Invoke();
+                P.SystemEvents.OnAppQuitPhase3.Invoke();
         }
 
         #endregion

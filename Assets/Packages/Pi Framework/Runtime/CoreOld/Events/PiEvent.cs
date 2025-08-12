@@ -1,7 +1,7 @@
 ﻿
 using PF.Mediator;
 using System;
-
+using PF.Core.Common;
 
 namespace PF
 {
@@ -20,7 +20,7 @@ namespace PF
 
         /// <summary>
         /// Add event callback nhưng ignore nếu callback đã được Add.<br/>
-        /// Nếu bỏ qua thì IUnregister return sẽ có thuộc tính isEmpty = true.
+        /// Nếu bỏ qua thì IUnregister return sẽ có thuộc tính IsRegistered = false.
         /// </summary>
         /// <returns>IUnregister Instruction to remove callback</returns>
         IUnregister RegisterIfNotExists(Action callback);
@@ -44,12 +44,12 @@ namespace PF
 
         public IUnregister RegisterIfNotExists(Action callback)
         {
-            var unbinder = new CustomUnregister(() => { Unregister(callback); });
+            var success = true;
             if (Contains(actions, callback))
-                unbinder.IsEmpty = true;
+                success = false;
             else
                 actions += callback;
-            return unbinder;
+            return new CustomUnregister(() => { Unregister(callback); }, success);
         }
 
         public void Unregister(Action callback) => actions -= callback;
@@ -110,12 +110,12 @@ namespace PF
         /// <returns>Instruction to remove listenter</returns>
         public IUnregister RegisterIfNotExists(Action<T> callback)
         {
-            var unbinder = new CustomUnregister(() => { Unregister(callback); });
+            var success = true;
             if (PiEvent.Contains(calls, callback))
-                unbinder.IsEmpty = true;
+                success = false;
             else
                 calls += callback;
-            return unbinder;
+            return new CustomUnregister(() => { Unregister(callback); } , success);
         }
 
         public void Unregister(Action<T> callback) => calls -= callback;
@@ -171,12 +171,12 @@ namespace PF
         /// <returns>Instruction to remove listenter</returns>
         public IUnregister RegisterIfNotExists(Action<T, K> callback)
         {
-            var unbinder = new CustomUnregister(() => { Unregister(callback); });
-            if (PiEvent.Contains(calls, callback))
-                unbinder.IsEmpty = true;
+            var success = true;
+            if (Contains(calls, callback))
+                success = false;
             else
                 calls += callback;
-            return unbinder;
+            return new CustomUnregister(() => { Unregister(callback); }, success);
         }
 
         public void Unregister(Action<T, K> callback) => calls -= callback;
@@ -215,12 +215,12 @@ namespace PF
         /// <returns>Instruction to remove listenter</returns>
         public IUnregister RegisterIfNotExists(Action<T, K, S> callback)
         {
-            var unbinder = new CustomUnregister(() => { Unregister(callback); });
-            if (PiEvent.Contains(calls, callback))
-                unbinder.IsEmpty = true;
+            var success = true;
+            if (Contains(calls, callback))
+                success = false;
             else
                 calls += callback;
-            return unbinder;
+            return new CustomUnregister(() => { Unregister(callback); }, success);
         }
 
         public void Unregister(Action<T, K, S> callback) => calls -= callback;

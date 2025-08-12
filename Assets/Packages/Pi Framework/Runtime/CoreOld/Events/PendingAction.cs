@@ -21,7 +21,7 @@ namespace PF
         /// <param name="timer">If timer <= 0, Action will delay 1 frame</param>
         public PendingAction(object host, Action call, float timer = 0)
         {
-            PiBase.SystemEvents.OnFirstUpdate.Register(Update);
+            P.SystemEvents.OnFirstUpdate.Register(Update);
             callbacks += call;
             this.host = host;
             this.timer = timer;
@@ -91,7 +91,7 @@ namespace PF
 
         void Destroy()
         {
-            PiBase.SystemEvents.OnFirstUpdate.Unregister(Update);
+            P.SystemEvents.OnFirstUpdate.Unregister(Update);
             callbacks = null;
             keyList = null;
             host = null;

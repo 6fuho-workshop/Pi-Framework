@@ -9,7 +9,7 @@ namespace PF
     /// <summary>
     /// Chứa các PiEvent liên quan đến vòng lặp và các event hệ thống
     /// </summary>
-    public class PiSystemEvents : MonoBehaviour
+    public class PiSystemEvents
     {
         #region game init event
 

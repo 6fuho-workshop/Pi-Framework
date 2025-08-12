@@ -1,0 +1,51 @@
+25-08-11T20:52:47.718Z [V] (Bootstrap) PiFramework Initializing (BeforeSceneLoad)
+25-08-11T20:52:48.939Z [V] (Boostrap) PiRoot Awake
+25-08-11T20:52:48.958Z [V] (Core) CommonSettingsHandler Awake
+25-08-11T20:52:48.961Z [V] (Bootstrap) Ready for Scene Load
+25-08-11T20:52:48.961Z [F] (Bootstrap) PiFramework FATAL ERROR | ex:Exception PiFramework Exception Test
+Exception occurred in Bootstrap: PiFramework Exception Test
+
+25-08-11T20:52:49.585Z [V] (Bootstrap) InitAfterSceneLoad
+25-08-11T20:52:49.987Z [V] (Bootstrap) System Destroying
+25-08-11T21:05:41.678Z [V] (Bootstrap) PiFramework Initializing (BeforeSceneLoad)
+25-08-11T21:05:41.840Z [V] (Boostrap) PiRoot Awake
+25-08-11T21:05:41.848Z [V] (Core) CommonSettingsHandler Awake
+25-08-11T21:05:41.850Z [V] (Bootstrap) Ready for Scene Load
+25-08-11T21:05:41.850Z [F] (Bootstrap) PiFramework FATAL ERROR | ex:Exception PiFramework Exception Test
+Exception occurred in Bootstrap: PiFramework Exception Test
+
+25-08-11T21:05:42.465Z [V] (Bootstrap) InitAfterSceneLoad
+25-08-11T21:05:43.533Z [V] (Bootstrap) System Destroying
+25-08-11T21:06:58.931Z [V] (Bootstrap) PiFramework Initializing (BeforeSceneLoad)
+25-08-11T21:06:59.702Z [V] (Bootstrap) InitAfterSceneLoad
+25-08-11T21:07:11.279Z [V] (Bootstrap) PiFramework Initializing (BeforeSceneLoad)
+25-08-11T21:07:11.702Z [V] (Bootstrap) InitAfterSceneLoad
+25-08-11T21:07:22.304Z [V] (Bootstrap) PiFramework Initializing (BeforeSceneLoad)
+25-08-11T21:07:22.787Z [V] (Bootstrap) InitAfterSceneLoad
+25-08-11T21:11:49.344Z [V] (Bootstrap) PiFramework Initializing (BeforeSceneLoad)
+25-08-11T21:11:49.534Z [V] (Boostrap) PiRoot Awake
+25-08-11T21:11:49.550Z [V] (Core) CommonSettingsHandler Awake
+25-08-11T21:11:49.551Z [V] (Bootstrap) Ready for Scene Load
+25-08-11T21:11:49.552Z [F] (Bootstrap) PiFramework FATAL ERROR | ex:Exception PiFramework Exception Test
+Exception occurred in Bootstrap: PiFramework Exception Test
+
+25-08-11T21:11:50.160Z [V] (Bootstrap) InitAfterSceneLoad
+25-08-11T21:11:56.911Z [V] (Bootstrap) System Destroying
+25-08-11T21:14:15.667Z [V] (Bootstrap) PiFramework Initializing (BeforeSceneLoad)
+25-08-11T21:14:15.816Z [V] (Boostrap) PiRoot Awake
+25-08-11T21:14:15.836Z [V] (Core) CommonSettingsHandler Awake
+25-08-11T21:14:15.838Z [V] (Bootstrap) Ready for Scene Load
+25-08-11T21:14:15.838Z [F] (Bootstrap) PiFramework FATAL ERROR | ex:Exception PiFramework Exception Test
+Exception occurred in Bootstrap: PiFramework Exception Test
+
+25-08-11T21:14:16.393Z [V] (Bootstrap) InitAfterSceneLoad
+25-08-11T21:14:21.840Z [V] (Bootstrap) System Destroying
+25-08-11T21:34:37.021Z [V] (Bootstrap) PiFramework Initializing (BeforeSceneLoad)
+25-08-11T21:34:37.195Z [V] (Boostrap) PiRoot Awake
+25-08-11T21:34:37.203Z [V] (Core) CommonSettingsHandler Awake
+25-08-11T21:34:37.205Z [V] (Bootstrap) Ready for Scene Load
+25-08-11T21:34:37.205Z [F] (Bootstrap) PiFramework FATAL ERROR | ex:Exception PiFramework Exception Test
+Exception occurred in Bootstrap: PiFramework Exception Test
+
+25-08-11T21:34:37.783Z [V] (Bootstrap) InitAfterSceneLoad
+25-08-11T21:34:39.109Z [V] (Bootstrap) System Destroying

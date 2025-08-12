@@ -6,7 +6,7 @@ using PF.Internal;
 using PF;
 
 
-public partial class Pi : PiBase
+public partial class Pi : P
 {
     #region Initialize
 

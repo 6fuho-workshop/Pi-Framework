@@ -38,7 +38,7 @@ namespace PF
         static void OnAfterSceneLoad()
         {
             redirected = true;
-            PiBase.SystemEvents.OnAppQuitPhase1.Register(() => { redirected = false; });
+            P.SystemEvents.OnAppQuitPhase1.Register(() => { redirected = false; });
         }
 
         //Việc xử lý xóa object của scene ở các khâu InitializeOnLoad là không khả thi

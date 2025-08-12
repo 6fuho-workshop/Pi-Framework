@@ -1,6 +1,8 @@
-using PF.Internal;
+using PF.Core.Diagnostics;
+using PF.Core.Services.Unity;
 using PF.KeyValueStore;
 using PF.Settings;
+using System;
 using UnityEngine;
 
 namespace PF.Internal
@@ -14,8 +16,11 @@ namespace PF.Internal
     /// up the Pi framework and related components.  Note that certain behaviors may vary depending on the platform. For
     /// example, on Android devices, any GameObjects created  before <see
     /// cref="RuntimeInitializeLoadType.BeforeSceneLoad"/> may be destroyed.</remarks>
-    public class PiBootstrapper
+    public static class PiBootstrapper
     {
+        static ILog logger;
+        static bool _initialized; 
+
         /// <summary>
         /// Ngay ở bước này thì Active Scene đã loaded nhưng chưa activate
         /// và đã có thể add/modify game object cho active scene.
@@ -25,7 +30,7 @@ namespace PF.Internal
         //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void SubsystemRegistration()
         {
-            Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: SubsystemRegistration"));
+
         }
 
         /// <summary>
@@ -35,7 +40,7 @@ namespace PF.Internal
         //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         static void InitAfterAssembliesLoaded()
         {
-            Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: AfterAssembliesLoaded"));
+            Debug.Log("InitializeOnLoad: AfterAssembliesLoaded");
             //UnityEngine.SceneManagement.SceneManager.LoadScene("Play");
         }
 
@@ -46,7 +51,7 @@ namespace PF.Internal
         //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
         static void InitBeforeSplashScreen()
         {
-            Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: BeforeSplashScreen"));
+            Debug.Log("InitializeOnLoad: BeforeSplashScreen");
         }
 
         /// <summary>
@@ -58,10 +63,13 @@ namespace PF.Internal
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void InitBeforeSceneLoad()
         {
-            //Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: BeforeSceneLoad"));
             Initialize();
+
             var pi = GameObject.Instantiate(Resources.Load<GameObject>("PiFramework"));
             pi.name = "PiFramework";
+            logger.Verbose("Ready for Scene Load");
+            logger.Fatal("PiFramework FATAL ERROR", new Exception("PiFramework Exception Test"));
+            Debug.LogException(new Exception("PiFramework Exception Test"));
         }
 
         /// <summary>
@@ -71,7 +79,8 @@ namespace PF.Internal
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void InitAfterSceneLoad()
         {
-            PiBase.SystemEvents.OnInitializeAfterSceneLoad.Invoke();
+            logger.Verbose("InitAfterSceneLoad");
+            P.SystemEvents.OnInitializeAfterSceneLoad.Invoke();
             //Debug.Log(InternalUtil.PiMessage("InitializeOnLoad: AfterSceneLoad"));
         }
 
@@ -80,66 +89,93 @@ namespace PF.Internal
         /// </summary>
         static void Initialize()
         {
-            PiBase.Status = SystemStatus.CoreInit;
+            if (_initialized)
+                ResetStatics();
 
-            var services = PiServiceRegistry.Instance;
+            _initialized = true;
+
+            var log = new PiLog();
+            P.Log = log;
+            PiLog.Init(useUnitySink: true, filePath: "log.txt");
+
+            logger = PiLog.Get("Bootstrap");
+            logger.Verbose("PiFramework Initializing (BeforeSceneLoad)");
+            P.Status = SystemStatus.CoreInit;
 
             Application.quitting -= OnAppQuitting;
             Application.quitting += OnAppQuitting;
-            
-            services.ResetRegistry();
+
+            var services = PiServiceRegistry.Instance;
+            services.Clear(disposeInstances: true, removeFactories: true);
 
             var systemEvents = new GameObject("Pi.systemEvents").AddComponent<PiSystemEvents>();
-            services.AddServiceAndGameObject<PiSystemEvents>(systemEvents);
-            PiBase.SystemEvents = systemEvents;
+            services.RegisterWithGO<PiSystemEvents>(systemEvents);
+            P.SystemEvents = systemEvents;
 
             var typeEvents = new EventBus();
             services.Register(typeof(EventBus), typeEvents);
-            PiBase.TypeEvents = typeEvents;
+            P.EventBus = typeEvents;
 
             var playerPrefs = new PiPlayerPref();
             services.Register<IPlayerPrefs>(playerPrefs);
-            PiBase.PlayerPrefs = playerPrefs;
+            P.PlayerPrefs = playerPrefs;
 
             var console = new PiConsole();
             services.Register<PiConsole>(console);
-            PiBase.Console = console;
+            P.Console = console;
+
+            PiLogger p = null;
+            p.Verbose("PiFramework Initialized");
         }
 
         static void OnAppQuitting()
         {
             Application.quitting -= OnAppQuitting;
-            PiBase.SystemEvents.OnAppQuitPhase2.Invoke();
-            PiBase.SystemEvents.OnAppQuitPhase3.Register(SystemDestroy);
+            P.SystemEvents.OnAppQuitPhase2.Invoke();
+            P.SystemEvents.OnAppQuitPhase3.Register(SystemDestroy);
+        }
+
+
+        internal static void SystemDestroy()
+        {
+            logger.Verbose("System Destroying");
+            ResetStatics();
         }
 
         /// <summary>
         /// Những gì là gốc rễ và nhiều liên đới thì Destroy sau cùng
         /// </summary>
-        internal static void SystemDestroy()
+        internal static void ResetStatics()
         {
-            Debug.Log("System Destroyed");
-            PiBase.Root = null;
-            PiBase.PlayerPrefs = null;
-            PiBase.Console = null;
-            PiBase.SystemEvents = null;
-            PiBase.TypeEvents?.Clear();
-            PiBase.TypeEvents = null;
-            PiBase.Status = SystemStatus.None;
+            if(!_initialized)
+                return; // Không cần reset nếu chưa khởi tạo
+            
+            P.Root = null;
+            P.PlayerPrefs = null;
+            P.Console = null;
+            P.EventBus?.Clear();
+            P.EventBus = null;
+            P.Status = SystemStatus.None;
+            logger = null;
+            PiLog.Shutdown();
+            _initialized = false;
+            P.Services.Clear(disposeInstances: true, removeFactories: true);
+            P.SystemEvents.Reset();
+            P.SystemEvents = null;
         }
 
         internal static void Bootstrap(PiRoot root)
         {
             // This method is called to bootstrap the Pi Framework.
-            PiBase.Root = root;
-            PiBase.Status = SystemStatus.Configuration;
+            P.Root = root;
+            P.Status = SystemStatus.Configuration;
             Preload();//tạm thời đặt preload trước LoadSettings vì ta muốn phần LoadSettings có thể chạy batch commands.
             LoadSettings(root);
             RegisterAdditionServices();
 
-            PiBase.Status = SystemStatus.ModulesInit;
+            P.Status = SystemStatus.ModulesInit;
             RegisterModules();
-            PiBase.Status = SystemStatus.Ready;
+            P.Status = SystemStatus.Ready;
         }
 
         static void Preload()
@@ -163,7 +199,7 @@ namespace PF.Internal
         static void RegisterModules()
         {
             //var modules = Object.FindObjectsByType<PiModule>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            var modules = PiBase.Root.gameObject.GetComponentsInChildren<PiModule>(true);
+            var modules = P.Root.gameObject.GetComponentsInChildren<PiModule>(true);
             PiServiceRegistry services = PiServiceRegistry.Instance;
             foreach (var m in modules)
             {
@@ -180,7 +216,7 @@ namespace PF.Internal
 
         static void PreloadCommands()
         {
-            var console = PiBase.Console;
+            var console = P.Console;
             console.RegisterCommand("exit", InternalCommands.TriggerExit);
             console.RegisterCommand("restart", InternalCommands.TriggerRestart);
         }
@@ -188,9 +224,9 @@ namespace PF.Internal
         //todo: hoàn chỉnh phần restart
         static internal void Reset()
         {
-            PiBase.SystemEvents.Reset();
+            //P.SystemEvents.Reset();
             //Reset ServiceLocator ở bước cuối cùng
-            PiServiceRegistry.Instance.ResetRegistry();
+            //PiServiceRegistry.Instance.Clear(disposeInstances: true, removeFactories: true);
 
             //re Initialize => sẽ gọi vào chỗ khác
             //Bootstrap();

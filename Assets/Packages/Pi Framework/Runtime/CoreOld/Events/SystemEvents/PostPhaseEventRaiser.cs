@@ -18,7 +18,7 @@ namespace PF.Internal
         /// </summary>
         private void Awake()
         {
-            PiBase.SystemEvents.OnLastAwake?.Invoke();
+            P.SystemEvents.OnLastAwake?.Invoke();
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace PF.Internal
         /// </summary>
         private void Start()
         {
-            PiBase.SystemEvents.OnLastStart?.Invoke();
+            P.SystemEvents.OnLastStart?.Invoke();
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace PF.Internal
         /// </summary>
         private void Update()
         {
-            PiBase.SystemEvents.OnLastUpdate?.Invoke();
+            P.SystemEvents.OnLastUpdate?.Invoke();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace PF.Internal
         /// </summary>
         private void FixedUpdate()
         {
-            PiBase.SystemEvents.OnLastFixedUpdate?.Invoke();
+            P.SystemEvents.OnLastFixedUpdate?.Invoke();
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace PF.Internal
         /// </summary>
         private void LateUpdate()
         {
-            PiBase.SystemEvents.OnLastLateUpdate?.Invoke();
+            P.SystemEvents.OnLastLateUpdate?.Invoke();
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace PF.Internal
         /// </summary>
         private void OnApplicationQuit()
         {
-            PiBase.SystemEvents.OnAppQuitPhase1?.Invoke();
+            P.SystemEvents.OnAppQuitPhase1?.Invoke();
         }
     }
 }

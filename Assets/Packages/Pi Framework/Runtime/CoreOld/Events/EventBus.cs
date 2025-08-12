@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using PF.Core.Common;
 namespace PF
 {
     /// <summary>
@@ -176,7 +176,7 @@ namespace PF
         /// </example>
         public static IUnregister SubscribeEvent<T>(this IEventSubscriber<T> self)
         {
-            return PiBase.TypeEvents.Subscribe<T>(self.HandleEvent);
+            return P.EventBus.Subscribe<T>(self.HandleEvent);
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace PF
         /// <param name="self">The implementing class instance</param>
         public static void Unsubscribe<T>(this IEventSubscriber<T> self)
         {
-            PiBase.TypeEvents.Unsubscribe<T>(self.HandleEvent);
+            P.EventBus.Unsubscribe<T>(self.HandleEvent);
         }
     }
 }

@@ -92,7 +92,7 @@ namespace PF
             started = true;
 
             // Automatically check for null/destroyed holders each frame
-            PiBase.SystemEvents.OnFirstUpdate.Register(Update);
+            P.SystemEvents.OnFirstUpdate.Register(Update);
 
             TryComplete(); // Handle case where no holders exist
         }
@@ -117,7 +117,7 @@ namespace PF
         {
             if (completed)
             {
-                PiBase.SystemEvents.OnFirstUpdate.Unregister(Update);
+                P.SystemEvents.OnFirstUpdate.Unregister(Update);
                 return;
             }
 
@@ -155,7 +155,7 @@ namespace PF
                 return;
 
             completed = true;
-            PiBase.SystemEvents.OnFirstUpdate.Unregister(Update);
+            P.SystemEvents.OnFirstUpdate.Unregister(Update);
 
             foreach (var cb in onCompleteCallbacks)
             {
