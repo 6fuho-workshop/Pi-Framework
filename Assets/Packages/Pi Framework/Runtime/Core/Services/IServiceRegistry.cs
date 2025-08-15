@@ -12,15 +12,43 @@ namespace PF.Core.Services
         /// A single instance is created and shared for the lifetime of the registry.
         /// </summary>
         Singleton,
-        /// <summary>
-        /// A new instance is created each time the service is requested.
-        /// </summary>
-        Transient,
+
         /// <summary>
         /// A single instance is created and shared within a defined scope.
         /// </summary>
-        Scoped
+        Scoped,
+
+        /// <summary>
+        /// A new instance is created each time the service is requested.
+        /// </summary>
+        Transient
     }
+
+    #region Event Args
+
+    /// <summary>
+    /// Event arguments for when a service is registered.
+    /// </summary>
+    public sealed class ServiceRegisteredEventArgs : EventArgs
+    {
+        public ServiceRegisteredEventArgs(Type serviceType, object instance)
+        { ServiceType = serviceType; Instance = instance; }
+        public Type ServiceType { get; }
+        public object Instance { get; }
+    }
+
+    /// <summary>
+    /// Event arguments for when a service is unregistered.
+    /// </summary>
+    public sealed class ServiceUnregisteredEventArgs : EventArgs
+    {
+        public ServiceUnregisteredEventArgs(Type serviceType, object instance)
+        { ServiceType = serviceType; Instance = instance; }
+        public Type ServiceType { get; }
+        public object Instance { get; }
+    }
+
+    #endregion
 
     /// <summary>
     /// Provides a registry interface for managing the lifecycle of services.

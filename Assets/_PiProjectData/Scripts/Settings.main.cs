@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
 using PF;
-using PF.Settings;
+using PF.Core.Settings;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using PiExtension.SimpleSound;
+using PF.Logging;
 public partial class Settings : RuntimeSettings, IPersistentSetting
 {
     [SerializeField]
@@ -60,6 +61,8 @@ public partial class Settings : RuntimeSettings, IPersistentSetting
     {
         _nodeDict = new Dictionary<string, ISettingNode>() {
             {"dev", dev},
+            {"dev.logging", dev.logging},
+            {"dev.logging.groups", dev.logging.groups},
             {"simpleSoundPlayer", simpleSoundPlayer},
             {"options", options},
             {"options.sound", options.sound},
@@ -71,9 +74,53 @@ public partial class Settings : RuntimeSettings, IPersistentSetting
     {
         [SerializeField]
         private bool _logPiMessages = false;
+        [SerializeField]
+        private LoggingSettings _logging;
 
         public bool logPiMessages => _logPiMessages;
 
+        public LoggingSettings logging => _logging;
+
+
+        [Serializable]
+        public class LoggingSettings : SettingNode
+        {
+            [SerializeField]
+            private LogLevel _globalLevel = LogLevel.Error;
+            [SerializeField]
+            private GroupsSettings _groups;
+
+            public LogLevel globalLevel
+            {
+                get { return _globalLevel; }
+                set { if(_globalLevel == value) return; _globalLevel = value; OnChanged("globalLevel"); }
+            }
+
+            public GroupsSettings groups => _groups;
+
+
+            [Serializable]
+            public class GroupsSettings : SettingNode
+            {
+                [SerializeField]
+                private LogLevel _bootstrap = LogLevel.Error;
+                [SerializeField]
+                private LogLevel _core = LogLevel.Error;
+
+                public LogLevel bootstrap
+                {
+                    get { return _bootstrap; }
+                    set { if(_bootstrap == value) return; _bootstrap = value; OnChanged("bootstrap"); }
+                }
+
+                public LogLevel core
+                {
+                    get { return _core; }
+                    set { if(_core == value) return; _core = value; OnChanged("core"); }
+                }
+
+            }
+        }
     }
 
     [Serializable]

@@ -73,7 +73,9 @@ namespace PiEditor.Settings
         {
             Node root = new(string.Empty) { isRoot = true };
 
-            var usingDirectives = InitUsingDirectives();
+            //var usingDirectives = InitUsingDirectives();
+            var usingDirectives = new List<string>();
+   
             if (BuildSettingsTree(root, usingDirectives))
             {
 
@@ -119,17 +121,19 @@ namespace PiEditor.Settings
             return buildNodeDict;
         }
 
+        /*
         List<string> InitUsingDirectives()
         {
             return new List<string>()
             {
                 "System;",
                 "UnityEngine;",
-                "PiFramework;",
-                "PiFramework.Settings;",
+                "PF;",
+                "PF.Settings;",
                 "System.Collections.Generic;"
             };
         }
+        */
 
         string GetNodeClassName(Node node)
         {

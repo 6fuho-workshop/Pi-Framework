@@ -2,14 +2,9 @@
 using UnityEditor;
 using PiEditor.Utils;
 using PF;
-using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.IO;
-using PF.Settings;
-using PiEditor.Settings;
-using Palmmedia.ReportGenerator.Core.Parser.Analysis;
-
 
 namespace PiEditor
 {

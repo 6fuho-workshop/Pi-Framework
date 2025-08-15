@@ -2,9 +2,9 @@
     "name": "Pi.SimpleSoundPlayer.Editor",
     "rootNamespace": "",
     "references": [
-        "Pi.Framework.Editor",
-        "Pi.Framework.Runtime",
-        "Pi.SimpleSoundPlayer.Runtime"
+        "PF.SimpleSoundPlayer.Runtime",
+        "PF.Unity.Editor",
+        "PF.Unity.Runtime"
     ],
     "includePlatforms": [
         "Editor"

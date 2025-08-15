@@ -1,6 +1,7 @@
 ﻿// PiServiceRegistry.cs (refactored)
 // Namespace giữ nguyên để tối thiểu hoá phạm vi thay đổi ngoài file này.
 using PF.Core.Common;
+using PF.Logging;
 using System;
 using System.Collections.Generic;
 using Unity.Android.Gradle.Manifest;
@@ -14,16 +15,8 @@ namespace PF.Core.Services.Unity
     /// - Hỗ trợ đăng ký factory tạo MonoBehaviour và tự gắn vào container.
     /// - Không singleton. Hãy khởi tạo và giữ tham chiếu tại PFApp/PFContext.
     /// </summary>
-    public sealed class PiServiceRegistry : ServiceRegistry
+    internal sealed class PiServiceRegistry : ServiceRegistry
     {
-        internal static PiServiceRegistry Instance
-        {
-            get
-            {
-                _instance ??= new PiServiceRegistry();
-                return _instance;
-            }
-        }
         private static PiServiceRegistry _instance;
 
         private readonly Dictionary<Type, GameObject> _serviceGameObjects = new();
@@ -36,6 +29,9 @@ namespace PF.Core.Services.Unity
 
         private void CreateServiceContainer(string name)
         {
+            if (P.Status == SystemStatus.Shutdown)
+                return;
+
             ServiceContainer = new GameObject(name);
             GameObject.DontDestroyOnLoad(ServiceContainer);
         }

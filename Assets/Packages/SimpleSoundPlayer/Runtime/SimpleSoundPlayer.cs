@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using PF;
 using PF.MathUtils;
 using System;
-using PF.Settings;
+using PF.Core.Settings;
 
 namespace PiExtension.SimpleSound
 {

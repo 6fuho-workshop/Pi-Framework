@@ -1,5 +1,5 @@
 using PF;
-using PF.Settings;
+using PF.Core.Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;

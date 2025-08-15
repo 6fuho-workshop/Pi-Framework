@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e4a0caa1c7583546b87e5a5bf5aba60, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: Pi.Framework.Editor::PiEditor.Settings.SettingsManifest
+  basePath: dev
+  usingDirectives:
+  - PF.Logging;
+  settingEntities:
+  - fullPath: 
+    path: logging.globalLevel
+    type: LogLevel
+    defaultValue: LogLevel.Error
+    readOnly: 0
+    tooltip: 
+    useRange: 0
+    min: 0
+    max: 0
+    persistent: 0
+    customKey: 
+  - fullPath: 
+    path: logging.groups.bootstrap
+    type: LogLevel
+    defaultValue: LogLevel.Error
+    readOnly: 0
+    tooltip: 
+    useRange: 0
+    min: 0
+    max: 0
+    persistent: 0
+    customKey: 
+  - fullPath: 
+    path: logging.groups.core
+    type: LogLevel
+    defaultValue: LogLevel.Error
+    readOnly: 0
+    tooltip: 
+    useRange: 0
+    min: 0
+    max: 0
+    persistent: 0
+    customKey: 

@@ -1,4 +1,4 @@
-using PF.Settings;
+using PF.Core.Settings;
 using System;
 
 public partial class Settings : RuntimeSettings

@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e4a0caa1c7583546b87e5a5bf5aba60, type: 3}
+  m_Name: GeneralSettings
+  m_EditorClassIdentifier: 
+  basePath: 
+  usingDirectives:
+  - System;
+  - UnityEngine;
+  - PF;
+  - PF.Core.Settings;
+  - System.Collections.Generic;
+  settingEntities:
+  - fullPath: 
+    path: runInBackground
+    type: bool
+    defaultValue: false
+    readOnly: 1
+    tooltip: Should the Player be running when the application is in the background?
+    useRange: 0
+    min: 0
+    max: 0
+    persistent: 0
+    customKey: 
+  - fullPath: 
+    path: targetFrameRate
+    type: int
+    defaultValue: -1
+    readOnly: 1
+    tooltip: The default value -1. In the default case, Unity uses the platform's
+      default target frame rate. \nNote that platform and device capabilities affect
+      the frame rate at runtime, so your game might not achieve the target frame
+      rate.
+    useRange: 0
+    min: 1
+    max: 3
+    persistent: 0
+    customKey: 

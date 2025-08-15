@@ -1,7 +1,7 @@
 ﻿using PiEditor.Callbacks;
 using PiEditor.Settings;
 using PiEditor.Utils;
-using PF.Settings;
+using PF.Core.Settings;
 using PF;
 using PF.Internal;
 using System;
