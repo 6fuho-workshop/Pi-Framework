@@ -2,7 +2,7 @@
     "name": "PF.Unity.Editor",
     "rootNamespace": "",
     "references": [
-        "PF.Unity.Runtime"
+        "GUID:db1474eb60481b44e87aab14a9cbb175"
     ],
     "includePlatforms": [
         "Editor"

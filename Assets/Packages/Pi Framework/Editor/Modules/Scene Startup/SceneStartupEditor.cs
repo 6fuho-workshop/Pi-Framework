@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using PF;
 
-namespace PiEditor
+namespace PF.PiEditor
 {
     [CustomEditor(typeof(SceneStartup))]
     public class SceneStartupEditor : Editor

@@ -1,10 +1,7 @@
-﻿using PiEditor.Settings;
+﻿using PF.PiEditor.Settings;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-namespace PiEditor
+namespace PF.PiEditor
 {
     [Serializable]
     public class ModuleInfo
@@ -20,7 +17,7 @@ namespace PiEditor
         
         public PinServiceInfo[] pinServices;
         public string[] initComponents;//fullType,unique, must derives from PiModule => auto addservice
-        public SettingsManifest[] settingsManifests;
+        public SettingDefinition[] settingsManifests;
 
         [Serializable]
         public class PinServiceInfo

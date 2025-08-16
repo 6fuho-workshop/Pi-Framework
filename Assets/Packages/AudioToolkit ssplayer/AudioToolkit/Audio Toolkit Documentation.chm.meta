@@ -1,4 +1,4 @@
-fileFormatVersion: 1
+fileFormatVersion: 2
 guid: d69f495a5dc8e8f4a90b21feaf425582
 labels:
 - audio
@@ -10,3 +10,8 @@ labels:
 - sound
 - pool
 - singleton
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,11 +1,5 @@
 fileFormatVersion: 2
 guid: f4fbbfa85d4241f4af9b3c5b131a6393
-timeCreated: 1453216867
-licenseType: Store
-TextScriptImporter:
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
   productId: 274073
@@ -13,3 +7,11 @@ AssetOrigin:
   packageVersion: 2.0.0
   assetPath: Assets/Plugins/PandaBT2/Samples/02_PlayTag/Assets/PlayTag.commented.pbt
   uploadId: 726748
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 5db990b2f6c1490783d49ced91d9251f, type: 3}

@@ -56,7 +56,7 @@ namespace PF.Logging
             //level = $"<color={color}>{level}</color>";
 
             //return $"{prefix}<color={color}>{level}{category}{e.Message}</color>{scope}{ex}";
-            return $"{prefix}{category}<color={color}>{e.Message}</color>{scope}{ex}";
+            return $"{prefix}<color={color}>{e.Message}</color>\n{category}{scope}{ex}";
         }
     }
 

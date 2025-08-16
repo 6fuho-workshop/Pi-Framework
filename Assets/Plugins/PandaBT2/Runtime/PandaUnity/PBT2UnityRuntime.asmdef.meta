@@ -1,10 +1,5 @@
 fileFormatVersion: 2
 guid: a821e6263cb74263a3966b9ceb950190
-AssemblyDefinitionImporter:
-  externalObjects: {}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
   productId: 274073
@@ -12,3 +7,8 @@ AssetOrigin:
   packageVersion: 2.0.0
   assetPath: Assets/Plugins/PandaBT2/Runtime/PandaUnity/PBT2UnityRuntime.asmdef
   uploadId: 726748
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

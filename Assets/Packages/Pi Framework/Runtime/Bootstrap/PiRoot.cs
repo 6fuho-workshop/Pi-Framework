@@ -33,14 +33,6 @@ namespace PF.Internal
         /// </summary>
         void Awake()
         {
-            logger = Log.Bootstrap;
-            logger.Trace("PiRoot Awake");
-            logger.Debug("PiRoot Awake - Initializing Pi Framework");
-            logger.Info("PiRoot Awake - Starting Pi Framework Initialization");
-            logger.Warn("PiRoot Awake - Warning during Pi Framework Initialization (if any)");
-            logger.Error("PiRoot Awake - Error during Pi Framework Initialization (if any)");
-            logger.Fatal("PiRoot Awake - Fatal error during Pi Framework Initialization (if any)");
-
             // Prevent duplicate PiRoot instances (singleton enforcement)
             if (P.Root != null)
             {
@@ -49,6 +41,9 @@ namespace PF.Internal
                 GameObject.DestroyImmediate(gameObject);
                 return;
             }
+
+            logger = Log.Bootstrap;
+            logger.Trace("PiRoot Awake");
 
             isSingleton = true;
 

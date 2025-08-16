@@ -1,11 +1,5 @@
 fileFormatVersion: 2
 guid: 34cfbef90b514d82ab88128603f492ea
-NativeFormatImporter:
-  externalObjects: {}
-  mainObjectFileID: 4890085278179872738
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
   productId: 274073
@@ -13,3 +7,9 @@ AssetOrigin:
   packageVersion: 2.0.0
   assetPath: Assets/Plugins/PandaBT2/Samples/02_PlayTag/PlayTagSettings.lighting
   uploadId: 726748
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4890085278179872738
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

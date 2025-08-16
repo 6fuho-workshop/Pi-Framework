@@ -1,10 +1,5 @@
 fileFormatVersion: 2
 guid: cb72d8d6fefd4b8d80fb4b3dc2c1f5f0
-AssemblyDefinitionImporter:
-  externalObjects: {}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
   productId: 274073
@@ -12,3 +7,8 @@ AssetOrigin:
   packageVersion: 2.0.0
   assetPath: Assets/Plugins/PandaBT2/Runtime/PBT2PandaBehaviour.asmdef
   uploadId: 726748
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

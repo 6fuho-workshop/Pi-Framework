@@ -1,11 +1,5 @@
 fileFormatVersion: 2
 guid: fd78483ae5cc4538b290e363439e6ff1
-timeCreated: 1454694841
-licenseType: Store
-NativeFormatImporter:
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
   productId: 274073
@@ -13,3 +7,9 @@ AssetOrigin:
   packageVersion: 2.0.0
   assetPath: Assets/Plugins/PandaBT2/Samples/03_Shooter/Assets/Materials/player.mat
   uploadId: 726748
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

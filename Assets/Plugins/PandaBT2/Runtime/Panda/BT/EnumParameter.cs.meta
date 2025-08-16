@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: ffaf7d48abf598549a61f688ea9a5531
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Runtime/Panda/BT/EnumParameter.cs
+  uploadId: 726748
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -9,10 +16,3 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 274073
-  packageName: Panda BT 2
-  packageVersion: 2.0.0
-  assetPath: Assets/Plugins/PandaBT2/Runtime/Panda/BT/EnumParameter.cs
-  uploadId: 726748

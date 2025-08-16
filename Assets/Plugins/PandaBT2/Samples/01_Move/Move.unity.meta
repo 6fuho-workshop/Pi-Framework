@@ -1,11 +1,5 @@
 fileFormatVersion: 2
 guid: 6435585e0a61499ca8247a843ecf9b98
-timeCreated: 1453483041
-licenseType: Store
-DefaultImporter:
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
   productId: 274073
@@ -13,3 +7,8 @@ AssetOrigin:
   packageVersion: 2.0.0
   assetPath: Assets/Plugins/PandaBT2/Samples/01_Move/Move.unity
   uploadId: 726748
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

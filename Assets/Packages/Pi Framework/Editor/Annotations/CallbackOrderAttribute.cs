@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiEditor.Callbacks
+namespace PF.PiEditor.Callbacks
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = true)]
     public abstract class CallbackOrderAttribute : Attribute

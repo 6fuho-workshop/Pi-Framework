@@ -7,7 +7,7 @@ using PF.Internal;
 using System;
 using System.Reflection;
 
-namespace PiEditor
+namespace PF.PiEditor
 {
     //[CustomEditor(typeof(PiRoot))]
     [Obsolete]

@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: 82fc176b196e0984b9c6cbfdb071710e
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Runtime/Panda/Serialization/BTNodeState.cs
+  uploadId: 726748
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -9,10 +16,3 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 274073
-  packageName: Panda BT 2
-  packageVersion: 2.0.0
-  assetPath: Assets/Plugins/PandaBT2/Runtime/Panda/Serialization/BTNodeState.cs
-  uploadId: 726748

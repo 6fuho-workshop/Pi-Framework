@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiEditor.Callbacks
+namespace PF.PiEditor.Callbacks
 {
     public class OnLoadPiEditorAttribute : CallbackOrderAttribute
     {

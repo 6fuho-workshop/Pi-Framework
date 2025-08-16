@@ -142,7 +142,8 @@ PlayerSettings:
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
   bundleVersion: 0.1
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 8099031225021422945, guid: 96dbcc139f829c24f806b7a79af3605c, type: 3}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -763,7 +764,7 @@ PlayerSettings:
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
     Android: APP_UI_EDITOR_ONLY
-    Standalone: APP_UI_EDITOR_ONLY;NODECANVAS
+    Standalone: APP_UI_EDITOR_ONLY;NODECANVAS;PF_LOG
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

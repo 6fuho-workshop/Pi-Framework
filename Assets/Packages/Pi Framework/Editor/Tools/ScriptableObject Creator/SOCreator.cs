@@ -9,7 +9,7 @@ using UnityEngine;
 /// @Hant
 /// </summary>
 
-namespace PiEditor.Tools.SOCreator
+namespace PF.PiEditor.Tools.SOCreator
 {
     public class ScriptableObjectCreator : EditorWindow
     {

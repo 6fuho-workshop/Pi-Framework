@@ -47,7 +47,7 @@ namespace PF.Core.Settings
                 return this;
             _nodeDict.TryGetValue(path, out var node);
             if (node == null)
-                Debug.LogError($"Node {name} does not exist");
+                Log.Core.Error($"SettingNode '{name}' does not exist");
             return node;
         }
 

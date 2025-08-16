@@ -1,11 +1,5 @@
 fileFormatVersion: 2
 guid: ac556c8843934fe1b430621be89d8b68
-timeCreated: 1454918281
-licenseType: Store
-TextScriptImporter:
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
   productId: 274073
@@ -13,3 +7,11 @@ AssetOrigin:
   packageVersion: 2.0.0
   assetPath: Assets/Plugins/PandaBT2/Samples/03_Shooter/Assets/BTScripts/Sniper.pbt
   uploadId: 726748
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 5db990b2f6c1490783d49ced91d9251f, type: 3}

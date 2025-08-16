@@ -1,19 +1,13 @@
 using UnityEngine;
 using UnityEditor;
-
-using PiEditor.Utils;
-using PF;
-
-using System.Collections;
-using System.Collections.Generic;
-using System;
 using System.CodeDom;
 using System.IO;
 using System.CodeDom.Compiler;
 using Microsoft.CSharp;
-using PiEditor.Callbacks;
+using PF.PiEditor.Utils;
+using PF.PiEditor.Callbacks;
 
-namespace PiEditor
+namespace PF.PiEditor
 {
     /// <summary>
     /// Generate partial code for Pi class 

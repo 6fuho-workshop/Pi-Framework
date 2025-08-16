@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using PiEditor.Utils;
-using PF;
+using PF.PiEditor.Utils;
 using System.Collections.Generic;
 using System;
 using System.IO;
 
-namespace PiEditor
+namespace PF.PiEditor
 {
     internal class PiEditorBootstrap
     {

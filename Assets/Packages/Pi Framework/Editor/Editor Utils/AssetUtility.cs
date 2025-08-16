@@ -1,13 +1,9 @@
 ﻿using UnityEngine;
-using PiEditor;
-using System.Collections;
 using System.IO;
 using UnityEditor;
 using System.Collections.Generic;
-using System;
-using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 
-namespace PiEditor.Utils
+namespace PF.PiEditor.Utils
 {
     public class AssetUtility
     {

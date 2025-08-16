@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace PiEditor
+namespace PF.PiEditor
 {
     internal class PiAssetDatabase : ScriptableObject
     {

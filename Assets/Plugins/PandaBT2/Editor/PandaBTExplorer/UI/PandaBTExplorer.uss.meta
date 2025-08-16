@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: 7ee3207850361c343bb3bf658d3ed071
+AssetOrigin:
+  serializedVersion: 1
+  productId: 274073
+  packageName: Panda BT 2
+  packageVersion: 2.0.0
+  assetPath: Assets/Plugins/PandaBT2/Editor/PandaBTExplorer/UI/PandaBTExplorer.uss
+  uploadId: 726748
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -9,10 +16,3 @@ ScriptedImporter:
   assetBundleVariant: 
   script: {fileID: 12385, guid: 0000000000000000e000000000000000, type: 0}
   disableValidation: 0
-AssetOrigin:
-  serializedVersion: 1
-  productId: 274073
-  packageName: Panda BT 2
-  packageVersion: 2.0.0
-  assetPath: Assets/Plugins/PandaBT2/Editor/PandaBTExplorer/UI/PandaBTExplorer.uss
-  uploadId: 726748

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace PiEditor
+namespace PF.PiEditor
 {
     [AttributeUsage(AttributeTargets.Method)]
     public sealed class OnAssetModificationOfTypeAttribute : Attribute

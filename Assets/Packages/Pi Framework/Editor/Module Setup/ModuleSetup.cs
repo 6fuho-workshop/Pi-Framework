@@ -4,9 +4,9 @@ using UnityEditor;
 using UnityEngine;
 using System.Xml.Serialization;
 using System.IO;
-using PiEditor.Utils;
+using PF.PiEditor.Utils;
 
-namespace PiEditor
+namespace PF.PiEditor
 {
     /// InitializeOnLoad: Allows you to initialize an Editor class when Unity loads, and when your scripts are recompiled.
     /// Static constructors with this attribute are called when scripts in the project are recompiled 

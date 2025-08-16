@@ -1,11 +1,5 @@
 fileFormatVersion: 2
 guid: b5842584c4444ec391ce7398392feb9a
-timeCreated: 1454918029
-licenseType: Store
-NativeFormatImporter:
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
   productId: 274073
@@ -13,3 +7,8 @@ AssetOrigin:
   packageVersion: 2.0.0
   assetPath: Assets/Plugins/PandaBT2/Samples/03_Shooter/Assets/UnitPrefabs/Sniper.prefab
   uploadId: 726748
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

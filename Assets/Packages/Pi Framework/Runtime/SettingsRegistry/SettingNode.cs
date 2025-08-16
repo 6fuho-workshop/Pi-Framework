@@ -44,7 +44,7 @@ namespace PF.Core.Settings
 
             if (!properties.TryGetValue(name, out var result))
             {
-                Debug.LogError($"setting name {name} does not exist");
+                Log.Core.Error($"setting name '{name}' does not exist");
             }
             return result;
         }

@@ -1,8 +1,7 @@
-﻿using PiEditor.Callbacks;
-using PiEditor.Settings;
-using PiEditor.Utils;
+﻿using PF.PiEditor.Callbacks;
+using PF.PiEditor.Settings;
+using PF.PiEditor.Utils;
 using PF.Core.Settings;
-using PF;
 using PF.Internal;
 using System;
 using System.IO;
@@ -11,7 +10,7 @@ using UnityEngine;
 using UnityEditor.Compilation;
 using System.Collections.Generic;
 
-namespace PiEditor
+namespace PF.PiEditor
 {
     /// <summary>
     /// InitializeOnLoad: Allows you to initialize an Editor class when Unity loads, and when your scripts are recompiled.
