@@ -12,40 +12,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4a0caa1c7583546b87e5a5bf5aba60, type: 3}
   m_Name: manifest1
   m_EditorClassIdentifier: 
-  basePath: 
-  usingDirectives:
+  PathPrefix: 
+  UsingNamespaces:
   - System;
-  settingEntities:
+  Entries:
   - fullPath: 
-    path: global1
-    type: bool
-    defaultValue: false
-    readOnly: 1
-    tooltip: 
-    useRange: 0
-    min: 0
-    max: 0
-    persistent: 0
-    customKey: 
+    RelativePath: global1
+    ValueType: bool
+    DefaultExpression: false
+    IsReadOnly: 1
+    Description: 
+    HasRange: 0
+    Min: 0
+    Max: 0
+    Persist: 0
+    StorageKeyOverride: 
   - fullPath: 
-    path: global2
-    type: float
-    defaultValue: 
-    readOnly: 0
-    tooltip: 
-    useRange: 0
-    min: 1
-    max: 3
-    persistent: 1
-    customKey: 
+    RelativePath: global2
+    ValueType: float
+    DefaultExpression: 
+    IsReadOnly: 1
+    Description: AA
+    HasRange: 0
+    Min: 1
+    Max: 3
+    Persist: 0
+    StorageKeyOverride: 
   - fullPath: 
-    path: global23
-    type: float
-    defaultValue: 
-    readOnly: 0
-    tooltip: 
-    useRange: 0
-    min: 1
-    max: 3
-    persistent: 1
-    customKey: 
+    RelativePath: global23
+    ValueType: float
+    DefaultExpression: 
+    IsReadOnly: 0
+    Description: 
+    HasRange: 0
+    Min: 1
+    Max: 3
+    Persist: 1
+    StorageKeyOverride: 

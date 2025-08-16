@@ -2,12 +2,10 @@
 using UnityEditor.UIElements;
 using UnityEditor;
 using UnityEngine;
-using PF.PiEditor.Settings;
-using PF.PiEditor.Settings;
 
 namespace PF.PiEditor.Settings
 {
-    [CustomEditor(typeof(SettingDefinition))]
+    //[CustomEditor(typeof(SettingDefinition))]
     public class SettingDefinitionEditor : Editor
     {
         public override VisualElement CreateInspectorGUI()
@@ -32,7 +30,7 @@ namespace PF.PiEditor.Settings
         }
     }
 
-    //[CustomPropertyDrawer(typeof(SettingEntry))]
+    //[CustomPropertyDrawer(typeof(SettingEntity))]
     public class SettingEntryDrawer : PropertyDrawer
     {
         public override VisualElement CreatePropertyGUI(SerializedProperty property)

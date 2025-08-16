@@ -14,6 +14,7 @@ namespace PF.PiEditor.Settings
     /// Generate partial code for Pi class 
     /// todo: tách thành các partial class d?a trên top level settings ?? gi?m vi?c conflict
     /// </summary>
+    
     internal class SettingsGenerator
     {
         readonly string sourceFile;
@@ -120,20 +121,6 @@ namespace PF.PiEditor.Settings
 
             return buildNodeDict;
         }
-
-        /*
-        List<string> InitUsingDirectives()
-        {
-            return new List<string>()
-            {
-                "System;",
-                "UnityEngine;",
-                "PF;",
-                "PF.Settings;",
-                "System.Collections.Generic;"
-            };
-        }
-        */
 
         string GetNodeClassName(Node node)
         {
@@ -271,7 +258,7 @@ namespace PF.PiEditor.Settings
             };
         }
 
-        Field CreateField(SettingEntry item)
+        Field CreateField(SettingEntity item)
         {
             var field = new Field(item.ValueType, "_" + item.LeafName);
             field.AddAttribute(new AttributeModel("SerializeField"));
@@ -287,7 +274,7 @@ namespace PF.PiEditor.Settings
 
             return field;
         }
-        AttributeModel GetRangeAttribute(SettingEntry item)
+        AttributeModel GetRangeAttribute(SettingEntity item)
         {
             if (item.HasRange && !item.Min.Equals(item.Max))
             {
@@ -350,14 +337,14 @@ namespace PF.PiEditor.Settings
             public bool isRoot;
             public Node parent;
             public Dictionary<string, Node> childNodes;
-            public List<SettingEntry> entities;
+            public List<SettingEntity> entities;
 
             public Node(string name)
             {
                 fullPath = string.Empty;
                 this.name = name;
                 childNodes = new Dictionary<string, Node>();
-                entities = new List<SettingEntry>();
+                entities = new List<SettingEntity>();
             }
 
             public Node GetOrCreateChild(string name)
@@ -374,7 +361,7 @@ namespace PF.PiEditor.Settings
             }
 
             // retrun false if error
-            public bool AddEntity(SettingEntry item)
+            public bool AddEntity(SettingEntity item)
             {
                 foreach (var child in entities)
                 {
@@ -403,4 +390,6 @@ namespace PF.PiEditor.Settings
             }
         }
     }
+
+    
 }

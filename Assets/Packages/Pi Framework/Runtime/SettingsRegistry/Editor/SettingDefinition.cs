@@ -1,5 +1,4 @@
-﻿using PF.PiEditor.Settings;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,22 +8,26 @@ namespace PF.PiEditor.Settings
 {
     public class SettingDefinition : ScriptableObject
     {
-        [Tooltip("Prefix áp dụng cho tất cả entries trong asset này, ví dụ: options.graphics")]
+        //[Tooltip("path prefix áp dụng cho toàn bộ khai báo setting, e.g. options.graphics")]
         [FormerlySerializedAs("basePath")]
         public string PathPrefix = "options";
 
-        [Tooltip("Tên namespace cần import khi codegen (enum/type tuỳ biến). Ví dụ: System; MyGame.Graphics;")]
-        [FormerlySerializedAs("usingDirectives")]
-        public List<string> UsingNamespaces = new() { "System;"};
 
-        [SerializeReference, Tooltip("Danh sách entries (leaf) sẽ được codegen gộp vào class Settings.")]
+        //[Tooltip("some types need imports namespaces for code generating")]
+        [FormerlySerializedAs("usingDirectives")]
+        public List<string> UsingNamespaces = new() { "System;" };
+
+
         [FormerlySerializedAs("settingEntities")]
-        public List<SettingEntry> Entries;
+        public List<SettingEntity> Entries;
 
         private void OnValidate()
         {
-            PathPrefix = (PathPrefix ?? "").Replace(" ", "").Trim('.');
-            foreach (var e in Entries) e?.Validate(PathPrefix);
+            foreach (var entity in Entries)
+            {
+                entity.Validate();
+            }
+            PathPrefix = PathPrefix.Replace(" ", "");
         }
     }
 }
