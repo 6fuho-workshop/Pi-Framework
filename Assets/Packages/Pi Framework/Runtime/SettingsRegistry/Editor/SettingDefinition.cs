@@ -19,7 +19,7 @@ namespace PF.PiEditor.Settings
 
         [SerializeReference, Tooltip("Danh sách entries (leaf) sẽ được codegen gộp vào class Settings.")]
         [FormerlySerializedAs("settingEntities")]
-        public List<SettingEntity> Entries;
+        public List<SettingEntry> Entries;
 
         private void OnValidate()
         {

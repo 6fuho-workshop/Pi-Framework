@@ -271,7 +271,7 @@ namespace PF.PiEditor.Settings
             };
         }
 
-        Field CreateField(SettingEntity item)
+        Field CreateField(SettingEntry item)
         {
             var field = new Field(item.ValueType, "_" + item.LeafName);
             field.AddAttribute(new AttributeModel("SerializeField"));
@@ -287,7 +287,7 @@ namespace PF.PiEditor.Settings
 
             return field;
         }
-        AttributeModel GetRangeAttribute(SettingEntity item)
+        AttributeModel GetRangeAttribute(SettingEntry item)
         {
             if (item.HasRange && !item.Min.Equals(item.Max))
             {
@@ -350,14 +350,14 @@ namespace PF.PiEditor.Settings
             public bool isRoot;
             public Node parent;
             public Dictionary<string, Node> childNodes;
-            public List<SettingEntity> entities;
+            public List<SettingEntry> entities;
 
             public Node(string name)
             {
                 fullPath = string.Empty;
                 this.name = name;
                 childNodes = new Dictionary<string, Node>();
-                entities = new List<SettingEntity>();
+                entities = new List<SettingEntry>();
             }
 
             public Node GetOrCreateChild(string name)
@@ -374,7 +374,7 @@ namespace PF.PiEditor.Settings
             }
 
             // retrun false if error
-            public bool AddEntity(SettingEntity item)
+            public bool AddEntity(SettingEntry item)
             {
                 foreach (var child in entities)
                 {

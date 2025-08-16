@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 using UnityEngine.Serialization;
 
 namespace PF.PiEditor.Settings
 {
     [Serializable]
-    public class SettingEntity
+    [MovedFrom(true,"PiEditor.Settings",null, "SettingEntity")]
+    public class SettingEntry
     {
         [FormerlySerializedAs("fullPath")]
         [HideInInspector] public string FullPath;
