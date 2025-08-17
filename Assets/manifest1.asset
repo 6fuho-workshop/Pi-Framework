@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PathPrefix: 
   UsingNamespaces:
-  - System;
+  - System
   Entries:
-  - FullPath: 
+  - FullPath: global1
     RelativePath: global1
     ValueType: bool
     DefaultExpression: false
@@ -27,7 +27,7 @@ MonoBehaviour:
     Max: 0
     Persist: 0
     StorageKeyOverride: 
-  - FullPath: 
+  - FullPath: global2
     RelativePath: global2
     ValueType: float
     DefaultExpression: 
@@ -38,7 +38,7 @@ MonoBehaviour:
     Max: 3
     Persist: 0
     StorageKeyOverride: 
-  - FullPath: 
+  - FullPath: global23
     RelativePath: global23
     ValueType: float
     DefaultExpression: 

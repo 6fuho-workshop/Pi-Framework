@@ -5,12 +5,12 @@ using PF.Core.Settings;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using PiExtension.SimpleSound;
-using PF.Logging;
 public partial class Settings : RuntimeSettings, IPersistentSetting
 {
     [SerializeField]
     private bool _global1 = false;
     [SerializeField]
+    [Tooltip("AA")]
     private float _global2;
     [SerializeField]
     private float _global23;
@@ -29,11 +29,7 @@ public partial class Settings : RuntimeSettings, IPersistentSetting
 
     public static bool global1 => _instance._global1;
 
-    public static float global2
-    {
-        get { return _instance._global2; }
-        set { if(_instance._global2 == value) return; _instance._global2 = value; _instance.OnChanged("global2"); _instance.dataStore.SetFloat(".global2", value); }
-    }
+    public static float global2 => _instance._global2;
 
     public static float global23
     {
@@ -53,7 +49,6 @@ public partial class Settings : RuntimeSettings, IPersistentSetting
 
     public void OnLoadCallback()
     {
-        global2 = dataStore.GetFloat(".global2", _global2);
         global23 = dataStore.GetFloat(".global23", _global23);
     }
 
@@ -61,8 +56,6 @@ public partial class Settings : RuntimeSettings, IPersistentSetting
     {
         _nodeDict = new Dictionary<string, ISettingNode>() {
             {"dev", dev},
-            {"dev.logging", dev.logging},
-            {"dev.logging.groups", dev.logging.groups},
             {"simpleSoundPlayer", simpleSoundPlayer},
             {"options", options},
             {"options.sound", options.sound},
@@ -74,53 +67,13 @@ public partial class Settings : RuntimeSettings, IPersistentSetting
     {
         [SerializeField]
         private bool _logPiMessages = false;
-        [SerializeField]
-        private LoggingSettings _logging;
 
-        public bool logPiMessages => _logPiMessages;
-
-        public LoggingSettings logging => _logging;
-
-
-        [Serializable]
-        public class LoggingSettings : SettingNode
+        public bool logPiMessages
         {
-            [SerializeField]
-            private LogLevel _globalLevel = LogLevel.Error;
-            [SerializeField]
-            private GroupsSettings _groups;
-
-            public LogLevel globalLevel
-            {
-                get { return _globalLevel; }
-                set { if(_globalLevel == value) return; _globalLevel = value; OnChanged("globalLevel"); }
-            }
-
-            public GroupsSettings groups => _groups;
-
-
-            [Serializable]
-            public class GroupsSettings : SettingNode
-            {
-                [SerializeField]
-                private LogLevel _bootstrap = LogLevel.Error;
-                [SerializeField]
-                private LogLevel _core = LogLevel.Error;
-
-                public LogLevel bootstrap
-                {
-                    get { return _bootstrap; }
-                    set { if(_bootstrap == value) return; _bootstrap = value; OnChanged("bootstrap"); }
-                }
-
-                public LogLevel core
-                {
-                    get { return _core; }
-                    set { if(_core == value) return; _core = value; OnChanged("core"); }
-                }
-
-            }
+            get { return _logPiMessages; }
+            set { if(_logPiMessages == value) return; _logPiMessages = value; OnChanged("logPiMessages"); }
         }
+
     }
 
     [Serializable]

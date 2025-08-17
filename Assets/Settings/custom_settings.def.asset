@@ -10,21 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e4a0caa1c7583546b87e5a5bf5aba60, type: 3}
-  m_Name: VolumeSettings
-  m_EditorClassIdentifier: 
-  PathPrefix: options.sound
+  m_Name: custom_settings.def
+  m_EditorClassIdentifier: PF.Unity.Editor::PF.PiEditor.Settings.SettingDefinition
+  PathPrefix: options
   UsingNamespaces:
-  - System;
-  - PiExtension.SimpleSound;
-  Entries:
-  - FullPath: 
-    RelativePath: volume
-    ValueType: VolumeSettings
-    DefaultExpression: 
-    IsReadOnly: 1
-    Description: 
-    HasRange: 0
-    Min: 0
-    Max: 1
-    Persist: 0
-    StorageKeyOverride: 
+  - System
+  Entries: []

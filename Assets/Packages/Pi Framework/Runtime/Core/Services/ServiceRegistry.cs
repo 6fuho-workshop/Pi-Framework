@@ -1,4 +1,5 @@
 ﻿using PF.Core.Common;
+using PF.Core.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -146,8 +147,8 @@ namespace PF.Core.Services
         /// </summary>
         public IUnregister Register(Type serviceType, object instance)
         {
-            if (serviceType == null) throw new ArgumentNullException(nameof(serviceType));
-            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            ThrowIf.Null(serviceType);
+            ThrowIf.Null(instance);
             if (!serviceType.IsAssignableFrom(instance.GetType()))
                 throw new ArgumentException($"Instance {instance.GetType().Name} does not implement {serviceType.Name}");
 

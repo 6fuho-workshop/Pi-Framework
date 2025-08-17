@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e4a0caa1c7583546b87e5a5bf5aba60, type: 3}
-  m_Name: Test
-  m_EditorClassIdentifier: Pi.Framework.Editor::PiEditor.Settings.SettingsManifest
-  PathPrefix: dev
+  m_Name: ssp_settings
+  m_EditorClassIdentifier: 
+  PathPrefix: simpleSoundPlayer
   UsingNamespaces:
-  - PF.Logging;
+  - UnityEngine.Audio;
   Entries:
   - FullPath: 
-    RelativePath: logging.globalLevel
-    ValueType: LogLevel
-    DefaultExpression: LogLevel.Error
-    IsReadOnly: 0
+    RelativePath: audioMixer
+    ValueType: AudioMixer
+    DefaultExpression: 
+    IsReadOnly: 1
     Description: 
     HasRange: 0
     Min: 0
@@ -28,10 +28,10 @@ MonoBehaviour:
     Persist: 0
     StorageKeyOverride: 
   - FullPath: 
-    RelativePath: logging.groups.bootstrap
-    ValueType: LogLevel
-    DefaultExpression: LogLevel.Error
-    IsReadOnly: 0
+    RelativePath: unmuteFadeLength
+    ValueType: float
+    DefaultExpression: 1
+    IsReadOnly: 1
     Description: 
     HasRange: 0
     Min: 0
@@ -39,11 +39,22 @@ MonoBehaviour:
     Persist: 0
     StorageKeyOverride: 
   - FullPath: 
-    RelativePath: logging.groups.core
-    ValueType: LogLevel
-    DefaultExpression: LogLevel.Error
-    IsReadOnly: 0
-    Description: 
+    RelativePath: pauseFadeLength
+    ValueType: float
+    DefaultExpression: 1
+    IsReadOnly: 1
+    Description: Apply for global and channels
+    HasRange: 0
+    Min: 0
+    Max: 0
+    Persist: 0
+    StorageKeyOverride: 
+  - FullPath: 
+    RelativePath: stopFadeLength
+    ValueType: float
+    DefaultExpression: 1
+    IsReadOnly: 1
+    Description: Apply for global and channels
     HasRange: 0
     Min: 0
     Max: 0

@@ -145,7 +145,7 @@ namespace PF.PiEditor.Settings
                 nodeClass.BaseClass += ", IPersistentSetting";
             }
 
-            foreach (var item in node.entities)
+            foreach (var item in node.entries)
             {
                 var field = CreateField(item);
                 fields.Add(field);
@@ -219,7 +219,7 @@ namespace PF.PiEditor.Settings
         {
             List<string> body = new();
 
-            foreach (var item in node.entities)
+            foreach (var item in node.entries)
             {
                 if (item.IsReadOnly || !item.Persist)
                     continue;
@@ -258,7 +258,7 @@ namespace PF.PiEditor.Settings
             };
         }
 
-        Field CreateField(SettingEntity item)
+        Field CreateField(SettingEntry item)
         {
             var field = new Field(item.ValueType, "_" + item.LeafName);
             field.AddAttribute(new AttributeModel("SerializeField"));
@@ -274,7 +274,7 @@ namespace PF.PiEditor.Settings
 
             return field;
         }
-        AttributeModel GetRangeAttribute(SettingEntity item)
+        AttributeModel GetRangeAttribute(SettingEntry item)
         {
             if (item.HasRange && !item.Min.Equals(item.Max))
             {
@@ -303,7 +303,7 @@ namespace PF.PiEditor.Settings
 
                 foreach (var item in manifest.Entries)
                 {
-                    if (!item.IsValid())
+                    if (!item.IsConfigured())
                         continue;
 
                     var nodePath = basePath;
@@ -312,7 +312,7 @@ namespace PF.PiEditor.Settings
                     nodePath += item.ParentNodePath;
 
                     var node = GetSettingNodeByPath(nodePath, root);
-                    if (!node.AddEntity(item))
+                    if (!node.AddEntry(item))
                         return false;
                 }
             }
@@ -337,14 +337,14 @@ namespace PF.PiEditor.Settings
             public bool isRoot;
             public Node parent;
             public Dictionary<string, Node> childNodes;
-            public List<SettingEntity> entities;
+            public List<SettingEntry> entries;
 
             public Node(string name)
             {
                 fullPath = string.Empty;
                 this.name = name;
                 childNodes = new Dictionary<string, Node>();
-                entities = new List<SettingEntity>();
+                entries = new List<SettingEntry>();
             }
 
             public Node GetOrCreateChild(string name)
@@ -361,9 +361,9 @@ namespace PF.PiEditor.Settings
             }
 
             // retrun false if error
-            public bool AddEntity(SettingEntity item)
+            public bool AddEntry(SettingEntry item)
             {
-                foreach (var child in entities)
+                foreach (var child in entries)
                 {
                     if (child.LeafName.Equals(item.LeafName))
                     {
@@ -373,7 +373,7 @@ namespace PF.PiEditor.Settings
 
 
                 }
-                entities.Add(item);
+                entries.Add(item);
 
                 return true;
             }

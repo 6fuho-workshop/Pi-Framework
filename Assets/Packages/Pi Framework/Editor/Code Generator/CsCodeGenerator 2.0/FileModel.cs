@@ -31,7 +31,7 @@ namespace CsCodeGenerator
         {
             foreach (var usingDirective in usingDirectives)
             {
-                UsingDirectives.Add(usingDirective);
+                UsingDirectives.Add(usingDirective + ";");
             }
         }
 

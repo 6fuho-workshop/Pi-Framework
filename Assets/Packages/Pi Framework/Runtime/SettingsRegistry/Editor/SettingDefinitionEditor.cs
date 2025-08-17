@@ -1,11 +1,12 @@
-﻿using UnityEngine.UIElements;
-using UnityEditor.UIElements;
+﻿using System;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace PF.PiEditor.Settings
 {
-    //[CustomEditor(typeof(SettingDefinition))]
+    [CustomEditor(typeof(SettingDefinition))]
     public class SettingDefinitionEditor : Editor
     {
         public override VisualElement CreateInspectorGUI()
@@ -30,7 +31,7 @@ namespace PF.PiEditor.Settings
         }
     }
 
-    //[CustomPropertyDrawer(typeof(SettingEntity))]
+    [CustomPropertyDrawer(typeof(SettingEntry))]
     public class SettingEntryDrawer : PropertyDrawer
     {
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
@@ -45,16 +46,7 @@ namespace PF.PiEditor.Settings
 
 
             var relativePathProperty = property.FindPropertyRelative("RelativePath");
-            if (relativePathProperty == null)
-            {
-                Debug.LogError("RelativePath property not found in SettingEntry.");
-            }
             var relativePath = new PropertyField(relativePathProperty, "RelativePath");
-            if(relativePath == null)
-            {
-                Debug.LogError("Failed to create PropertyField for RelativePath.");
-            }
-
             foldout.text = string.IsNullOrWhiteSpace(relativePathProperty.stringValue) ? property.displayName : relativePathProperty.stringValue;
             container.Add(relativePath);
 
