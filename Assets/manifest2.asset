@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4a0caa1c7583546b87e5a5bf5aba60, type: 3}
   m_Name: manifest2
   m_EditorClassIdentifier: 
-  basePath: dev
-  usingDirectives:
+  PathPrefix: dev
+  UsingNamespaces:
   - System;
-  settingEntities:
-  - fullPath: 
-    path: logPiMessages
-    type: bool
-    defaultValue: false
-    readOnly: 1
-    tooltip: 
-    useRange: 0
-    min: 0
-    max: 0
-    persistent: 0
-    customKey: 
+  Entries:
+  - FullPath: 
+    RelativePath: logPiMessages
+    ValueType: bool
+    DefaultExpression: false
+    IsReadOnly: 1
+    Description: 
+    HasRange: 0
+    Min: 0
+    Max: 0
+    Persist: 0
+    StorageKeyOverride: 

@@ -12,47 +12,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4a0caa1c7583546b87e5a5bf5aba60, type: 3}
   m_Name: SspSettings
   m_EditorClassIdentifier: 
-  basePath: simpleSoundPlayer
-  usingDirectives:
+  PathPrefix: simpleSoundPlayer
+  UsingNamespaces:
   - UnityEngine.Audio;
-  settingEntities:
-  - fullPath: 
-    path: audioMixer
-    type: AudioMixer
-    defaultValue: 
-    readOnly: 1
-    tooltip: 
-    addRange: 0
-    min: 0
-    max: 0
-    persistent: 0
-  - fullPath: 
-    path: unmuteFadeLength
-    type: float
-    defaultValue: 1
-    readOnly: 1
-    tooltip: 
-    addRange: 0
-    min: 0
-    max: 0
-    persistent: 0
-  - fullPath: 
-    path: pauseFadeLength
-    type: float
-    defaultValue: 1
-    readOnly: 1
-    tooltip: Apply for global and channels
-    addRange: 0
-    min: 0
-    max: 0
-    persistent: 0
-  - fullPath: 
-    path: stopFadeLength
-    type: float
-    defaultValue: 1
-    readOnly: 1
-    tooltip: Apply for global and channels
-    addRange: 0
-    min: 0
-    max: 0
-    persistent: 0
+  Entries:
+  - FullPath: 
+    RelativePath: audioMixer
+    ValueType: AudioMixer
+    DefaultExpression: 
+    IsReadOnly: 1
+    Description: 
+    HasRange: 0
+    Min: 0
+    Max: 0
+    Persist: 0
+    StorageKeyOverride: 
+  - FullPath: 
+    RelativePath: unmuteFadeLength
+    ValueType: float
+    DefaultExpression: 1
+    IsReadOnly: 1
+    Description: 
+    HasRange: 0
+    Min: 0
+    Max: 0
+    Persist: 0
+    StorageKeyOverride: 
+  - FullPath: 
+    RelativePath: pauseFadeLength
+    ValueType: float
+    DefaultExpression: 1
+    IsReadOnly: 1
+    Description: Apply for global and channels
+    HasRange: 0
+    Min: 0
+    Max: 0
+    Persist: 0
+    StorageKeyOverride: 
+  - FullPath: 
+    RelativePath: stopFadeLength
+    ValueType: float
+    DefaultExpression: 1
+    IsReadOnly: 1
+    Description: Apply for global and channels
+    HasRange: 0
+    Min: 0
+    Max: 0
+    Persist: 0
+    StorageKeyOverride: 

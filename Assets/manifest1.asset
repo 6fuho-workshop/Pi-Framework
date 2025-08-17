@@ -16,7 +16,7 @@ MonoBehaviour:
   UsingNamespaces:
   - System;
   Entries:
-  - fullPath: 
+  - FullPath: 
     RelativePath: global1
     ValueType: bool
     DefaultExpression: false
@@ -27,7 +27,7 @@ MonoBehaviour:
     Max: 0
     Persist: 0
     StorageKeyOverride: 
-  - fullPath: 
+  - FullPath: 
     RelativePath: global2
     ValueType: float
     DefaultExpression: 
@@ -38,7 +38,7 @@ MonoBehaviour:
     Max: 3
     Persist: 0
     StorageKeyOverride: 
-  - fullPath: 
+  - FullPath: 
     RelativePath: global23
     ValueType: float
     DefaultExpression: 

@@ -10,7 +10,7 @@ namespace PF.PiEditor.Settings
     public class SettingEntity
     {
         [HideInInspector]
-        public string fullPath;
+        public string FullPath;
         [Tooltip("relative path của Setting, ví dụ options.video.fullscreen")]
         [FormerlySerializedAs("path")]
         public string RelativePath;

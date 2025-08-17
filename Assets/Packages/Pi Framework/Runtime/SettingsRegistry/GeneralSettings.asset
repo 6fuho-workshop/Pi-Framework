@@ -12,36 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4a0caa1c7583546b87e5a5bf5aba60, type: 3}
   m_Name: GeneralSettings
   m_EditorClassIdentifier: 
-  basePath: 
-  usingDirectives:
+  PathPrefix: 
+  UsingNamespaces:
   - System;
   - UnityEngine;
   - PF;
   - PF.Core.Settings;
   - System.Collections.Generic;
-  settingEntities:
-  - fullPath: 
-    path: runInBackground
-    type: bool
-    defaultValue: false
-    readOnly: 1
-    tooltip: Should the Player be running when the application is in the background?
-    useRange: 0
-    min: 0
-    max: 0
-    persistent: 0
-    customKey: 
-  - fullPath: 
-    path: targetFrameRate
-    type: int
-    defaultValue: -1
-    readOnly: 1
-    tooltip: The default value -1. In the default case, Unity uses the platform's
+  Entries:
+  - FullPath: 
+    RelativePath: runInBackground
+    ValueType: bool
+    DefaultExpression: false
+    IsReadOnly: 1
+    Description: Should the Player be running when the application is in the background?
+    HasRange: 0
+    Min: 0
+    Max: 0
+    Persist: 0
+    StorageKeyOverride: 
+  - FullPath: 
+    RelativePath: targetFrameRate
+    ValueType: int
+    DefaultExpression: -1
+    IsReadOnly: 1
+    Description: The default value -1. In the default case, Unity uses the platform's
       default target frame rate. \nNote that platform and device capabilities affect
       the frame rate at runtime, so your game might not achieve the target frame
       rate.
-    useRange: 0
-    min: 1
-    max: 3
-    persistent: 0
-    customKey: 
+    HasRange: 0
+    Min: 1
+    Max: 3
+    Persist: 0
+    StorageKeyOverride: 

@@ -12,18 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4a0caa1c7583546b87e5a5bf5aba60, type: 3}
   m_Name: VolumeSettings
   m_EditorClassIdentifier: 
-  basePath: options.sound
-  usingDirectives:
+  PathPrefix: options.sound
+  UsingNamespaces:
   - System;
   - PiExtension.SimpleSound;
-  settingEntities:
-  - fullPath: 
-    path: volume
-    type: VolumeSettings
-    defaultValue: 
-    readOnly: 1
-    tooltip: 
-    addRange: 0
-    min: 0
-    max: 1
-    persistent: 0
+  Entries:
+  - FullPath: 
+    RelativePath: volume
+    ValueType: VolumeSettings
+    DefaultExpression: 
+    IsReadOnly: 1
+    Description: 
+    HasRange: 0
+    Min: 0
+    Max: 1
+    Persist: 0
+    StorageKeyOverride: 

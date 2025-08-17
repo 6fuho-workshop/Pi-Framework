@@ -12,40 +12,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4a0caa1c7583546b87e5a5bf5aba60, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: Pi.Framework.Editor::PiEditor.Settings.SettingsManifest
-  basePath: dev
-  usingDirectives:
+  PathPrefix: dev
+  UsingNamespaces:
   - PF.Logging;
-  settingEntities:
-  - fullPath: 
-    path: logging.globalLevel
-    type: LogLevel
-    defaultValue: LogLevel.Error
-    readOnly: 0
-    tooltip: 
-    useRange: 0
-    min: 0
-    max: 0
-    persistent: 0
-    customKey: 
-  - fullPath: 
-    path: logging.groups.bootstrap
-    type: LogLevel
-    defaultValue: LogLevel.Error
-    readOnly: 0
-    tooltip: 
-    useRange: 0
-    min: 0
-    max: 0
-    persistent: 0
-    customKey: 
-  - fullPath: 
-    path: logging.groups.core
-    type: LogLevel
-    defaultValue: LogLevel.Error
-    readOnly: 0
-    tooltip: 
-    useRange: 0
-    min: 0
-    max: 0
-    persistent: 0
-    customKey: 
+  Entries:
+  - FullPath: 
+    RelativePath: logging.globalLevel
+    ValueType: LogLevel
+    DefaultExpression: LogLevel.Error
+    IsReadOnly: 0
+    Description: 
+    HasRange: 0
+    Min: 0
+    Max: 0
+    Persist: 0
+    StorageKeyOverride: 
+  - FullPath: 
+    RelativePath: logging.groups.bootstrap
+    ValueType: LogLevel
+    DefaultExpression: LogLevel.Error
+    IsReadOnly: 0
+    Description: 
+    HasRange: 0
+    Min: 0
+    Max: 0
+    Persist: 0
+    StorageKeyOverride: 
+  - FullPath: 
+    RelativePath: logging.groups.core
+    ValueType: LogLevel
+    DefaultExpression: LogLevel.Error
+    IsReadOnly: 0
+    Description: 
+    HasRange: 0
+    Min: 0
+    Max: 0
+    Persist: 0
+    StorageKeyOverride: 
