@@ -68,11 +68,7 @@ public partial class Settings : RuntimeSettings, IPersistentSetting
         [SerializeField]
         private bool _logPiMessages = false;
 
-        public bool logPiMessages
-        {
-            get { return _logPiMessages; }
-            set { if(_logPiMessages == value) return; _logPiMessages = value; OnChanged("logPiMessages"); }
-        }
+        public bool logPiMessages => _logPiMessages;
 
     }
 

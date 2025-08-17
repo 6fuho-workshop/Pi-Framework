@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -43,6 +44,24 @@ namespace PF.PiEditor.Settings
         [Tooltip("Optional category mapping for first-level nodes under PathPrefix. Only affects UI (not codegen).")]
         public List<TopLevelCategory> TopLevelCategories = new();
 
+        public void ValidateEntries()
+        {
+            foreach (var e in Entries)
+            {
+                if (e == null) continue;
+                e.Validate(PathPrefix);
+
+                if (string.IsNullOrEmpty(e.RelativePath) || string.IsNullOrEmpty(e.ValueType))
+                    throw new ArgumentException($"SettingEntry invalid: RelativePath and ValueType are required. FullPath='{e.FullPath}'" +
+                        $"\nDefiniton file: {AssetDatabase.GetAssetPath(this)}");
+                if (e.RelativePath.IndexOfAny(new[] { '/', '\\' }) >= 0)
+                    throw new ArgumentException($"[Settings] Use '.' instead of '/' in RelativePath: '{e.RelativePath}' (FullPath='{e.FullPath}')" +
+                         $"\nDefiniton file: {AssetDatabase.GetAssetPath(this)}");
+
+            }
+        }
+
+        // Unity message call to validate and normalize fields
         private void OnValidate()
         {
             // Normalize PathPrefix

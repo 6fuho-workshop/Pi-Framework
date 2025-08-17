@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -19,11 +20,11 @@ namespace PF.PiEditor.Settings
         [Tooltip("Data type: int, float, bool, string, enum, or a fully-qualified type name.")]
         public string ValueType;
 
-        [Tooltip("C# expression for default value. Examples: 0.75f, true, \"en\", new Vector3(1,1.5f,2). Leave empty to use default(T).")]
+        [Tooltip("C# expression for default value. Examples: 0.75f, true, \"en\", new Vector2(1,1.5f). Leave empty to use default(T).")]
         public string DefaultExpression;
 
         [Tooltip("If enabled, the property has no setter in generated code. Can still be overridden via deserialization.")]
-        public bool IsReadOnly = false;
+        public bool IsReadOnly = true;
 
         [Tooltip("Short description for Inspector/Control Panel.")]
         public string Description;
@@ -77,13 +78,6 @@ namespace PF.PiEditor.Settings
             }
         }
 
-        /// <summary>Basic readiness check for codegen. IsConfigured = Valid</summary>
-        public bool IsConfigured()
-        {
-            return !string.IsNullOrEmpty(RelativePath) &&
-                   !string.IsNullOrEmpty(ValueType);
-        }
-
         /// <summary>
         /// Validate & normalize. Also computes FullPath using the provided prefix.
         /// </summary>
@@ -121,7 +115,7 @@ namespace PF.PiEditor.Settings
             }
 
             // ReadOnly ⇒ never persist
-            if (IsReadOnly) Persist = true;
+            if (IsReadOnly) Persist = false;
 
             // Key override valid only if persisting
             if (!Persist) StorageKeyOverride = string.Empty;
@@ -130,17 +124,6 @@ namespace PF.PiEditor.Settings
             if (LegacyKeys == null) LegacyKeys = Array.Empty<string>();
             for (int i = 0; i < LegacyKeys.Length; i++)
                 LegacyKeys[i] = (LegacyKeys[i] ?? string.Empty).Trim();
-
-            // Basic validation guards (throwing here helps catch issues early in Editor)
-            if (!IsConfigured())
-                throw new ArgumentException($"SettingEntry invalid: RelativePath and ValueType are required. FullPath='{FullPath}'");
-
-            // Character policy: only dots and word chars in RelativePath
-            if (RelativePath.IndexOfAny(new[] { '/', '\\' }) >= 0)
-                throw new ArgumentException($"Use '.' instead of '/' in RelativePath: '{RelativePath}'");
         }
-
-        // Backward-compatible signature if someone still calls Validate() without prefix
-        public void Validate() => Validate(null);
     }
 }

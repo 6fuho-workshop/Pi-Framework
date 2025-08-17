@@ -13,6 +13,23 @@ MonoBehaviour:
   m_Name: custom_settings.def
   m_EditorClassIdentifier: PF.Unity.Editor::PF.PiEditor.Settings.SettingDefinition
   PathPrefix: options
+  Owner: 
   UsingNamespaces:
   - System
-  Entries: []
+  Entries:
+  - FullPath: options
+    RelativePath: 
+    DisplayName: 
+    ValueType: 
+    DefaultExpression: 
+    IsReadOnly: 0
+    Description: 
+    HasRange: 0
+    Min: 0
+    Max: 0
+    Persist: 0
+    StorageKeyOverride: 
+    IsObsolete: 0
+    ObsoleteMessage: 
+    LegacyKeys: []
+  TopLevelCategories: []

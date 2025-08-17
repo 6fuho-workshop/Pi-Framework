@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +12,7 @@ namespace PF.PiEditor.Settings
 {
     /// <summary>
     /// Generate partial code for Pi class 
-    /// todo: t�ch th�nh c�c partial class d?a tr�n top level settings ?? gi?m vi?c conflict
+    /// todo: tách thành các partial class d?a trên top level settings ?? gi?m vi?c conflict
     /// </summary>
     
     internal class SettingsGenerator
@@ -24,6 +24,7 @@ namespace PF.PiEditor.Settings
             sourceFile = PiPath.scriptPath + "/Settings.main.cs";
         }
 
+        /*
         [OnAssetModificationOfType(typeof(SettingDefinition))]
         static void OnAssetModification(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths, bool didDomainReload)
         {
@@ -48,6 +49,7 @@ namespace PF.PiEditor.Settings
                 Debug.Log("Domain has been reloaded");
             }
         }
+        */
 
         public static void Generate()
         {
@@ -296,6 +298,7 @@ namespace PF.PiEditor.Settings
             {
 
                 var manifest = AssetDatabase.LoadAssetAtPath<SettingDefinition>(ap);
+                manifest.ValidateEntries();
                 usingDirectives.AddRange(manifest.UsingNamespaces);
                 var basePath = manifest.PathPrefix.Replace(" ", "");
                 if (manifest.Entries == null)
@@ -303,8 +306,9 @@ namespace PF.PiEditor.Settings
 
                 foreach (var item in manifest.Entries)
                 {
-                    if (!item.IsConfigured())
-                        continue;
+                    //không cần thiết phải kiểm tra IsConfigured vì đã validate ở SettingDefinition.ValidateEntries()
+                    //if (!item.IsConfigured())
+                    //continue;
 
                     var nodePath = basePath;
                     if (!string.IsNullOrEmpty(item.ParentNodePath) && !string.IsNullOrEmpty(basePath))

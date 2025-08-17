@@ -188,3 +188,54 @@
 25-08-16T10:35:08.685Z [T] (PF.Bootstrap) InitAfterSceneLoad
 25-08-16T10:37:06.519Z [T] (PF.Bootstrap) System Destroying
 25-08-16T10:37:06.520Z [I] (PF.Bootstrap) Log: OFF
+25-08-17T18:26:08.189Z [I] (PF.Bootstrap) Log ON with 2 sinks.
+25-08-17T18:26:08.245Z [T] (PF.Bootstrap) PiFramework Initializing (BeforeSceneLoad)
+25-08-17T18:26:08.294Z [T] (PF.Bootstrap) PiFramework Initialized
+25-08-17T18:26:08.296Z [T] (PF.Bootstrap) PiRoot Awake
+25-08-17T18:26:08.298Z [T] (PF.Core) CommonSettingsHandler Awake
+25-08-17T18:26:08.300Z [T] (PF.Bootstrap) Ready for Scene Load
+25-08-17T18:26:08.705Z [T] (PF.Bootstrap) InitAfterSceneLoad
+25-08-17T18:26:09.383Z [T] (PF.Bootstrap) System Destroying
+25-08-17T18:26:09.384Z [I] (PF.Bootstrap) Log: OFF
+25-08-17T18:27:31.905Z [I] (PF.Bootstrap) Log ON with 2 sinks.
+25-08-17T18:27:31.905Z [T] (PF.Bootstrap) PiFramework Initializing (BeforeSceneLoad)
+25-08-17T18:27:31.905Z [T] (PF.Bootstrap) PiFramework Initialized
+25-08-17T18:27:31.906Z [T] (PF.Bootstrap) PiRoot Awake
+25-08-17T18:27:31.916Z [T] (PF.Core) CommonSettingsHandler Awake
+25-08-17T18:27:31.917Z [T] (PF.Bootstrap) Ready for Scene Load
+25-08-17T18:27:32.286Z [T] (PF.Bootstrap) InitAfterSceneLoad
+25-08-17T18:27:35.919Z [T] (PF.Bootstrap) System Destroying
+25-08-17T18:27:43.184Z [I] (PF.Bootstrap) Log ON with 2 sinks.
+25-08-17T18:27:43.184Z [T] (PF.Bootstrap) PiFramework Initializing (BeforeSceneLoad)
+25-08-17T18:27:43.185Z [T] (PF.Bootstrap) PiFramework Initialized
+25-08-17T18:27:43.186Z [T] (PF.Bootstrap) PiRoot Awake
+25-08-17T18:27:43.187Z [T] (PF.Core) CommonSettingsHandler Awake
+25-08-17T18:27:43.188Z [T] (PF.Bootstrap) Ready for Scene Load
+25-08-17T18:27:43.580Z [T] (PF.Bootstrap) InitAfterSceneLoad
+25-08-17T18:27:44.912Z [T] (PF.Bootstrap) System Destroying
+25-08-17T18:28:30.564Z [I] (PF.Bootstrap) Log ON with 2 sinks.
+25-08-17T18:28:30.565Z [T] (PF.Bootstrap) PiFramework Initializing (BeforeSceneLoad)
+25-08-17T18:28:30.565Z [T] (PF.Bootstrap) PiFramework Initialized
+25-08-17T18:28:30.566Z [T] (PF.Bootstrap) PiRoot Awake
+25-08-17T18:28:30.567Z [T] (PF.Core) CommonSettingsHandler Awake
+25-08-17T18:28:30.567Z [T] (PF.Bootstrap) Ready for Scene Load
+25-08-17T18:28:30.936Z [T] (PF.Bootstrap) InitAfterSceneLoad
+25-08-17T18:28:32.515Z [T] (PF.Bootstrap) System Destroying
+25-08-17T18:31:29.198Z [I] (PF.Bootstrap) Log ON with 2 sinks.
+25-08-17T18:31:29.206Z [T] (PF.Bootstrap) PiFramework Initializing (BeforeSceneLoad)
+25-08-17T18:31:29.256Z [T] (PF.Bootstrap) PiFramework Initialized
+25-08-17T18:31:29.258Z [T] (PF.Bootstrap) PiRoot Awake
+25-08-17T18:31:29.266Z [T] (PF.Core) CommonSettingsHandler Awake
+25-08-17T18:31:29.267Z [T] (PF.Bootstrap) Ready for Scene Load
+25-08-17T18:31:29.687Z [T] (PF.Bootstrap) InitAfterSceneLoad
+25-08-17T18:31:30.904Z [T] (PF.Bootstrap) System Destroying
+25-08-17T18:31:30.905Z [I] (PF.Bootstrap) Log: OFF
+25-08-17T18:37:02.263Z [I] (PF.Bootstrap) Log ON with 2 sinks.
+25-08-17T18:37:02.276Z [T] (PF.Bootstrap) PiFramework Initializing (BeforeSceneLoad)
+25-08-17T18:37:02.332Z [T] (PF.Bootstrap) PiFramework Initialized
+25-08-17T18:37:02.336Z [T] (PF.Bootstrap) PiRoot Awake
+25-08-17T18:37:02.354Z [T] (PF.Core) CommonSettingsHandler Awake
+25-08-17T18:37:02.356Z [T] (PF.Bootstrap) Ready for Scene Load
+25-08-17T18:37:02.797Z [T] (PF.Bootstrap) InitAfterSceneLoad
+25-08-17T18:37:09.848Z [T] (PF.Bootstrap) System Destroying
+25-08-17T18:37:09.849Z [I] (PF.Bootstrap) Log: OFF

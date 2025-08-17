@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ffdce92605a71b4bb0ed6ce3f366fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Pi.Framework.Runtime::PiFramework.Settings.SettingsLoader
-  settings: {fileID: 11400000, guid: 0618fc5d6684ea5488911ad0daffef4b, type: 2}
+  settings: {fileID: 11400000, guid: ae18b8c27623ec745ba1f8882cabfa23, type: 2}
 --- !u!1 &8099031225021422945
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,11 +13,28 @@ MonoBehaviour:
   m_Name: manifest2
   m_EditorClassIdentifier: 
   PathPrefix: dev
+  Owner: PF.Core.Settins
   UsingNamespaces:
   - System
   Entries:
   - FullPath: dev.logPiMessages
     RelativePath: logPiMessages
+    DisplayName: 
+    ValueType: bool
+    DefaultExpression: false
+    IsReadOnly: 1
+    Description: 
+    HasRange: 0
+    Min: 0
+    Max: 0
+    Persist: 0
+    StorageKeyOverride: 
+    IsObsolete: 0
+    ObsoleteMessage: 
+    LegacyKeys: []
+  - FullPath: dev.testPath
+    RelativePath: testPath
+    DisplayName: 
     ValueType: bool
     DefaultExpression: false
     IsReadOnly: 0
@@ -27,3 +44,22 @@ MonoBehaviour:
     Max: 0
     Persist: 0
     StorageKeyOverride: 
+    IsObsolete: 0
+    ObsoleteMessage: 
+    LegacyKeys: []
+  - FullPath: dev.testPath
+    RelativePath: testPath
+    DisplayName: 
+    ValueType: bool
+    DefaultExpression: false
+    IsReadOnly: 0
+    Description: 
+    HasRange: 0
+    Min: 0
+    Max: 0
+    Persist: 0
+    StorageKeyOverride: 
+    IsObsolete: 0
+    ObsoleteMessage: 
+    LegacyKeys: []
+  TopLevelCategories: []

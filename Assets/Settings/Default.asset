@@ -19,11 +19,6 @@ MonoBehaviour:
   _targetFrameRate: -1
   _dev:
     _logPiMessages: 0
-    _logging:
-      _globalLevel: 4
-      _groups:
-        _bootstrap: 4
-        _core: 4
   _simpleSoundPlayer:
     _audioMixer: {fileID: 24100000, guid: 1268f99de93f1b64688d12671e56ce45, type: 2}
     _unmuteFadeLength: 1
