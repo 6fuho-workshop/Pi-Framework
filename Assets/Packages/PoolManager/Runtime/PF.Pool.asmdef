@@ -1,0 +1,16 @@
+{
+    "name": "PF.Pool",
+    "rootNamespace": "",
+    "references": [
+        "GUID:db1474eb60481b44e87aab14a9cbb175"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

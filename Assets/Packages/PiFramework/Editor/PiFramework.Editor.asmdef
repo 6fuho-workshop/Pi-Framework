@@ -1,0 +1,21 @@
+{
+    "name": "PiFramework.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:db1474eb60481b44e87aab14a9cbb175",
+        "GUID:b1f7ab182aff8074cb83223782ab74a2",
+        "GUID:b4ac8c6b738ed8341b11ee37850b4399",
+        "GUID:d38ef12ec92e18b4da2e8578d1f5c5f5"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

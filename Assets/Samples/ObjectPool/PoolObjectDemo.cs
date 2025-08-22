@@ -15,9 +15,9 @@ namespace Demo.PoolObjectDemo
         {
             pooled = new GameObject[count];
             var go = spritePoolable.gameObject;
-            var pool = Pi.Pool.GetPool(go);
+            var pool = PiExt.Pool.GetPool(go);
 
-            Pi.Pool.Preload(go);
+            PiExt.Pool.Preload(go);
 
             /*
             for (var i = 0; i < count; i++)

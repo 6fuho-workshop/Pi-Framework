@@ -11,7 +11,7 @@ namespace Demo.AudioToolkit
         public void ToggleMute()
         {
             //Settings.options.sound.volume.;
-            Pi.Audio.ToggleMute();
+            PiExt.Audio.ToggleMute();
         }
     }
 }

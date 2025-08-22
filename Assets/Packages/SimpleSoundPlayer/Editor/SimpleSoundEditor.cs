@@ -113,7 +113,7 @@ namespace PiExtension.SimpleSound
 
         void CreateAudioMixerAsset()
         {
-            var paths = FileHelper.FindAssetsWithFullName("AudioMixer.template");
+            var paths = AssetHelper.FindAssetsWithFullName("AudioMixer.template");
             if (paths.Length > 0)
             {
                 var source = paths[0];

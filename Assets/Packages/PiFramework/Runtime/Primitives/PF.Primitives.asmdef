@@ -1,0 +1,16 @@
+{
+    "name": "PF.Primitives",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d38ef12ec92e18b4da2e8578d1f5c5f5"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

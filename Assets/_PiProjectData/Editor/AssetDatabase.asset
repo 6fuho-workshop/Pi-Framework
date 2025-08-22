@@ -11,12 +11,5 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 726041de588833043a66c3ac857ab3b7, type: 3}
   m_Name: AssetDatabase
-  m_EditorClassIdentifier: 
-  assets:
-  - assetType: PiEditor.Settings.SettingsManifest
-    assetPaths:
-    - Assets/manifest1.asset
-    - Assets/manifest2.asset
-    - Assets/Packages/Pi Framework/Runtime/Core/GameSettings/GeneralSettings.asset
-    - Assets/Packages/SimpleSoundPlayer/Runtime/SspSettings.asset
-    - Assets/Packages/SimpleSoundPlayer/Runtime/VolumeSettings.asset
+  m_EditorClassIdentifier: PiFramework.Editor::PF.PiEditor.PiAssetDatabase
+  assets: []

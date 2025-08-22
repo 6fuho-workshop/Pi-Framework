@@ -32,8 +32,8 @@ MonoBehaviour:
     IsObsolete: 0
     ObsoleteMessage: 
     LegacyKeys: []
-  - FullPath: dev.testPath
-    RelativePath: testPath
+  - FullPath: dev.testPath2
+    RelativePath: testPath2
     DisplayName: 
     ValueType: bool
     DefaultExpression: false
@@ -42,22 +42,7 @@ MonoBehaviour:
     HasRange: 0
     Min: 0
     Max: 0
-    Persist: 0
-    StorageKeyOverride: 
-    IsObsolete: 0
-    ObsoleteMessage: 
-    LegacyKeys: []
-  - FullPath: dev.testPath
-    RelativePath: testPath
-    DisplayName: 
-    ValueType: bool
-    DefaultExpression: false
-    IsReadOnly: 0
-    Description: 
-    HasRange: 0
-    Min: 0
-    Max: 0
-    Persist: 0
+    Persist: 1
     StorageKeyOverride: 
     IsObsolete: 0
     ObsoleteMessage: 

@@ -1,0 +1,20 @@
+{
+    "name": "PF.SimpleSoundPlayer.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a8624c9d6ee6b3743a5c32608cdd8ef3",
+        "GUID:db1474eb60481b44e87aab14a9cbb175",
+        "GUID:6e3171c9acebbc94b89b15fad95141dc"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

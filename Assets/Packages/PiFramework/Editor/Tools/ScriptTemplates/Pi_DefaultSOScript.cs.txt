@@ -1,0 +1,27 @@
+﻿using UnityEngine;
+using PF;
+using Logger = PF.Contracts.ILogger;
+
+    #ROOTNAMESPACEBEGIN#
+[CreateAssetMenu(fileName = "#SCRIPTNAME#", menuName = "▶ Pi ◀/#SCRIPTNAME#", order = 1)]
+public class #SCRIPTNAME# : ScriptableObject
+{
+    // Called when an instance of ScriptableObject is created.
+    private void Awake()
+    {
+
+    }
+
+    // This function is called when the object is loaded.
+    void OnEnable()
+    {
+
+    }
+
+    // Editor-only function that Unity calls when the script is loaded or a value changes in the Inspector.
+    private void OnValidate()
+    {
+
+    }
+}
+#ROOTNAMESPACEEND#

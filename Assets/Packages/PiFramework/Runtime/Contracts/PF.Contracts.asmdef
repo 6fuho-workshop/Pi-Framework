@@ -1,0 +1,17 @@
+{
+    "name": "PF.Contracts",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b4ac8c6b738ed8341b11ee37850b4399",
+        "GUID:d38ef12ec92e18b4da2e8578d1f5c5f5"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

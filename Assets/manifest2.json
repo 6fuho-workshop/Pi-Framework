@@ -1,0 +1,44 @@
+{
+    "PathPrefix": "dev",
+    "Owner": "PF.Core.Settins",
+    "UsingNamespaces": [
+        "System"
+    ],
+    "Entries": [
+        {
+            "FullPath": "dev.logPiMessages",
+            "RelativePath": "logPiMessages",
+            "DisplayName": "",
+            "ValueType": "bool",
+            "DefaultExpression": "false",
+            "IsReadOnly": true,
+            "Description": "",
+            "HasRange": false,
+            "Min": 0.0,
+            "Max": 0.0,
+            "Persist": false,
+            "StorageKeyOverride": "",
+            "IsObsolete": false,
+            "ObsoleteMessage": "",
+            "LegacyKeys": []
+        },
+        {
+            "FullPath": "dev.testPath2",
+            "RelativePath": "testPath2",
+            "DisplayName": "",
+            "ValueType": "bool",
+            "DefaultExpression": "false",
+            "IsReadOnly": true,
+            "Description": "",
+            "HasRange": false,
+            "Min": 0.0,
+            "Max": 0.0,
+            "Persist": false,
+            "StorageKeyOverride": "",
+            "IsObsolete": false,
+            "ObsoleteMessage": "",
+            "LegacyKeys": []
+        }
+    ],
+    "TopLevelCategories": []
+}

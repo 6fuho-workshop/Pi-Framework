@@ -1,0 +1,17 @@
+{
+    "name": "PF.SimpleSoundPlayer",
+    "rootNamespace": "",
+    "references": [
+        "GUID:db1474eb60481b44e87aab14a9cbb175",
+        "GUID:c3592ae9c3e10554f80ab613c6e8b5ef"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

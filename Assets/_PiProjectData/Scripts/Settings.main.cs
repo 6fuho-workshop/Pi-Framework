@@ -67,8 +67,16 @@ public partial class Settings : RuntimeSettings, IPersistentSetting
     {
         [SerializeField]
         private bool _logPiMessages = false;
+        [SerializeField]
+        private bool _testPath = false;
 
         public bool logPiMessages => _logPiMessages;
+
+        public bool testPath
+        {
+            get { return _testPath; }
+            set { if(_testPath == value) return; _testPath = value; OnChanged("testPath"); }
+        }
 
     }
 

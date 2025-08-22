@@ -27,12 +27,12 @@ namespace PiExtension.SimpleSound
         PlaybackAction onDestroy = PlaybackAction.None;
         public void Play()
         {
-            P.Services.Resolve<SimpleSoundPlayer>().PlayMusicPlaylist(playListName);
+            Pi.Services.Resolve<SimpleSoundPlayer>().PlayMusicPlaylist(playListName);
         }
 
         public void Stop()
         {
-            P.Services.Resolve<SimpleSoundPlayer>().StopPlaylist();
+            Pi.Services.Resolve<SimpleSoundPlayer>().StopPlaylist();
         }
 
         private void Start()

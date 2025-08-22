@@ -1,0 +1,12 @@
+using UnityEngine;
+using PF;
+using Logger = PF.Contracts.ILogger;
+using Pi = PiExt;
+
+namespace Game
+{
+    public class #SCRIPTNAME# : MonoBehaviour
+    {
+        private void Awake() { }
+    }
+}

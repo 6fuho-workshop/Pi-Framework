@@ -1,11 +1,15 @@
 ﻿using PF;
+using PF.Events;
 using UnityEngine;
+using Logger = PF.Contracts.ILogger;
+using PF.Contracts;
 
 public class Test : MonoBehaviour
 {
     PiEvent testAction = new PiEvent();
-    PF.Logging.ILogger logger1;
-    PF.Logging.ILogger logger2;
+    public Component testComponent;
+    Logger logger1;
+    Logger logger2;
     
     private void Awake()
     {

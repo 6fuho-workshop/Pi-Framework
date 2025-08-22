@@ -16,20 +16,5 @@ MonoBehaviour:
   Owner: 
   UsingNamespaces:
   - System
-  Entries:
-  - FullPath: options
-    RelativePath: 
-    DisplayName: 
-    ValueType: 
-    DefaultExpression: 
-    IsReadOnly: 0
-    Description: 
-    HasRange: 0
-    Min: 0
-    Max: 0
-    Persist: 0
-    StorageKeyOverride: 
-    IsObsolete: 0
-    ObsoleteMessage: 
-    LegacyKeys: []
+  Entries: []
   TopLevelCategories: []

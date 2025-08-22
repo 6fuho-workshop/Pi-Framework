@@ -1,0 +1,10 @@
+using UnityEngine;
+using PF;
+using Logger = PF.Contracts.ILogger;
+
+    #ROOTNAMESPACEBEGIN#
+public class #SCRIPTNAME# : MonoBehaviour
+{
+    private void Awake() { }
+}
+#ROOTNAMESPACEEND#
